@@ -9980,7 +9980,7 @@ hr.light {
 }
 
 .page-section {
-  padding: 8rem 0;
+  padding: 3rem 0;
 }
 
 #mainNav {
@@ -9988,6 +9988,13 @@ hr.light {
   background-color: #345A61;
   transition: background-color 0.2s ease;
 }
+
+#mainNav-account {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  background-color: #345A61;
+  transition: background-color 0.2s ease;
+}
+
 #mainNav .navbar-brand {
   font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 700;
@@ -10029,7 +10036,7 @@ hr.light {
   }
   #mainNav.navbar-scrolled {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    background-color: #fff;
+    background-color: #345A61;
   }
   #mainNav.navbar-scrolled .navbar-brand {
     color: #212529;
@@ -10054,6 +10061,17 @@ header.masthead {
   background-attachment: scroll;
   background-size: cover;
 }
+
+header.masthead-account {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 4.5rem);
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.2) 0%, rgba(92, 77, 66, 0.2) 100%), url("../foodfacts/assets/img/bg-account.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+
 header.masthead h1 {
   font-size: 2.25rem;
 }
@@ -10123,4 +10141,28 @@ header.masthead h1 {
 
 .body-font {
   font-family: "Scope One", sans-serif;
+}
+
+.lower {
+    margin-top: 37%;
+}
+
+.up {
+    margin-top: 0%;
+}
+
+#contact {
+    background-color: #DE9440;
+}
+
+#footer{
+    background-color: #345A61;
+}
+
+.results-bkg {
+    background-color: #E8A75D;
+}
+
+.account-bkg {
+    background-color: #E8A75D;
 }
