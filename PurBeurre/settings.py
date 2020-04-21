@@ -76,8 +76,15 @@ WSGI_APPLICATION = 'PurBeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': 'db_model.mwb',
+            'init_command': 'SET default_storage_engine=INNODB'
+        },
+        'NAME': 'purbeurre',
+        'USER': 'root',
+        'PASSWORD': 'Hamzamal89',
+        'HOST': '127.0.0.1',
     }
 }
 
