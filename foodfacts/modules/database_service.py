@@ -79,8 +79,6 @@ class DatabaseService:
     # the products that have a better nutrigrade than the substituted product
 
 
-
-
     @staticmethod
     def show_better_products(product_id, category_selected, user_id):
         """
@@ -154,16 +152,15 @@ class DatabaseService:
             print("This favorite already exists. ")
 
     @staticmethod
-    def select_better_products(product_id, category_selected, user_id):
+    def select_better_products(product_name, category_selected, nutriscore):
         """
         Substitution process
 
         This method starts with the display of the better products.
-        Then the user is asked to select a preferred product.
-        Finally the preferred product is saved in the table 'Favorite'.
         """
-        product_data = Products.objects.get(idProduct=product_id)
-        product_nutrigrade = product_data.Nutrigrade
+        print(f"Nutriscore is {nutriscore}. ")
+        better_products = Products.objects.filter(productname=product_name, category=category_selected, nutrition_Score_100g__lt=nutriscore)
+        return better_products
 
     # Displays the content of the table Favorites that correspond to the current user.
     @staticmethod

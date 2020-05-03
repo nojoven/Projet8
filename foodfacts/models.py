@@ -58,16 +58,16 @@ class Products(models.Model):
     nutrigrade = models.CharField(db_column='Nutrigrade', max_length=500)  # Field name made lowercase.
     category = models.CharField(db_column='Category', max_length=500)  # Field name made lowercase.
     quantity = models.CharField(db_column='Quantity', max_length=500)  # Field name made lowercase.
-    fat_100g = models.IntegerField(db_column='Fat_100g', max_length=500)  # Field name made lowercase.
-    sugars_100g = models.IntegerField(db_column='Sugars_100g', max_length=500)  # Field name made lowercase.
-    saturated_fat_100g = models.IntegerField(db_column='Saturated_Fat_100g', max_length=500)  # Field name made lowercase.
-    energy_kcal_100g = models.IntegerField(db_column='Energy_Kcal_100g', max_length=500)  # Field name made lowercase.
-    nutrition_Score_100g = models.IntegerField(db_column='Nutrition_Score_100g', max_length=500)  # Field name lowercase
-    fiber_100g = models.IntegerField(db_column='Fiber_100g', max_length=500)  # Field name made lowercase.
-    salt_100g = models.IntegerField(db_column='Salt_100', max_length=500)  #
-    proteins_100g = models.IntegerField(db_column='Proteins_100g', max_length=500)  # Field name made lowercase.
-    carbs_100g = models.IntegerField(db_column='Carbs_100g', max_length=500)  # Field name made lowercase.
-    sodium_100g = models.IntegerField(db_column='Sodium_100g', max_length=500)  # Field name made lowercase.
+    fat_100g = models.IntegerField(db_column='Fat_100g')  # Field name made lowercase.
+    sugars_100g = models.IntegerField(db_column='Sugars_100g')  # Field name made lowercase.
+    saturated_fat_100g = models.IntegerField(db_column='Saturated_Fat_100g')  # Field name made lowercase.
+    energy_kcal_100g = models.IntegerField(db_column='Energy_Kcal_100g')  # Field name made lowercase.
+    nutrition_Score_100g = models.IntegerField(db_column='Nutrition_Score_100g')  # Field name lowercase
+    fiber_100g = models.IntegerField(db_column='Fiber_100g')  # Field name made lowercase.
+    salt_100g = models.IntegerField(db_column='Salt_100',)  #
+    proteins_100g = models.IntegerField(db_column='Proteins_100g')  # Field name made lowercase.
+    carbs_100g = models.IntegerField(db_column='Carbs_100g')  # Field name made lowercase.
+    sodium_100g = models.IntegerField(db_column='Sodium_100g')  # Field name made lowercase.
     front_img = models.CharField(db_column='Front_img', max_length=500)  # Field name made lowercase.
     nutrition_img = models.CharField(db_column='Nutrition_img', max_length=500)  # Field name made lowercase.
     ingredients_img = models.CharField(db_column='Ingredients_img', max_length=500)  # Field name made lowercase.

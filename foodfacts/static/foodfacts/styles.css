@@ -7586,6 +7586,24 @@ button.bg-dark:focus {
   margin-top: 3rem !important;
 }
 
+.parent-nutri {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.replace-nutri {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px black solid;
+}
+.score-nutri {
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  border: none;
+}
+
 .mr-5,
 .mx-5 {
   margin-right: 3rem !important;

@@ -47,14 +47,16 @@ def research_term(request, search_term):
         term_data = Products.objects.filter(productname=search_term).order_by("-nutrigrade")[0]
         context["product"] = term_data
         print(f"------------{term_data}-----------")
+        try:
+            better_products = DatabaseService.select_better_products(
+                term_data.productname, term_data.category, term_data.nutrition_Score_100g)
+            if better_products is not None:
+                context["better"] = better_products
+        except Exception as err:
+            print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
 
     except Exception as err:
         print("-------------------------NON TROUVÉ----------------------")
-
-    try:
-        better_products = DatabaseService.show_better_products_bis()
-    except Exception as err:
-        print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
 
 
     return render(request, "resultats.html", context)
