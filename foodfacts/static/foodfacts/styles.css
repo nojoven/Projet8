@@ -10065,7 +10065,7 @@ header.masthead {
 header.masthead-account {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.2) 0%, rgba(92, 77, 66, 0.2) 100%), url("../foodfacts/assets/img/bg-account.jpg");
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.2) 0%, rgba(92, 77, 66, 0.2) 100%), url("/static/foodfacts/assets/img/bg-account.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;

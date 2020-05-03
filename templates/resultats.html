@@ -19,6 +19,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
         <link href="{% static 'foodfacts/styles.css' %}" rel="stylesheet" />
+
     </head>
     <style>
     ::placeholder { /* Firefox, Chrome, Opera */
@@ -38,31 +39,53 @@
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
                 <span  style="padding:0; margin: 0; float:left;" >
-                    <img src="../static/foodfacts/assets/img/logo/logo_pur_beurre.png" width="30%" height="30%">
+                    <img src="/static/foodfacts/assets/img/logo/logo_pur_beurre.png" width="30%" height="30%">
                 </span>
                 <a class="navbar-brand js-scroll-trigger" href="#page-top" style="color:#E8A75D;">Pur Beurre</a><button class="navbar-toggler navbar-toggler-right" style="border: solid 1px #C45525;" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger"><input type="text" placeholder="  Search.." style=" border-color:#C45525; margin-right: 2px; border-radius: 50px;"><i class="fa fa-search" style="color:#C45525;"></i></a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about"><img src="../static/foodfacts/assets/img/icons/mon_compte.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services"><img src="../static/foodfacts/assets/img/icons/icon_menu.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio"><img src="../static/foodfacts/assets/img/icons/connexion-50.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger">
+                                <form action="/foodfacts/research" method="post">
+                                     {% csrf_token %}
+                                    <input type="text" placeholder="  Search.." style=" border-color:#C45525; margin-right: 2px; border-radius: 50px;">
+                                        <i class="fa fa-search" style="color:#C45525;">
+                                        </i>
+                                </form>
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about"><img src="/static/foodfacts/assets/img/icons/mon_compte.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services"><img src="/static/foodfacts/assets/img/icons/icon_menu.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio"><img src="/static/foodfacts/assets/img/icons/connexion-50.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:#E8A75D;">Contact</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Masthead-->
-        <header class="masthead style='background-image:url(foodfacts/assets/img/bg-masthead.jpg);'">
+        {% if product is None %}
+        <header class="masthead" >
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-baseline">
-                        <h2 class="text-white font-weight-light title-font mb-5 lower">Votre aliment (photo en arrière plan): </h2>
+                        <h2 class="text-white font-weight-light title-font mb-5 lower" >Nous n'avons pas trouvé votre produit. </h2>
                     </div>
                 </div>
             </div>
         </header>
+        {% else %}
+        <header class="masthead" style="background-image:url({{product.front_img}});">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-8 align-self-baseline">
+                        <h2 class="text-white font-weight-light title-font mb-5 lower" > {{ product.productname }} </h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% endif %}
+
 
         <!-- Services section-->
         <section class="page-section results-bkg" id="results">
@@ -165,5 +188,6 @@
 
         <!-- Core theme JS-->
         <script src="{% static 'foodfacts/js/scripts.js' %}"></script>
+        <script src="{% static 'foodfacts/js/frontend.js' %}"></script>
     </body>
 </html>

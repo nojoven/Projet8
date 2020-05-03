@@ -44,8 +44,16 @@
 
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger"><input type="text" placeholder="  Search.." style=" border-color:#C45525; margin-right: 2px; border-radius: 50px;"><i class="fa fa-search" style="color:#C45525;"></i></a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about"><img src="../static/foodfacts/assets/img/icons/mon_compte.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger">
+                                <form action="/foodfacts/research" method="post">
+                                     {% csrf_token %}
+                                    <input type="text" placeholder="  Search.." style=" border-color:#C45525; margin-right: 2px; border-radius: 50px;">
+                                        <i class="fa fa-search" style="color:#C45525;">
+                                        </i>
+                                </form>
+                            </a>
+                        </li>                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about"><img src="../static/foodfacts/assets/img/icons/mon_compte.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services"><img src="../static/foodfacts/assets/img/icons/icon_menu.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio"><img src="../static/foodfacts/assets/img/icons/connexion-50.png" width="30px" height=30px style="border: solid 1px #C45525; border-radius: 50px;"></a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact" style="color:#E8A75D;">Contact</a></li>

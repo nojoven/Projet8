@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+#import psycopg2.extensions
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'foodfacts.apps.FoodfactsConfig',
+    'foodfacts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,15 +77,15 @@ WSGI_APPLICATION = 'PurBeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'read_default_file': 'db_model.mwb',
-            'init_command': 'SET default_storage_engine=INNODB'
+
         },
         'NAME': 'purbeurre',
-        'USER': 'root',
+        'USER': 'postgres',
         'PASSWORD': 'Hamzamal89',
         'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
