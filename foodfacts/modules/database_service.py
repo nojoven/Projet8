@@ -34,17 +34,18 @@ class DatabaseService:
             front_img=product["front_img"],
             nutrition_img=product["nutrition_img"],
             ingredients_img=product["ingredients_img"],
-            fat_100g=product["fat_100g"],
-            sugars_100g=product["sugars_100g"],
-            saturated_fat_100g=product["saturated_fat_100g"],
-            energy_kcal_100g=product["energy_kcal_100g"],
+            fat_100g=round(product["fat_100g"], 2),
+            sugars_100g=round(product["sugars_100g"], 2),
+            saturated_fat_100g=round(product["saturated_fat_100g"], 2),
+            energy_kcal_100g=round(product["energy_kcal_100g"], 2),
             nutrition_Score_100g=product["nutrition_Score_100g"],
-            fiber_100g=product["fiber_100g"],
-            salt_100g=product["salt_100g"],
-            proteins_100g=product["proteins_100g"],
-            carbs_100g=product["carbs_100g"],
-            sodium_100g=product["sodium_100g"]))
-
+            fiber_100g=round(product["fiber_100g"], 2),
+            salt_100g=round(product["salt_100g"], 2),
+            proteins_100g=round(product["proteins_100g"], 2),
+            carbs_100g=round(product["carbs_100g"], 2),
+            sodium_100g=round(product["sodium_100g"], 2),
+            url=product["url"])
+            )
 
         Products.objects.bulk_create(list_product)
 

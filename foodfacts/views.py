@@ -3,7 +3,7 @@
 from foodfacts.models import Categories, Favorites, Products, Users
 from foodfacts.modules.database_service import DatabaseService
 from . import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -15,8 +15,9 @@ def home(request):
     return render(request, "accueil.html")
 
 
-def aliment(request):
-    return render(request, "aliment.html")
+def aliment(request, product_chosen):
+    return HttpResponseRedirect(product_chosen)
+
 
 
 def resultats(request):
@@ -44,14 +45,16 @@ def research(request):
 def research_term(request, search_term):
     context = {}
     try:
-        term_data = Products.objects.filter(productname=search_term).order_by("-nutrigrade")[0]
+        term_data = Products.objects.filter(productname=search_term).order_by("-nutrition_Score_100g")[0]
         context["product"] = term_data
         print(f"------------{term_data}-----------")
         try:
             better_products = DatabaseService.select_better_products(
                 term_data.productname, term_data.category, term_data.nutrition_Score_100g)
-            if better_products is not None:
+            if better_products is not None and len(better_products) > 0:
                 context["better"] = better_products
+            else:
+                context["better"] = None
         except Exception as err:
             print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
 
@@ -61,4 +64,13 @@ def research_term(request, search_term):
 
     return render(request, "resultats.html", context)
 
+
+def product_chosen(request, product_chosen):
+    context = {}
+    try:
+        product = Products.objects.get(idproduct=product_chosen)
+        context["product"] = product
+    except Exception as err:
+        print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
+    return render(request, "aliment.html", context)
 

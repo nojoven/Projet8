@@ -85,16 +85,17 @@ class Collector:
                     "front_img": product["selected_images"]["front"]["display"]["fr"],
                     "nutrition_img": product["selected_images"]["nutrition"]["display"]["fr"],
                     "ingredients_img": product["selected_images"]["ingredients"]["display"]["fr"],
-                    "fat_100g": int(product['nutriments']["fat_100g"]),
-                    "sugars_100g": int(product['nutriments']["sugars_100g"]),
-                    "saturated_fat_100g": int(product['nutriments']["saturated-fat_100g"]),
-                    "energy_kcal_100g": int(product['nutriments']["energy-kcal_100g"]),
+                    "fat_100g": float(product['nutriments']["fat_100g"]),
+                    "sugars_100g": float(product['nutriments']["sugars_100g"]),
+                    "saturated_fat_100g": float(product['nutriments']["saturated-fat_100g"]),
+                    "energy_kcal_100g": float(product['nutriments']["energy-kcal_100g"]),
                     "nutrition_Score_100g": int(product['nutriments']["nutrition-score-fr_100g"]),
-                    "fiber_100g": int(product['nutriments']["fiber_100g"]),
-                    "salt_100g": int(product['nutriments']["salt_100g"]),
-                    "proteins_100g": int(product['nutriments']["proteins_100g"]),
-                    "carbs_100g": int(product['nutriments']["carbohydrates_100g"]),
-                    "sodium_100g": int(product['nutriments']["sodium_100g"])
+                    "fiber_100g": float(product['nutriments']["fiber_100g"]),
+                    "salt_100g": float(product['nutriments']["salt_100g"]),
+                    "proteins_100g": float(product['nutriments']["proteins_100g"]),
+                    "carbs_100g": float(product['nutriments']["carbohydrates_100g"]),
+                    "sodium_100g": float(product['nutriments']["sodium_100g"]),
+                    "url": product["url"]
                 }
                 #print(product_data)
 
