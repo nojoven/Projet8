@@ -14,11 +14,12 @@
         {% if product is None %}
         {% include "introuvable.html" %}
         {% else %}
-        <header class="masthead" style="background-image:url({{product.front_img}});">
+        <header class="masthead">
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-baseline">
-                        <a href="/foodfacts/aliment/{{ product.idproduct }}" name='product_chosen'><h2 class="text-white font-weight-light title-font mb-5 lower" > {{ product.productname }} </h2></a>
+                        <a href="/foodfacts/aliment/{{ product.idproduct }}" name='product_chosen'><h1 class="text-white font-weight-light title-font mb-5 lower" > {{ product.productname }} </h1></a>
+                        <img src="{{product.front_img}}">
                     </div>
                 </div>
             </div>
@@ -41,8 +42,8 @@
                         <div class="mt-5 parent-nutri">
                             <img class="replace-nutri" src={{b.front_img}}>
                             <img class="score-nutri" src="/static/foodfacts/assets/img/icons/NUTRI-SCORE/{{b.nutrigrade}}.png">
-                            <a href="/foodfacts/aliment/{{ better.idproduct }}"><h3 class="h4 mb-2">{{b.productname}}</h3></a>
-                            <h2 class="mb-0" style="text-transform: uppercase;">{{b.brands}}</h2>
+                            <h3 class="h4 mb-2"><a style="color: white;" href="/foodfacts/aliment/{{ b.idproduct }}" name='product_chosen'>{{b.productname}}</a></h3>
+                            <h4 class="mb-0" style="text-transform: uppercase;">{{b.brands}}</h4>
                         </div>
                     </div>
                     {% endfor %}
