@@ -2,7 +2,7 @@
 
 from foodfacts.models import Categories, Favorites, Products, Users
 from foodfacts.modules.database_service import DatabaseService
-from . import forms
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -74,3 +74,8 @@ def product_chosen(request, product_chosen):
         print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
     return render(request, "aliment.html", context)
 
+def signin(request):
+    return render(request, "signin.html")
+
+def register(request):
+    return render(request, "register.html")

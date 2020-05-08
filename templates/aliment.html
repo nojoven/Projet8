@@ -11,16 +11,7 @@
         <!-- Navigation-->
         {% include "navbar.html" %}
         <!-- Masthead-->
-        <header class="masthead style='background-image:url(foodfacts/assets/img/bg-masthead.jpg);'">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center justify-content-center text-center">
-                    <div class="col-lg-8 align-self-baseline">
-                        <h2 class="text-white font-weight-light title-font mb-5 lower">{{product.productname}}</h2>
-                        <img src="{{product.front_img}}">
-                    </div>
-                </div>
-            </div>
-        </header>
+        {% include "mastheadfound.html" %}
         <!-- About section-->
         <section class="page-section" style="background-color:#E8A75D;" id="about">
             <div class="container">
