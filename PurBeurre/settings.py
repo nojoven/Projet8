@@ -70,6 +70,8 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ['roles.EmailBackend.EmailBackend']
+
 WSGI_APPLICATION = 'PurBeurre.wsgi.application'
 
 

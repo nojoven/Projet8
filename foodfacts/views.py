@@ -1,6 +1,6 @@
 """Create your views here."""
 
-from foodfacts.models import Categories, Favorites, Products, Users
+from foodfacts.models import Categories, Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
 
 from django.shortcuts import render, redirect

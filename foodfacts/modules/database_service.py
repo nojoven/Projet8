@@ -6,7 +6,7 @@ depending on the user actions in the terminal.
 It uses the orm objects Product, Categories and Favorites
 """
 from django.db import transaction
-from foodfacts.models import Categories, Favorites, Products, Users
+from foodfacts.models import Categories, Favorites, Products
 
 
 class DatabaseService:

@@ -1,12 +1,63 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 
 class CreateForm(forms.Form):
-    first = forms.CharField(max_length=100)
-    last = forms.CharField(max_length=100)
-    password = forms.CharField(max_length=100)
-    password_again = forms.CharField(max_length=100)
-    mail = forms.CharField(max_length=100)
-    phone = forms.CharField(max_length=100)
+    Prenom = forms.CharField(max_length=100)
+    Nom = forms.CharField(max_length=100)
+    Mot_De_Passe = forms.CharField(max_length=100)
+    Repeter_Mot_De_Passe = forms.CharField(max_length=100)
+    Mail = forms.CharField(max_length=100)
+    Telephone = forms.CharField(max_length=100)
+
+    def is_valid(self):
+        if self.data.get("Mot_De_Passe") != self.data.get("Repeter_Mot_De_Passe"):
+            self.add_error(field="Mot_De_Passe", error=ValidationError("Les deux mots de passe sont doivent être identiques", code="unmatch"))
+            super()
+            return False
+        else:
+            super()
+            return True
+
+    def get_first_name(self):
+        return self.data.get("Prenom", "empty")
+
+    def get_last_name(self):
+        return self.data.get("Nom", "empty")
+
+    def get_password(self):
+        return self.data.get("Mot_De_Passe", "empty")
+
+    def get_password_again(self):
+        return self.data.get("Repeter_Mot_De_Passe", "empty")
+
+    def get_phone(self):
+        return self.data.get("Telephone", "empty")
+
+    def get_mail(self):
+        return self.data.get("Mail", "empty")
+
+class SigninForm(forms.Form):
+    signin_email = forms.CharField(max_length=100)
+    signin_password = forms.CharField(max_length=100)
+
+
+    def get_mail(self):
+        return self.data.get("signin_email", "empty")
+
+    def get_password(self):
+        return self.data.get("signin_password", "empty")
+
+
+class UpdateProfileForm(forms.Form):
+    update_email = forms.CharField(max_length=100)
+    update_first_name = forms.CharField(max_length=100)
+    update_last_name = forms.CharField(max_length=100)
+
+    def get_mail(self):
+        return self.data.get("signin_email", "empty")
+
+    def get_password(self):
+        return self.data.get("signin_password", "empty")
 
 

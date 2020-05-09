@@ -80,13 +80,3 @@ class Products(models.Model):
         db_table = 'products'
 
 
-class Users(models.Model):
-    userid = models.AutoField(db_column='UserID', primary_key=True)  # Field name made lowercase.
-    username = models.CharField(db_column='Username', max_length=255)  # Field name made lowercase.
-    password = models.CharField(max_length=255)
-
-    objects = models.Manager()
-
-    class Meta:
-        managed = True
-        db_table = 'users'

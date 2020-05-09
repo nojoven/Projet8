@@ -15,7 +15,7 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-baseline">
-                        <h1 class="text-white font-weight-light title-font mb-5 up">Nom, Prénom </h1>
+                        <h1 class="text-white font-weight-light title-font mb-5 up">CONNEXION</h1>
                     </div>
                 </div>
             </div>
@@ -26,19 +26,26 @@
            <div class="container">
                 <h2 class="text-center mt-0">Connectez-vous</h2>
                 <hr class="divider my-4" />
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email </label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Mot de passe</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-    <center><button type="submit" class="btn btn-primary">Submit</button></center>
-    <center><big id="emailHelp" class="form-text "><a href="/foodfacts/register"><strong>S'inscrire</strong></a></big></center>
+                        {% if form.errors is not None  %}
+                            <h5>VEUILLEZ CORRIGER AU MOINS UNE ERREUR PARMI:</h5>
+                                {% for field, error in form.errors.items %}
+                            <div style="color: red"><strong>{{field}}: {{ error }}</strong></div>
+                            {% endfor %}
+                        {% endif %}
+                    <form action="/roles/signin" method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="signin_email">Email </label>
+                        <input type="email" class="form-control" name="signin_email" required id="signin_email" aria-describedby="emailHelp">
+                      </div>
+                      <div class="form-group">
+                        <label for="signin_password">Mot de passe</label>
+                        <input type="password" class="form-control" id="signin_password" name="signin_password" required>
+                      </div>
+                        <center><input type="submit" class="btn btn-primary"></center>
+                        <center><big id="emailHelp" class="form-text "><a href="/foodfacts/register"><strong>S'inscrire</strong></a></big></center>
 
-</form>
+                    </form>
 
             </div>
         </section>
