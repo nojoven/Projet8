@@ -7,5 +7,6 @@ from django.urls import path
 urlpatterns = [
     re_path(r'^create/?$', views.create_user, name='create'),
     re_path(r'^signin/?$', views.signin_user, name='signin'),
-    re_path(r'^profileupdate/?$', views.profile_update, name='signin'),
+    re_path(r'^profileupdate/?$', views.update_profile, name='profileupdate'),
+    re_path(r'^logout/?$', views.logout_user, name='logout'),
 ]

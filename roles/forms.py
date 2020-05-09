@@ -53,11 +53,20 @@ class UpdateProfileForm(forms.Form):
     update_email = forms.CharField(max_length=100)
     update_first_name = forms.CharField(max_length=100)
     update_last_name = forms.CharField(max_length=100)
+    confirm_email = forms.CharField(max_length=100)
+    confirm_password = forms.CharField(max_length=100)
 
-    def get_mail(self):
-        return self.data.get("signin_email", "empty")
+    def get_update_email(self):
+        return self.data.get("update_email", "empty")
 
-    def get_password(self):
-        return self.data.get("signin_password", "empty")
+    def get_update_first_name(self):
+        return self.data.get("update_first_name", "empty")
 
+    def get_update_last_name(self):
+        return self.data.get("update_last_name", "empty")
 
+    def get_confirm_email(self):
+        return self.data.get("confirm_email", "empty")
+
+    def get_confirm_password(self):
+        return self.data.get("confirm_password", "empty")

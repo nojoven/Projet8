@@ -12,7 +12,9 @@ from .forms import NavSearchForm
 
 
 def home(request):
-    return render(request, "accueil.html")
+    user = request.user
+    print(user)
+    return render(request, "accueil.html", {"user": user})
 
 
 def aliment(request, product_chosen):

@@ -24,7 +24,11 @@
         <!-- Services section-->
         <section class="page-section account-bkg" id="personal">
            <div class="container">
+                {% if not request.user.is_authenticated %}
                 <h2 class="text-center mt-0">Connectez-vous</h2>
+                {% else %}
+                <h2 class="text-center mt-0">Déconnectez-vous</h2>
+                {% endif %}
                 <hr class="divider my-4" />
                         {% if form.errors is not None  %}
                             <h5>VEUILLEZ CORRIGER AU MOINS UNE ERREUR PARMI:</h5>
@@ -32,6 +36,7 @@
                             <div style="color: red"><strong>{{field}}: {{ error }}</strong></div>
                             {% endfor %}
                         {% endif %}
+                    {% if not request.user.is_authenticated %}
                     <form action="/roles/signin" method="post">
                       {% csrf_token %}
                       <div class="form-group">
@@ -44,8 +49,16 @@
                       </div>
                         <center><input type="submit" class="btn btn-primary"></center>
                         <center><big id="emailHelp" class="form-text "><a href="/foodfacts/register"><strong>S'inscrire</strong></a></big></center>
-
                     </form>
+                    {% else %}
+                    <form action="/roles/logout" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <center><input type="submit" class="btn btn-outline-dark"></center>
+                        </div>
+                    </form>
+                    {% endif %}
+
 
             </div>
         </section>
