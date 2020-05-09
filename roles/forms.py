@@ -70,3 +70,25 @@ class UpdateProfileForm(forms.Form):
 
     def get_confirm_password(self):
         return self.data.get("confirm_password", "empty")
+
+class LikeForm(forms.Form):
+    liked_id = forms.IntegerField(max_length=100)
+    replaced_id = forms.CharField(max_length=100)
+    replaced_name = forms.CharField(max_length=100)
+    replaced_nutrigrade = forms.CharField(max_length=100)
+    userid = forms.CharField(max_length=100)
+
+    def get_liked_id(self):
+        return self.data.get("liked_id", "empty")
+
+    def get_replaced_id(self):
+        return self.data.get("replaced_id", "empty")
+
+    def get_replaced_name(self):
+        return self.data.get("replaced_name", "empty")
+
+    def get_replaced_nutrigrade(self):
+        return self.data.get("replaced_nutrigrade", "empty")
+
+    def get_user_id(self):
+        return self.data.get("userid", "empty")

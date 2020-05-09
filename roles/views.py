@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
-from .forms import CreateForm, SigninForm, UpdateProfileForm
+from .forms import CreateForm, SigninForm, UpdateProfileForm, LikeForm
 from django.contrib.auth.models import User, AbstractBaseUser, UserManager
 from django.contrib.auth import authenticate, login, logout
 from . import EmailBackend
@@ -87,3 +87,32 @@ def update_profile(request):
 def logout_user(request):
     logout(request)
     return render(request, "signin.html")
+
+def like(request):
+    if request.method == 'POST':
+        form = LikeForm(request.POST)
+        liked_id = form.get_liked_id()
+        replaced_id = form.get_replaced_id()
+        replaced_article = form.get_replaced_name()
+        replaced_nutrigrade = form.get_replaced_nutrigrade()
+        userid = form.get_user_id()
+
+        if liked_id:
+            product = models.Products.objects.get(idProduct=liked_id)
+
+            like_data = {}
+            like_data["productid"] = product.productid
+            like_data["name"] = product.productname
+            like_data["nutrigrade"] = product.nutrigrade
+            like_data["stores"] = product.stores
+            like_data["brands"] = product.brands
+            like_data["category"] = product.category
+            like_data["quantity"] = product.quantity
+            like_data["replacedid"] = replaced_id
+            like_data["replacedarticle"] = replaced_article
+            like_data["replacednutrigrade"] = replaced_nutrigrade
+            like_data["userid"] = userid
+
+            if not models.Favorites.objects.filter(productid=product.productid).exists():
+                query = models.Favorites(**like_data)
+                query.save()
