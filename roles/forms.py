@@ -71,8 +71,9 @@ class UpdateProfileForm(forms.Form):
     def get_confirm_password(self):
         return self.data.get("confirm_password", "empty")
 
+
 class LikeForm(forms.Form):
-    liked_id = forms.IntegerField(max_length=100)
+    liked_id = forms.IntegerField()
     replaced_id = forms.CharField(max_length=100)
     replaced_name = forms.CharField(max_length=100)
     replaced_nutrigrade = forms.CharField(max_length=100)

@@ -98,10 +98,10 @@ def like(request):
         userid = form.get_user_id()
 
         if liked_id:
-            product = models.Products.objects.get(idProduct=liked_id)
+            product = models.Products.objects.get(idproduct=liked_id)
 
             like_data = {}
-            like_data["productid"] = product.productid
+            like_data["productid"] = liked_id
             like_data["name"] = product.productname
             like_data["nutrigrade"] = product.nutrigrade
             like_data["stores"] = product.stores
@@ -113,6 +113,8 @@ def like(request):
             like_data["replacednutrigrade"] = replaced_nutrigrade
             like_data["userid"] = userid
 
-            if not models.Favorites.objects.filter(productid=product.productid).exists():
+            if not models.Favorites.objects.filter(productid=product.idproduct).exists():
                 query = models.Favorites(**like_data)
                 query.save()
+        url = reverse("search_term", args=[form.get_replaced_name()])
+        return HttpResponseRedirect(url)

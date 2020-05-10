@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% include "head.html" %}
         {% include "navbar.html" %}
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
@@ -36,18 +37,36 @@
                             <img class="score-nutri" src="/static/foodfacts/assets/img/icons/NUTRI-SCORE/{{b.nutrigrade}}.png">
                             <h3 class="h4 mb-2"><a style="color: white;" href="/foodfacts/aliment/{{ b.idproduct }}" name='product_chosen'>{{b.productname}}</a></h3>
                             <h4 class="mb-0" style="text-transform: uppercase;">{{b.brands}}</h4>
-                            {% if request.user.is_authenticated %}
+
+                            {% if request.user.is_authenticated%}
                             <form action="/roles/like/" method="post">
-                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                <input style="display: none;" type="text" name="replaced_id" value="{{b.idproduct}}">
+                                {% csrf_token %}
+                                <input style="display: none;" type="text" name="liked_id" value="{{b.idproduct}}">
+                                <input style="display: none;" type="text" name="replaced_id" value="{{product.idproduct}}">
                                 <input style="display: none;" type="text" name="replaced_name" value="{{product.productname}}">
                                 <input style="display: none;" type="text" name="replaced_nutrigrade" value="{{product.nutrigrade}}">
                                 <input style="display: none;" type="text" name="userid" value="{{request.user.id}}">
-                                <input type="submit" class="btn btn-info btn-lg" value="Add to favourites" />
+                                {% if favs is None %}
+                                    <span class="btn btn-info btn-lg">
+                                        <i class="fa fa-floppy-o" aria-hidden="true">
+                                        </i><input type="submit" class="btn btn-info btn-lg" value="Add to favourites" />
+                                    </span>
+                                {% else %}
+                                    {% if b.idproduct in favs %}
+                                            <span class="btn btn-light btn-lg">
+                                                <i class="fa fa-floppy-o" aria-hidden="true" style="display: None;">
+                                                </i><input disabled type="submit" class="btn btn-light btn-lg" value="Add to favourites" />
+                                            </span>
+                                    {% else %}
+                                            <span class="btn btn-info btn-lg">
+                                                <i class="fa fa-floppy-o" aria-hidden="true">
+                                                </i><input type="submit" class="btn btn-info btn-lg" value="Add to favourites" />
+                                            </span>
+                                    {% endif %}
+                                {% endif %}
                             </form>
                             {% endif %}
                         </div>
-
                     </div>
                     {% endfor %}
                 </div>

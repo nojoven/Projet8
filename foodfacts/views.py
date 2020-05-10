@@ -2,14 +2,12 @@
 
 from foodfacts.models import Categories, Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from .forms import NavSearchForm
-
 
 def home(request):
     user = request.user
@@ -19,8 +17,6 @@ def home(request):
 
 def aliment(request, product_chosen):
     return HttpResponseRedirect(product_chosen)
-
-
 
 def resultats(request):
     return render(request, "resultats.html")
@@ -53,8 +49,13 @@ def research_term(request, search_term):
         try:
             better_products = DatabaseService.select_better_products(
                 term_data.productname, term_data.category, term_data.nutrition_Score_100g)
+            relevant_favourites = Favorites.objects.filter(userid=request.user.id, category=term_data.category)
+            favs_id_list = []
+            for item in relevant_favourites:
+                favs_id_list.append(item.productid)
             if better_products is not None and len(better_products) > 0:
                 context["better"] = better_products
+                context["favs"] = favs_id_list
             else:
                 context["better"] = None
         except Exception as err:
@@ -63,9 +64,7 @@ def research_term(request, search_term):
     except Exception as err:
         print("-------------------------NON TROUVÉ----------------------")
 
-
     return render(request, "resultats.html", context)
-
 
 def product_chosen(request, product_chosen):
     context = {}
