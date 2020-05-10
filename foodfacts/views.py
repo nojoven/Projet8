@@ -9,6 +9,7 @@ from django.urls import reverse
 
 from .forms import NavSearchForm
 
+
 def home(request):
     user = request.user
     print(user)
@@ -17,6 +18,7 @@ def home(request):
 
 def aliment(request, product_chosen):
     return HttpResponseRedirect(product_chosen)
+
 
 def resultats(request):
     return render(request, "resultats.html")
@@ -66,6 +68,7 @@ def research_term(request, search_term):
 
     return render(request, "resultats.html", context)
 
+
 def product_chosen(request, product_chosen):
     context = {}
     try:
@@ -75,8 +78,10 @@ def product_chosen(request, product_chosen):
         print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
     return render(request, "aliment.html", context)
 
+
 def signin(request):
     return render(request, "signin.html")
+
 
 def register(request):
     return render(request, "register.html")
