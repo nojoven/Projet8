@@ -1,9 +1,8 @@
 """Create your views here."""
 
-from foodfacts.models import Categories, Favorites, Products
+from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -24,10 +23,6 @@ def resultats(request):
     return render(request, "resultats.html")
 
 
-def favourites(request):
-    return render(request, "mes_aliments.html")
-
-
 def account(request):
     return render(request, "mon_compte.html")
 
@@ -43,15 +38,20 @@ def research(request):
 
 
 def research_term(request, search_term):
+    user_id = request.user.id
     context = {}
     try:
-        term_data = Products.objects.filter(productname=search_term).order_by("-nutrition_Score_100g")[0]
+        term_data = DatabaseService.select_product(search_term)
+        term_category = term_data.category
+        term_name = term_data.productname
+        term_score = term_data.nutrition_Score_100g
+
         context["product"] = term_data
         print(f"------------{term_data}-----------")
         try:
             better_products = DatabaseService.select_better_products(
-                term_data.productname, term_data.category, term_data.nutrition_Score_100g)
-            relevant_favourites = Favorites.objects.filter(userid=request.user.id, category=term_data.category)
+                term_name, term_category, term_score)
+            relevant_favourites = DatabaseService.sort_favourites(user_id, term_category)
             favs_id_list = []
             for item in relevant_favourites:
                 favs_id_list.append(item.productid)
@@ -60,10 +60,10 @@ def research_term(request, search_term):
                 context["favs"] = favs_id_list
             else:
                 context["better"] = None
-        except Exception as err:
+        except Exception:
             print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
 
-    except Exception as err:
+    except Exception:
         print("-------------------------NON TROUVÉ----------------------")
 
     return render(request, "resultats.html", context)
@@ -74,13 +74,9 @@ def product_chosen(request, product_chosen):
     try:
         product = Products.objects.get(idproduct=product_chosen)
         context["product"] = product
-    except Exception as err:
+    except Exception:
         print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
     return render(request, "aliment.html", context)
-
-
-def signin(request):
-    return render(request, "signin.html")
 
 
 def register(request):

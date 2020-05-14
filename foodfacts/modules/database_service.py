@@ -5,7 +5,8 @@ This file is used to interact with the database in order to display and manipula
 depending on the user actions in the terminal.
 It uses the orm objects Product, Categories and Favorites
 """
-from django.db import transaction
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from foodfacts.models import Categories, Favorites, Products
 
 
@@ -25,27 +26,28 @@ class DatabaseService:
     def fill_products_table(plist):
         list_product = []
         for product in plist:
-            list_product.append(Products(productname=product["productname"],
-            stores=product["stores"],
-            brands=product["brands"],
-            nutrigrade=product["nutrigrade"],
-            quantity=product["quantity"],
-            category=product["category"],
-            front_img=product["front_img"],
-            nutrition_img=product["nutrition_img"],
-            ingredients_img=product["ingredients_img"],
-            fat_100g=round(product["fat_100g"], 2),
-            sugars_100g=round(product["sugars_100g"], 2),
-            saturated_fat_100g=round(product["saturated_fat_100g"], 2),
-            energy_kcal_100g=round(product["energy_kcal_100g"], 2),
-            nutrition_Score_100g=product["nutrition_Score_100g"],
-            fiber_100g=round(product["fiber_100g"], 2),
-            salt_100g=round(product["salt_100g"], 2),
-            proteins_100g=round(product["proteins_100g"], 2),
-            carbs_100g=round(product["carbs_100g"], 2),
-            sodium_100g=round(product["sodium_100g"], 2),
-            url=product["url"])
-            )
+            list_product.append(Products(
+                productname=product["productname"],
+                stores=product["stores"],
+                brands=product["brands"],
+                nutrigrade=product["nutrigrade"],
+                quantity=product["quantity"],
+                category=product["category"],
+                front_img=product["front_img"],
+                nutrition_img=product["nutrition_img"],
+                ingredients_img=product["ingredients_img"],
+                fat_100g=round(product["fat_100g"], 2),
+                sugars_100g=round(product["sugars_100g"], 2),
+                saturated_fat_100g=round(product["saturated_fat_100g"], 2),
+                energy_kcal_100g=round(product["energy_kcal_100g"], 2),
+                nutrition_Score_100g=product["nutrition_Score_100g"],
+                fiber_100g=round(product["fiber_100g"], 2),
+                salt_100g=round(product["salt_100g"], 2),
+                proteins_100g=round(product["proteins_100g"], 2),
+                carbs_100g=round(product["carbs_100g"], 2),
+                sodium_100g=round(product["sodium_100g"], 2),
+                url=product["url"])
+                )
 
         Products.objects.bulk_create(list_product)
 
@@ -56,8 +58,6 @@ class DatabaseService:
             query = Categories(**category)
             query.save()
 
-
-
     @staticmethod
     def select_better_products(product_name, category_selected, nutriscore):
         """
@@ -66,5 +66,53 @@ class DatabaseService:
         This method starts with the display of the better products.
         """
         print(f"Nutriscore is {nutriscore}. ")
-        better_products = Products.objects.filter(productname=product_name, category=category_selected, nutrition_Score_100g__lt=nutriscore)
+        better_products = Products.objects.filter(
+            productname=product_name, category=category_selected, nutrition_Score_100g__lt=nutriscore)
         return better_products
+
+    @staticmethod
+    def select_product(search_term):
+        term_data = Products.objects.filter(productname=search_term).order_by("-nutrition_Score_100g")[0]
+        return term_data
+
+    @staticmethod
+    def show_details(product_chosen):
+        details = Products.objects.get(idproduct=product_chosen)
+        return details
+
+    @staticmethod
+    def sort_favourites(user_id, term_category):
+        relevant_favourites = Favorites.objects.filter(userid=user_id, category=term_category)
+        return relevant_favourites
+
+    @staticmethod
+    def create_user(username, password, mail, user_first_name, user_last_name):
+        user = User.objects.create_user(username=username,
+                                        password=password,
+                                        email=mail,
+                                        first_name=user_first_name,
+                                        last_name=user_last_name
+                                        )
+        user.save()
+        return user
+
+    @staticmethod
+    def identify(request, provided_mail, provided_password):
+        user = authenticate(request, username=provided_mail, password=provided_password)
+        return user
+
+    @staticmethod
+    def select_liked_in_products(liked_id):
+        product = Products.objects.get(idproduct=liked_id)
+        return product
+
+    @staticmethod
+    def select_user_favs(userid):
+        user_favs = Favorites.objects.filter(userid=userid)
+        return user_favs
+
+    @staticmethod
+    def remove_user_fav(userid_unlike, unliked_id):
+        unliked_product = Favorites.objects.get(userid=userid_unlike, productid=unliked_id)
+        unliked_product.delete()
+        return unliked_product

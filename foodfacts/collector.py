@@ -43,8 +43,6 @@ class Collector:
             self.params["tag_0"] = category
             req = reqs.get(self.url, self.params)
             data = req.json()
-            #print(data)
-            # data is a huge json document but we only keep the products information
             products = data["products"]
 
         except JSONDecodeError:
@@ -52,7 +50,7 @@ class Collector:
 
         print(len(products))
         for product in products:
-
+            product_data = dict()
             try:
                 # I ignore the products that have missing information
                 if not product["stores_tags"] \
@@ -97,12 +95,11 @@ class Collector:
                     "sodium_100g": float(product['nutriments']["sodium_100g"]),
                     "url": product["url"]
                 }
-                #print(product_data)
 
             except KeyError:
                 continue
             except Exception as err:
                 print(err)
             results.append(product_data)
-
+            product_data.clear()
         return results

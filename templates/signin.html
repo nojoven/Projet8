@@ -30,7 +30,7 @@
                 <h2 class="text-center mt-0">Déconnectez-vous</h2>
                 {% endif %}
                 <hr class="divider my-4" />
-                        {% if form.errors is not None  %}
+                        {% if form.errors.items|length > 0  %}
                             <h5>VEUILLEZ CORRIGER AU MOINS UNE ERREUR PARMI:</h5>
                                 {% for field, error in form.errors.items %}
                             <div style="color: red"><strong>{{field}}: {{ error }}</strong></div>

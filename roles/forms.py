@@ -12,7 +12,8 @@ class CreateForm(forms.Form):
 
     def is_valid(self):
         if self.data.get("Mot_De_Passe") != self.data.get("Repeter_Mot_De_Passe"):
-            self.add_error(field="Mot_De_Passe", error=ValidationError("Les deux mots de passe sont doivent être identiques", code="unmatch"))
+            self.add_error(field="Mot_De_Passe",
+                           error=ValidationError("Les deux mots de passe sont doivent être identiques", code="unmatch"))
             super()
             return False
         else:
@@ -37,10 +38,10 @@ class CreateForm(forms.Form):
     def get_mail(self):
         return self.data.get("Mail", "empty")
 
+
 class SigninForm(forms.Form):
     signin_email = forms.CharField(max_length=100)
     signin_password = forms.CharField(max_length=100)
-
 
     def get_mail(self):
         return self.data.get("signin_email", "empty")
@@ -93,3 +94,14 @@ class LikeForm(forms.Form):
 
     def get_user_id(self):
         return self.data.get("userid", "empty")
+
+
+class UnlikeForm(forms.Form):
+    unliked_id = forms.IntegerField()
+    userid_unlike = forms.CharField(max_length=100)
+
+    def get_unliked_id(self):
+        return self.data.get("unliked_id", "empty")
+
+    def get_userid_unlike(self):
+        return self.data.get("userid_unlike", "empty")

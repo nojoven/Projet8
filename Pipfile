@@ -14,6 +14,7 @@ requests = "*"
 psycopg2 = "*"
 pytest = "*"
 pytest-django = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.7"

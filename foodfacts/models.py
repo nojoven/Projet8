@@ -13,8 +13,8 @@
 Feel free to rename the models, but don't rename db_table values or field names. """
 import os
 from django.db import models
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+# from django.core.wsgi import get_wsgi_application
+# application = get_wsgi_application()
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
@@ -42,6 +42,7 @@ class Favorites(models.Model):
     replacedarticle = models.CharField(db_column='ReplacedArticle', max_length=255)  # Field name made lowercase.
     replacednutrigrade = models.CharField(db_column='ReplacedNutrigrade', max_length=255)  # Field name made lowercase.
     userid = models.CharField(db_column='UserID', max_length=255)  # Field name made lowercase.
+    front_img = models.CharField(db_column='Front_img', max_length=500, default="")  # Field name made lowercase.
 
     objects = models.Manager()
 
@@ -78,5 +79,3 @@ class Products(models.Model):
     class Meta:
         managed = True
         db_table = 'products'
-
-
