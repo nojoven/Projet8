@@ -15,6 +15,7 @@ psycopg2 = "*"
 pytest = "*"
 pytest-django = "*"
 coverage = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.7"
