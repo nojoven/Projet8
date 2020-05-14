@@ -18,7 +18,7 @@
         <section class="page-section results-bkg" id="results">
             <div class="container">
                 {% if request.user.is_authenticated%}
-                    {% if favlist is None %}
+                    {% if favlist.items|length == 0 %}
                     <h2 class="text-center mt-0"> Vous n'avez pas encore de favori.</h2>
                     <hr class="divider my-4" />
                     {% else %}
