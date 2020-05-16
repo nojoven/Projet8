@@ -1,7 +1,6 @@
 from django.test import TestCase
 
 class SimpleTest(TestCase):
-
     URI_f_BASE = "http://localhost:8000/foodfacts/"
     home_request = URI_f_BASE
     aliment_request = f"{URI_f_BASE}aliment/1/"
@@ -10,9 +9,6 @@ class SimpleTest(TestCase):
     resultats_empty = f"{URI_f_BASE}resultats/empty/"
     favourites_request = f"{URI_f_BASE}favourites/"
     account_request = f"{URI_f_BASE}account/"
-
-
-
 
 
     def test_views_home(self):
@@ -35,10 +31,3 @@ class SimpleTest(TestCase):
         response = self.client.get(self.notice_request)
         self.assertEqual(response.status_code, 200)
 
-
-
-
-
-    def test_views_register(self):
-        response = self.client.get(self.register_request)
-        assert response.status_code == 200

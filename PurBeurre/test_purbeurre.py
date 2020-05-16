@@ -22,7 +22,7 @@ class TestPurBeurre:
     notice_request = f"{URI_f_BASE}notice/"
     resultats_gazpacho = f"{URI_f_BASE}resultats/Gazpacho/"
     resultats_empty = f"{URI_f_BASE}resultats/empty/"
-    register_request = f"{URI_f_BASE}/register/"
+    register_request = f"{URI_r_BASE}register/"
 
     def test_views_home(self):
         response = re.get(self.home_request)
