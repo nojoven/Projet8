@@ -1,5 +1,4 @@
 """Create your views here."""
-
 from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
 from django.shortcuts import render
@@ -21,10 +20,6 @@ def aliment(request, product_chosen):
 
 def resultats(request):
     return render(request, "resultats.html")
-
-
-def account(request):
-    return render(request, "mon_compte.html")
 
 
 def notice(request):
@@ -79,5 +74,3 @@ def product_chosen(request, product_chosen):
     return render(request, "aliment.html", context)
 
 
-def register(request):
-    return render(request, "register.html")

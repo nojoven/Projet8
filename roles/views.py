@@ -138,3 +138,11 @@ def unlike(request):
 
         url = reverse("favourites")
         return HttpResponseRedirect(url)
+
+
+def register(request):
+    return render(request, "register.html")
+
+
+def account(request):
+    return render(request, "mon_compte.html")

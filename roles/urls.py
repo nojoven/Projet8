@@ -2,8 +2,6 @@ from . import views
 from django.conf.urls import re_path
 from django.urls import path
 
-
-
 urlpatterns = [
     re_path(r'^create/?$', views.create_user, name='create'),
     re_path(r'^signin/?$', views.signin_user, name='signin'),
@@ -12,4 +10,6 @@ urlpatterns = [
     re_path(r'^like/?$', views.like, name='like'),
     re_path(r'^unlike/?$', views.unlike, name='unlike'),
     re_path(r'^favourites/?$', views.favourites, name='favourites'),
+    re_path(r'^register/?$', views.register, name='register'),
+    re_path(r'^account/?$', views.account, name='account'),
 ]
