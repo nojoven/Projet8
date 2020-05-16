@@ -2,6 +2,7 @@
 from django.contrib.auth import authenticate
 import pytest
 import requests as re
+from foodfacts.modules.database_service import DatabaseService
 
 
 @pytest.mark.django_db
@@ -58,54 +59,53 @@ class TestPurBeurre:
         response = re.get(self.notice_request)
         assert response.status_code == 200
 
-    def test_update_user_data(self,
-                              provided_mail="ezzou@gmail.com",
-                              provided_password="ezzou",
-                              update_email="test@test.com",
-                              update_first_name="Jerôme",
-                              update_last_name=""):
+    def test_create_update_user_data(self,
+                              provided_username="username1",
+                              provided_mail="user@gmail.com",
+                              provided_password="test1234",
+                              update_email="update@test.com",
+                              update_first_name="Pierre",
+                              update_last_name="Dupuis"):
 
-        user = authenticate(username="ezzou06060cimper", password=provided_password)
+        DatabaseService.create_user(provided_username, provided_password, provided_mail, "User", "TESTNAME")
+
+        user = authenticate(username=provided_mail, password=provided_password)
         assert user is not None
-        user_before = user
 
-        user_email = user.email
-        assert user_email is not None
+        email_before = user.email
+        assert email_before is not None
 
-        first_name = user.first_name
-        assert first_name is not None
+        first_name_before = user.first_name
+        assert first_name_before is not None
 
-        last_name = user.last_name
-        assert last_name is not None
+        last_name_before = user.last_name
+        assert last_name_before is not None
 
-        new_data = {}
-
-        if user is not None:
-
-            if update_email != "" and update_email != user_email:
+        try:
+            if update_email != "" and update_email != email_before:
                 user.email = update_email
-                assert user.email != user_email
-                new_data["mail"] = user.email
-            if update_first_name != "" and update_first_name != first_name:
+                assert user.email != email_before
+            if update_first_name != "" and update_first_name != first_name_before:
                 user.first_name = update_first_name
-                assert user.first_name != first_name
-                new_data["first_name"] = user.first_name
-            if update_last_name != "" and update_last_name != last_name:
+                assert user.first_name != first_name_before
+            if update_last_name != "" and update_last_name != last_name_before:
                 user.last_name = update_last_name
-                assert user.last_name != last_name
-                new_data["last_name"] = user.last_name
+                assert user.last_name != last_name_before
             user.save()
 
-            user_after = authenticate(username=update_email, password=provided_password)
-            assert user_after is not None
-            assert user_after != user_before
-            assert user_after["first_name"] != user_before.first_name
-            assert user_after["last_name"] == user_before.last_name
+            user = authenticate(username=update_email, password=provided_password)
+            assert user is not None
+            assert user.email != email_before
+            assert user.first_name != first_name_before
+            assert user.last_name != last_name_before
 
-            user_after.email = user_before.email
-            user_after.first_name = user_before.first_name
-            user_after.save()
-            assert user_after == user_before
+            user.email = email_before
+            user.first_name = first_name_before
+            user.last_name = last_name_before
+            user.save()
+            assert user.email == email_before
+            assert user.first_name == first_name_before
+            assert user.last_name == last_name_before
 
-        else:
+        except KeyError:
             return KeyError("CANNOT UPDATE A USER WHO DOES NOT EXISTS")
