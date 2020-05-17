@@ -26,3 +26,5 @@ class SimpleTest(TestCase):
     def test_views_register(self):
         response = self.client.get(self.register_request)
         assert response.status_code == 200
+
+

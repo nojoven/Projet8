@@ -38,7 +38,6 @@ class CreateForm(forms.Form):
     def get_mail(self):
         return self.data.get("Mail", "empty")
 
-
 class SigninForm(forms.Form):
     signin_email = forms.CharField(max_length=100)
     signin_password = forms.CharField(max_length=100)

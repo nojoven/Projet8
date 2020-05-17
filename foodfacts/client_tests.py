@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+
 class SimpleTest(TestCase):
     URI_f_BASE = "http://localhost:8000/foodfacts/"
     home_request = URI_f_BASE
