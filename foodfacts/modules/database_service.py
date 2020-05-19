@@ -59,15 +59,14 @@ class DatabaseService:
             query.save()
 
     @staticmethod
-    def select_better_products(product_name, category_selected, nutriscore):
+    def select_better_products(category_selected, nutriscore):
         """
         Substitution process
 
         This method starts with the display of the better products.
         """
-        print(f"Nutriscore is {nutriscore}. ")
         better_products = Products.objects.filter(
-            productname=product_name, category=category_selected, nutrition_Score_100g__lt=nutriscore)
+            category=category_selected, nutrition_Score_100g__lt=nutriscore)
         return better_products
 
     @staticmethod

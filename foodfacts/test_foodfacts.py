@@ -35,7 +35,7 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_select_better_products(self):
-        selection = DatabaseService.select_better_products("Gazpacho", "soup", -4)
+        selection = DatabaseService.select_better_products("soup", -4)
         assert selection is not None
 
     def test_search_product(self):

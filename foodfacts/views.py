@@ -28,8 +28,12 @@ def notice(request):
 
 def research(request):
     form = NavSearchForm(request.POST)
-    url = reverse("search_term", args=[form.get_search_term()])
+    search_term = "empty"
+    if form.is_valid():
+        search_term = form.cleaned_data["nav_search"]
+    url = reverse("search_term", args=[search_term])
     return HttpResponseRedirect(url)
+
 
 
 def research_term(request, search_term):
@@ -45,7 +49,7 @@ def research_term(request, search_term):
         print(f"------------{term_data}-----------")
         try:
             better_products = DatabaseService.select_better_products(
-                term_name, term_category, term_score)
+                 term_category, term_score)
             relevant_favourites = DatabaseService.sort_favourites(user_id, term_category)
             favs_id_list = []
             for item in relevant_favourites:
