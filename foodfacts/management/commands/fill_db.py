@@ -11,7 +11,8 @@ This file is used to :
 
 """
 
-# Importing the Database objects provided by the ORM and the module to that has a requester object (named 'Collector')
+# Importing the Database objects provided by the ORM
+# and the module to that has a requester object (named 'Collector')
 from foodfacts.collector import Collector
 from foodfacts.modules.database_service import DatabaseService
 from django.core.management.base import BaseCommand
@@ -36,7 +37,8 @@ class Command(BaseCommand):
             category_entry = {"name": category}
             DatabaseService.fill_categories_table(category_entry)
 
-        # I retrieve only the products that correspond to my categories in my tuple and I populate the products table
+        # I retrieve only the products that correspond to my categories
+        # in my tuple and I populate the products table
         for category in list_of_categories:
             food_returned = collector.get_products_by_category(category)
             DatabaseService.fill_products_table(food_returned)

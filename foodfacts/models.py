@@ -1,16 +1,25 @@
 """ This is an auto-generated Django model module.
- I used the command  'python manage.py inspectdb > models.py'  in PowerShell
+ I used the command
+ 'python manage.py inspectdb > models.py'  in PowerShell
  PLEASE NOTE THAT THE MODEL IS NOT UTF-8 ENCODED.
- SO WHEN YOU'LL TRY TO START DJANGO YOU WILL GET THIS ERROR :  "source code string cannot contain null bytes"
- THIS IS HOW YOU WILL AVOID HEADACHES: YOU MUST ENCODE THE FILE in UTF-8. THEN SAVE IT.
+ SO WHEN YOU'LL TRY TO START DJANGO
+ YOU WILL GET THIS ERROR :
+ "source code string cannot contain null bytes"
+ THIS IS HOW YOU WILL AVOID HEADACHES:
+ YOU MUST ENCODE THE FILE in UTF-8.
+ THEN SAVE IT.
  THEN 'PYTHON MANAGE.PY RUNSERVER' WILL WORK.
  I USED NOTEPAD++ TO ENCODE THIS FILE USING UTF-8.
  You'll have to do the following manually to clean this up:
    * Rearrange models' order
-   * Make sure each model has one field with primary_key=True
-   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-Feel free to rename the models, but don't rename db_table values or field names. """
+   * Make sure each model has one field
+        with primary_key=True
+   * Make sure each ForeignKey and OneToOneField has
+    `on_delete` set to the desired behavior
+   * Remove `managed = False` lines if you wish
+    to allow Django to create, modify, and delete the table data
+Feel free to rename the models,
+but don't rename db_table values or field names. """
 import os
 from django.db import models
 
@@ -41,7 +50,8 @@ class Favorites(models.Model):
     favoriteid = models.AutoField(
         db_column="FavoriteID", primary_key=True
     )  # Field name made lowercase.
-    productid = models.IntegerField(db_column="ProductID")  # Field name made lowercase.
+    productid = models.IntegerField(db_column="ProductID")
+    # Field name made lowercase.
     name = models.CharField(
         db_column="Name", max_length=255
     )  # Field name made lowercase.
@@ -108,7 +118,8 @@ class Products(models.Model):
     quantity = models.CharField(
         db_column="Quantity", max_length=500
     )  # Field name made lowercase.
-    fat_100g = models.FloatField(db_column="Fat_100g")  # Field name made lowercase.
+    fat_100g = models.FloatField(db_column="Fat_100g")
+    # Field name made lowercase.
     sugars_100g = models.FloatField(
         db_column="Sugars_100g"
     )  # Field name made lowercase.
@@ -121,12 +132,15 @@ class Products(models.Model):
     nutrition_Score_100g = models.IntegerField(
         db_column="Nutrition_Score_100g"
     )  # Field name lowercase
-    fiber_100g = models.FloatField(db_column="Fiber_100g")  # Field name made lowercase.
-    salt_100g = models.FloatField(db_column="Salt_100",)  #
+    fiber_100g = models.FloatField(db_column="Fiber_100g")
+    # Field name made lowercase.
+    salt_100g = models.FloatField(db_column="Salt_100",)
+    # Field name made lowercase.
     proteins_100g = models.FloatField(
         db_column="Proteins_100g"
     )  # Field name made lowercase.
-    carbs_100g = models.FloatField(db_column="Carbs_100g")  # Field name made lowercase.
+    carbs_100g = models.FloatField(db_column="Carbs_100g")
+    # Field name made lowercase.
     sodium_100g = models.FloatField(
         db_column="Sodium_100g"
     )  # Field name made lowercase.

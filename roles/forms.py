@@ -12,11 +12,12 @@ class CreateForm(forms.Form):
 
     def is_valid(self):
 
-        if self.data.get("Mot_De_Passe") != self.data.get("Repeter_Mot_De_Passe"):
+        if self.data.get("mot_de_passe") \
+                != self.data.get("repeter_mot_de_passe"):
             self.add_error(
-                field="Mot_De_Passe",
+                field="mot_de_passe",
                 error=ValidationError(
-                    "Les deux mots de passe sont doivent être identiques",
+                    "Les mots de passe doivent être identiques",
                     code="unmatch",
                 ),
             )

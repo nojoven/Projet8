@@ -13,6 +13,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="favorites",
             name="front_img",
-            field=models.CharField(db_column="Front_img", default="", max_length=500),
+            field=models.CharField(
+                db_column="Front_img",
+                default="",
+                max_length=500),
         ),
     ]

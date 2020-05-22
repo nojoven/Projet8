@@ -1,7 +1,8 @@
 """
 Data management code
 
-This file is used to interact with the database in order to display and manipulate the data
+This file is used to interact with the database
+in order to display and manipulate the data
 depending on the user actions in the terminal.
 It uses the orm objects Product, Categories and Favorites
 """
@@ -14,8 +15,11 @@ class DatabaseService:
     """
     DatabaseServices
 
-    Class created to provide statics methods that allows my terminal app do deal with the mysql data.
-    Being static makes the call of DatabaseService's functions easier.
+    Class created to provide statics methods
+    that allows my terminal app do deal
+    with the mysql data.
+    Being static makes
+    the call of DatabaseService's functions easier.
     """
 
     # I created this list here to be accessible inside the methods
@@ -105,7 +109,8 @@ class DatabaseService:
 
     @staticmethod
     def identify(request, provided_mail, provided_password):
-        user = authenticate(request, username=provided_mail, password=provided_password)
+        user = authenticate(request, username=provided_mail,
+                            password=provided_password)
         return user
 
     @staticmethod

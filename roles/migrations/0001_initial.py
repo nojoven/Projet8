@@ -38,6 +38,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"db_table": "users", "managed": True,},
+            options={"db_table": "users", "managed": True, },
         ),
     ]

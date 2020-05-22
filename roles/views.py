@@ -1,11 +1,17 @@
+from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import CreateForm, SigninForm, UpdateProfileForm, LikeForm, UnlikeForm
-from foodfacts.modules.database_service import DatabaseService
-from django.contrib.auth import login, logout
+
 import foodfacts.models as models
+from foodfacts.modules.database_service import DatabaseService
+from .forms import (
+    CreateForm,
+    SigninForm,
+    UpdateProfileForm,
+    LikeForm,
+    UnlikeForm)
 
 
 def create_user(request):
@@ -37,7 +43,10 @@ def signin_user(request):
         if form.is_valid():
             provided_mail = form.cleaned_data["signin_email"]
             provided_password = form.cleaned_data["signin_password"]
-            user = DatabaseService.identify(request, provided_mail, provided_password)
+            user = DatabaseService.identify(
+                request,
+                provided_mail,
+                provided_password)
 
         if user is not None:
             login(request, user)
@@ -49,7 +58,8 @@ def signin_user(request):
             )
             form.add_error(
                 field="signin_password",
-                error=ValidationError("Mot de passe incorrect", code="signin_password"),
+                error=ValidationError("Mot de passe incorrect",
+                                      code="signin_password"),
             )
             return render(request, "signin.html", {"form": form})
 
@@ -68,8 +78,12 @@ def update_profile(request):
         else:
             return render(request, "mon_compte.html", {"form": form})
 
-        if update_first_name or update_last_name or update_email:
-            user = DatabaseService.identify(request, confirm_email, confirm_password)
+        if update_first_name \
+                or update_last_name \
+                or update_email:
+            user = DatabaseService.identify(
+                request, confirm_email,
+                confirm_password)
             if user is not None:
                 if update_email != "":
                     user.email = update_email
@@ -83,13 +97,15 @@ def update_profile(request):
                 form.add_error(
                     field="confirm_email",
                     error=ValidationError(
-                        "Email de confirmation incorrect", code="confirm_email"
+                        "Email de confirmation incorrect",
+                        code="confirm_email"
                     ),
                 )
                 form.add_error(
                     field="confirm_password",
                     error=ValidationError(
-                        "Mot de passe de confirmation incorrect", code="confirm_email"
+                        "Mot de passe à bien confirmer.",
+                        code="confirm_email"
                     ),
                 )
                 return render(request, "mon_compte.html", {"form": form})

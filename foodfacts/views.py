@@ -1,6 +1,7 @@
 """Create your views here."""
 from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -14,7 +15,7 @@ def home(request):
     return render(request, "accueil.html", {"user": user})
 
 
-def aliment(request, product_chosen):
+def aliment(product_chosen):
     return HttpResponseRedirect(product_chosen)
 
 
@@ -41,7 +42,6 @@ def research_term(request, search_term):
     try:
         term_data = DatabaseService.select_product(search_term)
         term_category = term_data.category
-        term_name = term_data.productname
         term_score = term_data.nutrition_Score_100g
 
         context["product"] = term_data
@@ -61,11 +61,11 @@ def research_term(request, search_term):
                 context["favs"] = favs_id_list
             else:
                 context["better"] = None
-        except Exception:
+        except IndexError:
             print(
-                "---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
-    except Exception:
-        print("-------------------------NON TROUVÉ----------------------")
+                "SUBTSTITUTION RESEARCH FAILED")
+    except IndexError:
+        print("NOT FOUND")
 
     return render(request, "resultats.html", context)
 
@@ -75,6 +75,6 @@ def product_chosen(request, product_chosen):
     try:
         product = Products.objects.get(idproduct=product_chosen)
         context["product"] = product
-    except Exception:
-        print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
+    except ObjectDoesNotExist:
+        print("IMPOSSIBLE DE RECUPERER CE PRODUIT")
     return render(request, "aliment.html", context)

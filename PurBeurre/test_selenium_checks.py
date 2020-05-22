@@ -6,12 +6,13 @@ class MySeleniumTests(StaticLiveServerTestCase):
     options = webdriver.ChromeOptions()
     options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(48000)
+    driver.implicitly_wait(24000)
 
     def test_browser(self):
         self.driver.maximize_window()
         self.driver.get("http://localhost:8000/foodfacts/")
-        self.assertIn("GRAS", self.driver.find_element_by_id("main_title").text)
+        self.assertIn("GRAS", self.driver.find_element_by_id(
+            "main_title").text)
         self.driver.get("http://localhost:8000/roles/signin/")
 
         signin_email = self.driver.find_element_by_name("signin_email")
