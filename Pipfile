@@ -19,6 +19,7 @@ selenium = "*"
 model-bakery = "*"
 pprint = "*"
 flake8 = "*"
+freeze = "*"
 
 [requires]
 python_version = "3.7"
