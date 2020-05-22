@@ -24,9 +24,13 @@ class Categories(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return f"{self.name}"
+
     class Meta:
         managed = True
         db_table = 'categories'
+
 
 
 class Favorites(models.Model):
@@ -45,6 +49,9 @@ class Favorites(models.Model):
     front_img = models.CharField(db_column='Front_img', max_length=500, default="")  # Field name made lowercase.
 
     objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.name}"
 
     class Meta:
         managed = True
@@ -75,6 +82,9 @@ class Products(models.Model):
     url = models.CharField(db_column="url", max_length=500)
 
     objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.productname}"
 
     class Meta:
         managed = True

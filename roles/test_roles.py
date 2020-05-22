@@ -1,9 +1,8 @@
 import pytest
 from django.contrib.auth import authenticate
 from django.test import TestCase
-from foodfacts.models import Favorites, Products, Categories
+from foodfacts.models import Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
-from model_bakery import baker
 
 
 class SimpleTest(TestCase):
@@ -219,10 +218,3 @@ class TestRoles:
 
         item.delete()
         assert len(Favorites.objects.filter(productid=44, userid=4)) == 0
-
-
-class TestModels(TestCase):
-
-    def test_category_model(self):
-        category = baker.make(Categories, name="soup")
-        category.get_log('browser')

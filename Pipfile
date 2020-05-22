@@ -17,6 +17,7 @@ pytest-django = "*"
 coverage = "*"
 selenium = "*"
 model-bakery = "*"
+pprint = "*"
 
 [requires]
 python_version = "3.7"
