@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import authenticate
 from django.test import TestCase
+from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
 
@@ -34,49 +35,39 @@ class SimpleTest(TestCase):
 
 @pytest.mark.django_db
 class TestRoles:
-    """Pytest will be used to verify the behaviour of the following functions"""
+    """Pytest will be used to verify the behaviour of
+     the following functions"""
+
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
 
     def test_create_product(self):
-        product = {
-            "category": "soup",
-            "stores": "Auchan",
-            "brands": "Reflets",
-            "productname": "Gazpacho",
-            "nutrigrade": "a",
-            "quantity": "1L",
-            "front_img": "img.jpg",
-            "nutrition_img": "img.png",
-            "ingredients_img": "img.svg",
-            "fat_100g": 0.20,
-            "sugars_100g": 3.20,
-            "saturated_fat_100g": 0.20,
-            "energy_kcal_100g": 250.16,
-            "nutrition_Score_100g": -4,
-            "fiber_100g": 24.14,
-            "salt_100g": 1.03,
-            "proteins_100g": 5.63,
-            "carbs_100g": 3.20,
-            "sodium_100g": 1.03,
-            "url": "www.url.com"
-        }
+        product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
         article = DatabaseService.select_product("Gazpacho")
         assert article.productname == "Gazpacho"
 
-    def test_create_update_user_data(self,
-                                     provided_username="username1",
-                                     provided_mail="user@gmail.com",
-                                     provided_password="test1234",
-                                     update_email="update@test.com",
-                                     update_first_name="Pierre",
-                                     update_last_name="Dupuis"):
+    def test_create_update_user_data(
+        self,
+        provided_username="username1",
+        provided_mail="user@gmail.com",
+        provided_password="test1234",
+        update_email="update@test.com",
+        update_first_name="Pierre",
+        update_last_name="Dupuis",
+    ):
 
-        DatabaseService.create_user(provided_username, provided_password, provided_mail, "User", "TESTNAME")
+        DatabaseService.create_user(
+            provided_username,
+            provided_password,
+            provided_mail,
+            "User",
+            "TESTNAME"
+        )
 
-        user = authenticate(username=provided_mail, password=provided_password)
+        user = authenticate(username=provided_mail,
+                            password=provided_password)
         assert user is not None
 
         email_before = user.email
@@ -89,18 +80,22 @@ class TestRoles:
         assert last_name_before is not None
 
         try:
-            if update_email != "" and update_email != email_before:
+            if update_email != "" \
+                    and update_email != email_before:
                 user.email = update_email
                 assert user.email != email_before
-            if update_first_name != "" and update_first_name != first_name_before:
+            if update_first_name != "" \
+                    and update_first_name != first_name_before:
                 user.first_name = update_first_name
                 assert user.first_name != first_name_before
-            if update_last_name != "" and update_last_name != last_name_before:
+            if update_last_name != "" \
+                    and update_last_name != last_name_before:
                 user.last_name = update_last_name
                 assert user.last_name != last_name_before
             user.save()
 
-            user = authenticate(username=update_email, password=provided_password)
+            user = authenticate(username=update_email,
+                                password=provided_password)
             assert user is not None
             assert user.email != email_before
             assert user.first_name != first_name_before
@@ -115,35 +110,14 @@ class TestRoles:
             assert user.last_name == last_name_before
 
         except KeyError:
-            return KeyError("CANNOT UPDATE A USER WHO DOES NOT EXISTS")
+            return KeyError("USER DOES NOT EXISTS")
 
     def test_find_user_category_favourites(self):
         favourites = DatabaseService.sort_favourites(4, "soup")
         assert favourites is not None
 
     def test_find_favorite_in_products(self):
-        product = {
-            "category": "soup",
-            "stores": "Auchan",
-            "brands": "Reflets",
-            "productname": "Gazpacho",
-            "nutrigrade": "a",
-            "quantity": "1L",
-            "front_img": "img.jpg",
-            "nutrition_img": "img.png",
-            "ingredients_img": "img.svg",
-            "fat_100g": 0.20,
-            "sugars_100g": 3.20,
-            "saturated_fat_100g": 0.20,
-            "energy_kcal_100g": 250.16,
-            "nutrition_Score_100g": -4,
-            "fiber_100g": 24.14,
-            "salt_100g": 1.03,
-            "proteins_100g": 5.63,
-            "carbs_100g": 3.20,
-            "sodium_100g": 1.03,
-            "url": "www.url.com"
-        }
+        product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
         product = DatabaseService.select_product("Gazpacho")
@@ -161,9 +135,12 @@ class TestRoles:
         like_data["replacedarticle"] = product.productname
         like_data["replacednutrigrade"] = product.nutrigrade
         like_data["userid"] = 4
-        like_data["front_img"] = "https://static.openfoodfacts.org/images/products/301/136/002/3995/front_fr.39.400.jpg"
+        like_data[
+            "front_img"
+        ] = IMG_URL
 
-        if not Favorites.objects.filter(productid=like_data["productid"]).exists():
+        if not Favorites.objects.filter(
+                productid=like_data["productid"]).exists():
             query = Favorites(**like_data)
             query.save()
 
@@ -183,9 +160,12 @@ class TestRoles:
         like_data["replacedarticle"] = "Gazpacho"
         like_data["replacednutrigrade"] = "a"
         like_data["userid"] = 4
-        like_data["front_img"] = "https://static.openfoodfacts.org/images/products/301/136/002/3995/front_fr.39.400.jpg"
+        like_data[
+            "front_img"
+        ] = IMG_URL
 
-        if not Favorites.objects.filter(productid=like_data["productid"]).exists():
+        if not Favorites.objects.filter(
+                productid=like_data["productid"]).exists():
             query = Favorites(**like_data)
             query.save()
         user_favs = DatabaseService.select_user_favs(4)
@@ -206,7 +186,9 @@ class TestRoles:
         like_data["replacedarticle"] = "Gazpacho"
         like_data["replacednutrigrade"] = "a"
         like_data["userid"] = 4
-        like_data["front_img"] = "https://static.openfoodfacts.org/images/products/301/136/002/3995/front_fr.39.400.jpg"
+        like_data[
+            "front_img"
+        ] = IMG_URL
 
         if not Favorites.objects.filter(productid=44).exists():
             query = Favorites(**like_data)

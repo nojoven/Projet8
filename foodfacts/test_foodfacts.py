@@ -59,7 +59,7 @@ class SimpleTest(TestCase):
             "proteins_100g": 5.63,
             "carbs_100g": 3.20,
             "sodium_100g": 1.03,
-            "url": "www.url.com"
+            "url": "www.url.com",
         }
         query = Products(**product)
         query.save()
@@ -87,7 +87,7 @@ class SimpleTest(TestCase):
             "proteins_100g": 5.63,
             "carbs_100g": 3.20,
             "sodium_100g": 1.03,
-            "url": "www.url.com"
+            "url": "www.url.com",
         }
         query = Products(**product)
         query.save()

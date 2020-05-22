@@ -48,8 +48,11 @@ def research_term(request, search_term):
         print(f"------------{term_data}-----------")
         try:
             better_products = DatabaseService.select_better_products(
-                 term_category, term_score)
-            relevant_favourites = DatabaseService.sort_favourites(user_id, term_category)
+                term_category, term_score
+            )
+            relevant_favourites = DatabaseService.sort_favourites(
+                user_id, term_category
+            )
             favs_id_list = []
             for item in relevant_favourites:
                 favs_id_list.append(item.productid)
@@ -58,10 +61,10 @@ def research_term(request, search_term):
                 context["favs"] = favs_id_list
             else:
                 context["better"] = None
-        except KeyError:
-            print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
-
-    except KeyError:
+        except Exception:
+            print(
+                "---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
+    except Exception:
         print("-------------------------NON TROUVÉ----------------------")
 
     return render(request, "resultats.html", context)
@@ -72,8 +75,6 @@ def product_chosen(request, product_chosen):
     try:
         product = Products.objects.get(idproduct=product_chosen)
         context["product"] = product
-    except KeyError:
+    except Exception:
         print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
     return render(request, "aliment.html", context)
-
-

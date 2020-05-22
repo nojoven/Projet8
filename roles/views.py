@@ -9,7 +9,7 @@ import foodfacts.models as models
 
 
 def create_user(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CreateForm(request.POST)
         if form.is_valid():
             user_first_name = form.cleaned_data["Prenom"]
@@ -19,17 +19,19 @@ def create_user(request):
             username = f"{user_first_name}{user_phone_ending}{user_last_name}"
             password = form.cleaned_data["Mot_De_Passe"]
             mail = form.cleaned_data["Mail"]
-            user = DatabaseService.create_user(username, password, mail, user_first_name, user_last_name)
+            user = DatabaseService.create_user(
+                username, password, mail, user_first_name, user_last_name
+            )
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/roles/account')
+                return HttpResponseRedirect("/roles/account")
             else:
-                return render(request, 'register.html', {'form': form})
-    return render(request, 'register.html', {'form': CreateForm()})
+                return render(request, "register.html", {"form": form})
+    return render(request, "register.html", {"form": CreateForm()})
 
 
 def signin_user(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SigninForm(request.POST)
         user = None
         if form.is_valid():
@@ -39,18 +41,23 @@ def signin_user(request):
 
         if user is not None:
             login(request, user)
-            return render(request, 'mon_compte.html')
+            return render(request, "mon_compte.html")
         else:
-            form.add_error(field="signin_email", error=ValidationError("Email incorrect", code="signin_mail"))
-            form.add_error(field="signin_password", error=ValidationError("Mot de passe incorrect",
-                                                                          code="signin_password"))
-            return render(request, "signin.html", {'form': form})
+            form.add_error(
+                field="signin_email",
+                error=ValidationError("Email incorrect", code="signin_mail"),
+            )
+            form.add_error(
+                field="signin_password",
+                error=ValidationError("Mot de passe incorrect", code="signin_password"),
+            )
+            return render(request, "signin.html", {"form": form})
 
-    return render(request, "signin.html", {'form': SigninForm()})
+    return render(request, "signin.html", {"form": SigninForm()})
 
 
 def update_profile(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UpdateProfileForm(request.POST)
         if form.is_valid():
             update_first_name = form.cleaned_data["update_first_name"]
@@ -59,7 +66,7 @@ def update_profile(request):
             confirm_email = form.cleaned_data["confirm_email"]
             confirm_password = form.cleaned_data["confirm_password"]
         else:
-            return render(request, "mon_compte.html", {'form': form})
+            return render(request, "mon_compte.html", {"form": form})
 
         if update_first_name or update_last_name or update_email:
             user = DatabaseService.identify(request, confirm_email, confirm_password)
@@ -71,17 +78,25 @@ def update_profile(request):
                 if update_last_name != "":
                     user.last_name = update_last_name
                 user.save()
-                return render(request, 'mon_compte.html', {"user": user})
+                return render(request, "mon_compte.html", {"user": user})
             else:
-                form.add_error(field="confirm_email",
-                               error=ValidationError("Email de confirmation incorrect", code="confirm_email"))
-                form.add_error(field="confirm_password",
-                               error=ValidationError("Mot de passe de confirmation incorrect", code="confirm_email"))
-                return render(request, "mon_compte.html", {'form': form})
+                form.add_error(
+                    field="confirm_email",
+                    error=ValidationError(
+                        "Email de confirmation incorrect", code="confirm_email"
+                    ),
+                )
+                form.add_error(
+                    field="confirm_password",
+                    error=ValidationError(
+                        "Mot de passe de confirmation incorrect", code="confirm_email"
+                    ),
+                )
+                return render(request, "mon_compte.html", {"form": form})
         else:
-            return render(request, "mon_compte.html", {'form': form})
+            return render(request, "mon_compte.html", {"form": form})
 
-    return render(request, "mon_compte.html", {'form': UpdateProfileForm()})
+    return render(request, "mon_compte.html", {"form": UpdateProfileForm()})
 
 
 def logout_user(request):
@@ -90,7 +105,7 @@ def logout_user(request):
 
 
 def like(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = LikeForm(request.POST)
         if form.is_valid():
             liked_id = form.cleaned_data["liked_id"]
@@ -116,13 +131,15 @@ def like(request):
                 like_data["userid"] = userid
                 like_data["front_img"] = product.front_img
 
-                if not models.Favorites.objects.filter(productid=product.idproduct).exists():
+                if not models.Favorites.objects.filter(
+                    productid=product.idproduct
+                ).exists():
                     query = models.Favorites(**like_data)
                     query.save()
             url = reverse("search_term", args=[replaced_name])
             return HttpResponseRedirect(url)
         else:
-            return render(request, "resultats.html", {'form': form})
+            return render(request, "resultats.html", {"form": form})
     else:
         return render(request, "resultats.html")
 
@@ -134,7 +151,7 @@ def favourites(request):
 
 
 def unlike(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UnlikeForm(request.POST)
         if form.is_valid():
             unliked_id = form.cleaned_data["unliked_id"]

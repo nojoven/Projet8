@@ -19,7 +19,8 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     """This command becomes available from manage.py"""
-    help = 'Fills the database.'
+
+    help = "Fills the database."
 
     def handle(self, *args, **options):
 
@@ -28,7 +29,7 @@ class Command(BaseCommand):
         collector = Collector()
 
         # I defined there a tuple of categories
-        list_of_categories = ('soup', 'pizza', 'salad', 'cake', 'cheese')
+        list_of_categories = ("soup", "pizza", "salad", "cake", "cheese")
 
         # I populate the table of the categories
         for category in list_of_categories:
@@ -39,4 +40,3 @@ class Command(BaseCommand):
         for category in list_of_categories:
             food_returned = collector.get_products_by_category(category)
             DatabaseService.fill_products_table(food_returned)
-

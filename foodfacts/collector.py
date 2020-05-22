@@ -15,6 +15,7 @@ class Collector:
 
     This class is used to rerieve the products data by calling the OpenFoodFacts API.
     """
+
     def __init__(self):
         """
 
@@ -25,8 +26,15 @@ class Collector:
         - the url
         """
         # We limit the fetch to 1000 products
-        self.params = {'action': 'process', 'tagtype_0': 'categories', 'tag_contains_0': 'contains',
-                       'tag_0': 'category', 'sort_by': 'unique_scans_n', 'page_size': 1000, 'json': 1}
+        self.params = {
+            "action": "process",
+            "tagtype_0": "categories",
+            "tag_contains_0": "contains",
+            "tag_0": "category",
+            "sort_by": "unique_scans_n",
+            "page_size": 1000,
+            "json": 1,
+        }
         self.url = "https://fr.openfoodfacts.org/cgi/search.pl"
 
     def get_products_by_category(self, category):
@@ -53,24 +61,26 @@ class Collector:
             product_data = dict()
             try:
                 # I ignore the products that have missing information
-                if not product["stores_tags"] \
-                        or not product["quantity"] \
-                        or not product["product_name"] \
-                        or not product["brands"]\
-                        or not product["nutrition_grade_fr"] \
-                        or not product["selected_images"]["front"]["display"]["fr"] \
-                        or not product["selected_images"]["nutrition"]["display"]["fr"] \
-                        or not product["selected_images"]["ingredients"]["display"]["fr"] \
-                        or not product['nutriments']["fat_100g"] \
-                        or not product['nutriments']["sugars_100g"] \
-                        or not product['nutriments']["saturated-fat_100g"] \
-                        or not product['nutriments']["energy-kcal_100g"] \
-                        or not product['nutriments']["nutrition-score-fr_100g"] \
-                        or not product['nutriments']["fiber_100g"] \
-                        or not product['nutriments']["salt_100g"] \
-                        or not product['nutriments']["proteins_100g"] \
-                        or not product['nutriments']["carbohydrates_100g"] \
-                        or not product['nutriments']["sodium_100g"]:
+                if (
+                    not product["stores_tags"]
+                    or not product["quantity"]
+                    or not product["product_name"]
+                    or not product["brands"]
+                    or not product["nutrition_grade_fr"]
+                    or not product["selected_images"]["front"]["display"]["fr"]
+                    or not product["selected_images"]["nutrition"]["display"]["fr"]
+                    or not product["selected_images"]["ingredients"]["display"]["fr"]
+                    or not product["nutriments"]["fat_100g"]
+                    or not product["nutriments"]["sugars_100g"]
+                    or not product["nutriments"]["saturated-fat_100g"]
+                    or not product["nutriments"]["energy-kcal_100g"]
+                    or not product["nutriments"]["nutrition-score-fr_100g"]
+                    or not product["nutriments"]["fiber_100g"]
+                    or not product["nutriments"]["salt_100g"]
+                    or not product["nutriments"]["proteins_100g"]
+                    or not product["nutriments"]["carbohydrates_100g"]
+                    or not product["nutriments"]["sodium_100g"]
+                ):
                     continue
 
                 product_data = {
@@ -81,19 +91,29 @@ class Collector:
                     "nutrigrade": product["nutrition_grade_fr"],
                     "quantity": product["quantity"],
                     "front_img": product["selected_images"]["front"]["display"]["fr"],
-                    "nutrition_img": product["selected_images"]["nutrition"]["display"]["fr"],
-                    "ingredients_img": product["selected_images"]["ingredients"]["display"]["fr"],
-                    "fat_100g": float(product['nutriments']["fat_100g"]),
-                    "sugars_100g": float(product['nutriments']["sugars_100g"]),
-                    "saturated_fat_100g": float(product['nutriments']["saturated-fat_100g"]),
-                    "energy_kcal_100g": float(product['nutriments']["energy-kcal_100g"]),
-                    "nutrition_Score_100g": int(product['nutriments']["nutrition-score-fr_100g"]),
-                    "fiber_100g": float(product['nutriments']["fiber_100g"]),
-                    "salt_100g": float(product['nutriments']["salt_100g"]),
-                    "proteins_100g": float(product['nutriments']["proteins_100g"]),
-                    "carbs_100g": float(product['nutriments']["carbohydrates_100g"]),
-                    "sodium_100g": float(product['nutriments']["sodium_100g"]),
-                    "url": product["url"]
+                    "nutrition_img": product["selected_images"]["nutrition"]["display"][
+                        "fr"
+                    ],
+                    "ingredients_img": product["selected_images"]["ingredients"][
+                        "display"
+                    ]["fr"],
+                    "fat_100g": float(product["nutriments"]["fat_100g"]),
+                    "sugars_100g": float(product["nutriments"]["sugars_100g"]),
+                    "saturated_fat_100g": float(
+                        product["nutriments"]["saturated-fat_100g"]
+                    ),
+                    "energy_kcal_100g": float(
+                        product["nutriments"]["energy-kcal_100g"]
+                    ),
+                    "nutrition_Score_100g": int(
+                        product["nutriments"]["nutrition-score-fr_100g"]
+                    ),
+                    "fiber_100g": float(product["nutriments"]["fiber_100g"]),
+                    "salt_100g": float(product["nutriments"]["salt_100g"]),
+                    "proteins_100g": float(product["nutriments"]["proteins_100g"]),
+                    "carbs_100g": float(product["nutriments"]["carbohydrates_100g"]),
+                    "sodium_100g": float(product["nutriments"]["sodium_100g"]),
+                    "url": product["url"],
                 }
 
             except KeyError:

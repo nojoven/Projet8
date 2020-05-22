@@ -5,7 +5,6 @@ from foodfacts.models import Categories, Favorites, Products
 
 
 class TestModels(TestCase):
-
     @pytest.mark.django_db
     def test_category_model(self):
         name__category = baker.make(Categories, name="soup")

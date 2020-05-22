@@ -39,24 +39,24 @@
                 <div class="row register-form">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" required name="Prenom" placeholder="Prénom *" value="{{ form.first.value }}" />
+                            <input type="text" class="form-control" required name="prenom" placeholder="Prénom *" value="{{ form.first.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" required name="Nom" placeholder="Nom *" value="{{ form.last.value }}" />
+                            <input type="text" class="form-control" required name="nom" placeholder="Nom *" value="{{ form.last.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" required name="Mot_De_Passe" placeholder="Mot de passe *"  />
+                            <input type="password" class="form-control" required name="mot_de_passe" placeholder="Mot de passe *"  />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" required name="Repeter_Mot_De_Passe" placeholder="Mot de passe *"  />
+                            <input type="password" class="form-control" required name="repeter_mot_de_passe" placeholder="Mot de passe *"  />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="email" class="form-control" name="Mail" required placeholder="Mail *" value="{{ form.mail.value }}" />
+                            <input type="email" class="form-control" name="mail" required placeholder="Mail *" value="{{ form.mail.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="text" minlength="10" maxlength="10" required name="Telephone" class="form-control" placeholder="Téléphone *" value="{{ form.phone.value }}" />
+                            <input type="text" minlength="10" maxlength="10" required name="telephone" class="form-control" placeholder="Téléphone *" value="{{ form.phone.value }}" />
                         </div>
                         <input class="btn btn-primary btn-lg" type="submit" value="Soumettre">
                     </div>

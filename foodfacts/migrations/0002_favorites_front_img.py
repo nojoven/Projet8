@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('foodfacts', '0001_initial'),
+        ("foodfacts", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='favorites',
-            name='front_img',
-            field=models.CharField(db_column='Front_img', default='', max_length=500),
+            model_name="favorites",
+            name="front_img",
+            field=models.CharField(db_column="Front_img", default="", max_length=500),
         ),
     ]

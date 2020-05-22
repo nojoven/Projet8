@@ -3,18 +3,23 @@ from django.core.exceptions import ValidationError
 
 
 class CreateForm(forms.Form):
-    Prenom = forms.CharField(max_length=100)
-    Nom = forms.CharField(max_length=100)
-    Mot_De_Passe = forms.CharField(max_length=100)
-    Repeter_Mot_De_Passe = forms.CharField(max_length=100)
-    Mail = forms.CharField(max_length=100)
-    Telephone = forms.CharField(max_length=100)
+    prenom = forms.CharField(max_length=100)
+    nom = forms.CharField(max_length=100)
+    mot_De_Passe = forms.CharField(max_length=100)
+    repeter_Mot_De_Passe = forms.CharField(max_length=100)
+    mail = forms.CharField(max_length=100)
+    telephone = forms.CharField(max_length=100)
 
     def is_valid(self):
 
         if self.data.get("Mot_De_Passe") != self.data.get("Repeter_Mot_De_Passe"):
-            self.add_error(field="Mot_De_Passe",
-                           error=ValidationError("Les deux mots de passe sont doivent être identiques", code="unmatch"))
+            self.add_error(
+                field="Mot_De_Passe",
+                error=ValidationError(
+                    "Les deux mots de passe sont doivent être identiques",
+                    code="unmatch",
+                ),
+            )
             return False
 
         return super().is_valid()
