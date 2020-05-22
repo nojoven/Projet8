@@ -1,5 +1,4 @@
 import pytest
-from pprint import pprint
 from django.test import TestCase
 from model_bakery import baker
 from foodfacts.models import Categories, Favorites, Products
@@ -21,6 +20,6 @@ class TestModels(TestCase):
 
     @pytest.mark.django_db
     def test_products_model(self):
-        name_product = baker.make(Favorites, name="Gazpacho")
+        name_product = baker.make(Products, productname="Gazpacho")
         assert name_product is not None
         self.assertEqual(str(name_product), "Gazpacho")

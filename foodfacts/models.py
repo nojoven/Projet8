@@ -32,7 +32,6 @@ class Categories(models.Model):
         db_table = 'categories'
 
 
-
 class Favorites(models.Model):
     favoriteid = models.AutoField(db_column='FavoriteID', primary_key=True)  # Field name made lowercase.
     productid = models.IntegerField(db_column='ProductID')  # Field name made lowercase.

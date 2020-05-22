@@ -36,7 +36,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
 
         self.driver.refresh()
         self.driver.get("http://localhost:8000/roles/signin/")
-        #submit
+        # submit
         self.driver.find_elements_by_class_name('logout_form')[0].submit()
 
         self.driver.close()
