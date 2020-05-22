@@ -20,6 +20,8 @@ model-bakery = "*"
 pprint = "*"
 flake8 = "*"
 freeze = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
