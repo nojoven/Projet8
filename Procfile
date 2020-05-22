@@ -1,1 +1,1 @@
-web: gunicorn PurBeurre.wsgi
+web: gunicorn PurBeurre.wsgi --host=0.0.0.0 --port=$PORT
