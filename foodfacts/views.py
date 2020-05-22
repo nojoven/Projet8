@@ -35,7 +35,6 @@ def research(request):
     return HttpResponseRedirect(url)
 
 
-
 def research_term(request, search_term):
     user_id = request.user.id
     context = {}
@@ -59,10 +58,10 @@ def research_term(request, search_term):
                 context["favs"] = favs_id_list
             else:
                 context["better"] = None
-        except Exception:
+        except KeyError:
             print("---------------------IMPOSSIBLE DE RECUPERER LES ALIMENTS DE REMPLACEMENT ---------------")
 
-    except Exception:
+    except KeyError:
         print("-------------------------NON TROUVÉ----------------------")
 
     return render(request, "resultats.html", context)
@@ -73,7 +72,7 @@ def product_chosen(request, product_chosen):
     try:
         product = Products.objects.get(idproduct=product_chosen)
         context["product"] = product
-    except Exception:
+    except KeyError:
         print("---------------------IMPOSSIBLE DE RECUPERER CE PRODUIT ---------------")
     return render(request, "aliment.html", context)
 

@@ -14,7 +14,7 @@ This file is used to :
 # Importing the Database objects provided by the ORM and the module to that has a requester object (named 'Collector')
 from foodfacts.collector import Collector
 from foodfacts.modules.database_service import DatabaseService
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):

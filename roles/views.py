@@ -11,7 +11,6 @@ import foodfacts.models as models
 def create_user(request):
     if request.method == 'POST':
         form = CreateForm(request.POST)
-        user = None
         if form.is_valid():
             user_first_name = form.cleaned_data["Prenom"]
             user_last_name = form.cleaned_data["Nom"]
@@ -53,7 +52,6 @@ def signin_user(request):
 def update_profile(request):
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST)
-        user = None
         if form.is_valid():
             update_first_name = form.cleaned_data["update_first_name"]
             update_last_name = form.cleaned_data["update_last_name"]

@@ -18,6 +18,7 @@ coverage = "*"
 selenium = "*"
 model-bakery = "*"
 pprint = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.7"
