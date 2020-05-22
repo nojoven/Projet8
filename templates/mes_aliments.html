@@ -30,7 +30,7 @@
                                 <img class="score-nutri" src="/static/foodfacts/assets/img/icons/NUTRI-SCORE/{{f.nutrigrade}}.png">
                                 <h3 class="h4 mb-2"><a style="color: white;" href="/foodfacts/aliment/{{ f.productid }}" name='product_chosen'>{{f.productname}}</a></h3>
                                 <h4 class="mb-0" style="text-transform: uppercase;">{{f.brands}}</h4>
-                                <form action="/roles/unlike/" method="post">
+                                <form action="/roles/unlike/" class="unlike_form" method="post">
                                     {% csrf_token %}
                                     <input style="display: none;" type="number" name="unliked_id" value="{{f.productid}}">
                                     <input style="display: none;" type="text" name="userid_unlike" value="{{request.user.id}}">

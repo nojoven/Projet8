@@ -18,7 +18,8 @@ from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    """This command becomes available from manage.py"""
+    help = 'Fills the database.'
 
     def handle(self, *args, **options):
 
