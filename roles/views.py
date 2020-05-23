@@ -33,6 +33,9 @@ def create_user(request):
                 return HttpResponseRedirect("/roles/account")
             else:
                 return render(request, "register.html", {"form": form})
+        else:
+            return render(request, "register.html", {"form": form})
+
     return render(request, "register.html", {"form": CreateForm()})
 
 
