@@ -27,7 +27,9 @@
                         <div class="col-lg-3 col-md-6 text-center">
                             <div class="mt-5 parent-nutri">
                                 <img class="replace-nutri" src={{f.front_img}}>
-                                <img class="score-nutri" src="/static/foodfacts/assets/img/icons/NUTRI-SCORE/{{f.nutrigrade}}.png">
+                                {% with image="foodfacts/assets/img/icons/NUTRI-SCORE/"|add:f.nutrigrade|add:".png" %}
+                                <img class="score-nutri" src="{% static image %}">
+                                {% endwith %}
                                 <h3 class="h4 mb-2"><a style="color: white;" href="/foodfacts/aliment/{{ f.productid }}" name='product_chosen'>{{f.productname}}</a></h3>
                                 <h4 class="mb-0" style="text-transform: uppercase;">{{f.brands}}</h4>
                                 <form action="/roles/unlike/" class="unlike_form" method="post">

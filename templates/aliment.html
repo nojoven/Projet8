@@ -19,8 +19,10 @@
                     <div class="col-lg-6 col-md-6 text-center">
                         <div class="mt-5">
                             <h3 id="nutriscore_h3" class="h4 mb-2">Nutriscore: </h3>
-                            <img style="border-radius: 20%; border: solid 4px #345A61" width="300px" height="170px" src="/static/foodfacts/assets/img/icons/NUTRI-SCORE/{{product.nutrigrade}}.svg">
+                            {% with image="foodfacts/assets/img/icons/NUTRI-SCORE/"|add:product.nutrigrade|add:".svg" %}
 
+                            <img style="border-radius: 20%; border: solid 4px #345A61" width="300px" height="170px" src="{% static image %}">
+                            {% endwith %}
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 text-center">
