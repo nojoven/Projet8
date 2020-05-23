@@ -149,7 +149,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
     PROJECT_ROOT = BASE_DIR
     print(f"ENV IS : {os.environ.get('ENV')}")
     # STATIC_ROOT = os.path.join(PROJECT_ROOT, '/foodfacts/static')
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static_root')
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
     STATICFILES_DIRS = [
         os.path.join(PROJECT_ROOT, 'foodfacts/static'),
