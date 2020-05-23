@@ -18,7 +18,6 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -51,7 +50,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+if os.environ.get('ENV') == 'PRODUCTION':
+    # ...
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = "PurBeurre.urls"
 
@@ -133,9 +139,14 @@ db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'staticfiles'))
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
-)
+if os.environ.get('ENV') == 'PRODUCTION':
+
+    # Static files settings
+    # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+    # STATIC_ROOT = os.path.join(PROJECT_ROOT, '/foodfacts/static')
+    STATIC_ROOT = os.path.join(BASE_DIR, '/foodfacts/static')
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
