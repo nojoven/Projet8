@@ -5,8 +5,8 @@ from django.core.exceptions import ValidationError
 class CreateForm(forms.Form):
     prenom = forms.CharField(max_length=100)
     nom = forms.CharField(max_length=100)
-    mot_De_Passe = forms.CharField(max_length=100)
-    repeter_Mot_De_Passe = forms.CharField(max_length=100)
+    mot_de_passe = forms.CharField(max_length=100)
+    repeter_mot_de_passe = forms.CharField(max_length=100)
     mail = forms.CharField(max_length=100)
     telephone = forms.CharField(max_length=100)
 

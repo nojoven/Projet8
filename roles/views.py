@@ -18,13 +18,13 @@ def create_user(request):
     if request.method == "POST":
         form = CreateForm(request.POST)
         if form.is_valid():
-            user_first_name = form.cleaned_data["Prenom"]
-            user_last_name = form.cleaned_data["Nom"]
-            user_phone = form.cleaned_data["Telephone"]
+            user_first_name = form.cleaned_data["prenom"]
+            user_last_name = form.cleaned_data["nom"]
+            user_phone = form.cleaned_data["telephone"]
             user_phone_ending = user_phone[-6:-1]
             username = f"{user_first_name}{user_phone_ending}{user_last_name}"
-            password = form.cleaned_data["Mot_De_Passe"]
-            mail = form.cleaned_data["Mail"]
+            password = form.cleaned_data["mot_de_passe"]
+            mail = form.cleaned_data["mail"]
             user = DatabaseService.create_user(
                 username, password, mail, user_first_name, user_last_name
             )

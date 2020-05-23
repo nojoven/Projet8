@@ -44,7 +44,6 @@ class Collector:
 
     def get_products_by_category(self, category):
         """
-
         Five API requests for my five categories.
 
         I send a GET request for 1000 product
