@@ -26,7 +26,11 @@
                 {% if better is not None %}
                 <h2 class="text-center mt-0">Vous pouvez remplacer cet aliment par : </h2>
                 {% else %}
-                <h2 class="text-center mt-0">Il n'existe pas de meilleur produit que {{product.productname}}. </h2>
+                    {% if product.productname is not None %}
+                    <h2 class="text-center mt-0">Il n'existe pas de meilleur produit que {{product.productname}}. </h2>
+                    {% else %}
+                    <h2 class="text-center mt-0">Nous n'avons pas de meilleur produit.</h2>
+                    {% endif %}
                 {% endif %}
                 <hr class="divider my-4" />
                 <div class="row" id="article_div">
