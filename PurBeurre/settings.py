@@ -157,4 +157,3 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-
