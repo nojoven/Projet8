@@ -25,7 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "3u2!k9u@no&)*3iem^bkft^5bfa)od*l&$m(kl0lnmaedzz=(q"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['beurrepur.herokuapp.com']
 
@@ -143,10 +146,12 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
     # Static files settings
     # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
+    PROJECT_ROOT = BASE_DIR
+    print(f"ENV IS : {os.environ.get('ENV')}")
     # STATIC_ROOT = os.path.join(PROJECT_ROOT, '/foodfacts/static')
-    STATIC_ROOT = os.path.join(BASE_DIR, '/foodfacts/static')
-
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+else:
+    STATIC_URL = "/static/"
 # Activate Django-Heroku.
 django_heroku.settings(locals())
 
