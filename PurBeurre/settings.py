@@ -58,12 +58,6 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-if os.environ.get('ENV') == 'PRODUCTION':
-    # ...
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 ROOT_URLCONF = "PurBeurre.urls"
 
 TEMPLATES = [
@@ -144,18 +138,6 @@ db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
 STATIC_URL = "/static/"
-if os.environ.get('ENV') == 'PRODUCTION':
-
-    # Static files settings
-    # PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-    # STATIC_ROOT = os.path.join(PROJECT_ROOT, '/foodfacts/static')
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-
-    STATICFILES_DIRS = [
-        os.path.join(PROJECT_ROOT, '/foodfacts/static'),
-    ]
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
