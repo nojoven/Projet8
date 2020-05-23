@@ -1,7 +1,8 @@
 """
 API call
 
-This code allows to fetch the data from the OpenFoodFact API.
+This code allows to fetch the data
+from the OpenFoodFact API.
 It uses the built-in modules JSON and requests
 """
 import requests as reqs
@@ -11,7 +12,8 @@ from json import JSONDecodeError
 class Collector:
     """
 
-    The collect of the data is done by a Collector object.
+    The collect of the data is done
+    by a Collector object.
 
     This class is used to rerieve the products data
     by calling the OpenFoodFacts API.
@@ -60,7 +62,6 @@ class Collector:
         except JSONDecodeError:
             pass
 
-        print(len(products))
         for product in products:
             product_data = dict()
             try:
@@ -77,26 +78,19 @@ class Collector:
                         "nutrition"]["display"]["fr"]
                     or not product["selected_images"][
                         "ingredients"]["display"]["fr"]
-                    or not product["nutriments"][
-                        "fat_100g"]
-                    or not product["nutriments"][
-                        "sugars_100g"]
+                    or not product["nutriments"]["fat_100g"]
+                    or not product["nutriments"]["sugars_100g"]
                     or not product["nutriments"][
                         "saturated-fat_100g"]
                     or not product["nutriments"][
                         "energy-kcal_100g"]
                     or not product["nutriments"][
                         "nutrition-score-fr_100g"]
-                    or not product["nutriments"][
-                        "fiber_100g"]
-                    or not product["nutriments"][
-                        "salt_100g"]
-                    or not product["nutriments"][
-                        "proteins_100g"]
-                    or not product["nutriments"][
-                        "carbohydrates_100g"]
-                    or not product["nutriments"][
-                        "sodium_100g"]
+                    or not product["nutriments"]["fiber_100g"]
+                    or not product["nutriments"]["salt_100g"]
+                    or not product["nutriments"]["proteins_100g"]
+                    or not product["nutriments"]["carbohydrates_100g"]
+                    or not product["nutriments"]["sodium_100g"]
                 ):
                     continue
 
@@ -110,29 +104,21 @@ class Collector:
                     "front_img": product["selected_images"][
                         "front"]["display"]["fr"],
                     "nutrition_img": product["selected_images"][
-                        "nutrition"]["display"][
-                        "fr"
-                    ],
-                    "ingredients_img": product[
-                        "selected_images"]["ingredients"][
-                        "display"]["fr"],
-                    "fat_100g": float(
-                        product["nutriments"]["fat_100g"]
-                    ),
-                    "sugars_100g": float(
-                        product["nutriments"]["sugars_100g"]
-                    ),
+                        "nutrition"]["display"]["fr"],
+                    "ingredients_img": product["selected_images"][
+                        "ingredients"]["display"]["fr"],
+                    "fat_100g": float(product["nutriments"][
+                                          "fat_100g"]),
+                    "sugars_100g": float(product["nutriments"][
+                                             "sugars_100g"]),
                     "saturated_fat_100g": float(
-                        product["nutriments"][
-                            "saturated-fat_100g"]
+                        product["nutriments"]["saturated-fat_100g"]
                     ),
                     "energy_kcal_100g": float(
-                        product["nutriments"][
-                            "energy-kcal_100g"]
+                        product["nutriments"]["energy-kcal_100g"]
                     ),
                     "nutrition_Score_100g": int(
-                        product["nutriments"][
-                            "nutrition-score-fr_100g"]
+                        product["nutriments"]["nutrition-score-fr_100g"]
                     ),
                     "fiber_100g": float(
                         product["nutriments"]["fiber_100g"]),
@@ -152,5 +138,4 @@ class Collector:
             except Exception as err:
                 print(err)
             results.append(product_data)
-            product_data.clear()
         return results
