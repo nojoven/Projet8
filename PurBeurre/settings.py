@@ -152,7 +152,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
     STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static_root')
 
     STATICFILES_DIRS = [
-        os.path.join(PROJECT_ROOT, 'staticfiles'),
+        os.path.join(PROJECT_ROOT, 'foodfacts/static'),
     ]
 
 # Activate Django-Heroku.
