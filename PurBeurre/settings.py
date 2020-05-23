@@ -27,8 +27,10 @@ SECRET_KEY = "3u2!k9u@no&)*3iem^bkft^5bfa)od*l&$m(kl0lnmaedzz=(q"
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
+    print("DEBUG = FALSE")
 else:
     DEBUG = True
+    print("DEBUG = TRUE")
 
 ALLOWED_HOSTS = ['beurrepur.herokuapp.com']
 
