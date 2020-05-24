@@ -30,7 +30,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
                 "main_title").text)
 
         # Then we go on the sigin page
-        self.driver.get("http://localhost:8000/roles/signin/")
+        self.driver.get("https://beurrepur.herokuapp.com/roles/signin/")
         self.assertIn(
             "CONNEXION", self.driver.find_element_by_tag_name(
                 "h1").text)
@@ -66,7 +66,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         # We add the products to our favourites
         self.driver.find_elements_by_class_name("add_to_fav")[0].submit()
         # We go to the favourites page
-        self.driver.get("http://localhost:8000/roles/favourites")
+        self.driver.get("https://beurrepur.herokuapp.com/roles/favourites")
         self.assertIn(
             "VOS FAVORIS", self.driver.find_element_by_tag_name("h1").text
         )
@@ -76,7 +76,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         # This is because of the browser's cache
         self.driver.refresh()
         # We log out
-        self.driver.get("http://localhost:8000/roles/signin/")
+        self.driver.get("https://beurrepur.herokuapp.com/roles/signin/")
         # submit
         self.assertIn(
             "CONNEXION", self.driver.find_element_by_tag_name("h1").text
