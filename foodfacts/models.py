@@ -29,6 +29,7 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
 class Categories(models.Model):
+    """ORM attributes and functions of Category"""
     idcategories = models.AutoField(
         db_column="idCategories", primary_key=True
     )  # Field name made lowercase.
@@ -47,6 +48,7 @@ class Categories(models.Model):
 
 
 class Favorites(models.Model):
+    """ORM attributes and functions of Favorites"""
     favoriteid = models.AutoField(
         db_column="FavoriteID", primary_key=True
     )  # Field name made lowercase.
@@ -97,6 +99,7 @@ class Favorites(models.Model):
 
 
 class Products(models.Model):
+    """ORM attributes and functions of Products"""
     idproduct = models.AutoField(
         db_column="idProduct", primary_key=True
     )  # Field name made lowercase.

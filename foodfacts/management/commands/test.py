@@ -8,4 +8,5 @@ class Command(BaseCommand):
     help = "Executes project tests."
 
     def handle(self, *args, **options):
+        """This will understand 'test' as 'pytest -v -rf' """
         os.system("pytest -v -rf")

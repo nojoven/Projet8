@@ -1,3 +1,4 @@
+"""This file contains the unitary tests of foodfacts"""
 from django.test import TestCase
 from PurBeurre.constants import PRODUCT_EXAMPLE
 from foodfacts.models import Products
@@ -5,6 +6,10 @@ from foodfacts.modules.database_service import DatabaseService
 
 
 class SimpleTest(TestCase):
+    """
+    Here we define attributes and functions to test
+    the views responses and functions.
+    """
     URI_f_BASE = "http://localhost:8000/foodfacts/"
     home_request = URI_f_BASE
     aliment_request = f"{URI_f_BASE}aliment/1/"
@@ -15,30 +20,37 @@ class SimpleTest(TestCase):
     account_request = f"{URI_f_BASE}account/"
 
     def test_views_home(self):
+        """Tests the HTTP response"""
         response = self.client.get(self.home_request)
         self.assertEqual(response.status_code, 200)
 
     def test_views_aliment(self):
+        """Tests the HTTP response"""
         response = self.client.get(self.aliment_request)
         self.assertEqual(response.status_code, 200)
 
     def test_views_resultats_gazpacho(self):
+        """Tests the HTTP response"""
         response = self.client.get(self.resultats_gazpacho)
         self.assertEqual(response.status_code, 200)
 
     def test_views_resultats_empty(self):
+        """Tests the HTTP response"""
         response = self.client.get(self.resultats_empty)
         self.assertEqual(response.status_code, 200)
 
     def test_views_notice(self):
+        """Tests the HTTP response"""
         response = self.client.get(self.notice_request)
         self.assertEqual(response.status_code, 200)
 
     def test_select_better_products(self):
+        """Tests the the database request for better products"""
         selection = DatabaseService.select_better_products("soup", -4)
         assert selection is not None
 
     def test_search_product(self):
+        """Tests the retrieving of the wanted product"""
         product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
@@ -46,6 +58,7 @@ class SimpleTest(TestCase):
         assert searched is not None
 
     def test_show_details(self):
+        """Tests the requesting of a specific product"""
         product = {
             "category": "soup",
             "stores": "Auchan",

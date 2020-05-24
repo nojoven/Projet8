@@ -1,4 +1,4 @@
-"""Create your views here."""
+"""File of the views of this Django app are in this file."""
 from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
 from django.core.exceptions import ObjectDoesNotExist
@@ -10,24 +10,29 @@ from .forms import NavSearchForm
 
 
 def home(request):
+    """Gets the home page"""
     user = request.user
     print(user)
     return render(request, "accueil.html", {"user": user})
 
 
 def aliment(product_chosen):
+    """Gets the details page"""
     return HttpResponseRedirect(product_chosen)
 
 
 def resultats(request):
+    """Gets the results page"""
     return render(request, "resultats.html")
 
 
 def notice(request):
+    """Gets the notices page"""
     return render(request, "mentions_legales.html")
 
 
 def research(request):
+    """Gets the forms inputs in a research of results"""
     form = NavSearchForm(request.POST)
     search_term = "empty"
     if form.is_valid():
@@ -37,6 +42,7 @@ def research(request):
 
 
 def research_term(request, search_term):
+    """Renders a context for the results page"""
     user_id = request.user.id
     context = {}
     try:
@@ -45,7 +51,6 @@ def research_term(request, search_term):
         term_score = term_data.nutrition_Score_100g
 
         context["product"] = term_data
-        print(f"------------{term_data}-----------")
         try:
             better_products = DatabaseService.select_better_products(
                 term_category, term_score
@@ -71,6 +76,7 @@ def research_term(request, search_term):
 
 
 def product_chosen(request, product_chosen):
+    """Renders a context for the details page."""
     context = {}
     try:
         product = Products.objects.get(idproduct=product_chosen)

@@ -24,7 +24,7 @@ class Command(BaseCommand):
     help = "Fills the database."
 
     def handle(self, *args, **options):
-
+        """This function is used to run the fetching and the filling of the tables"""
         # Creation of the tables using makemigration and migrate
         # Instantiation of a Collector
         collector = Collector()
