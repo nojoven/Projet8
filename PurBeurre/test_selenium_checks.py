@@ -11,7 +11,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
     def test_browser(self):
         self.driver.maximize_window()
 
-        self.driver.get("http://localhost:8000/foodfacts/")
+        self.driver.get("https://beurrepur.herokuapp.com/")
         self.assertIn(
             "GRAS", self.driver.find_element_by_id(
                 "main_title").text)
