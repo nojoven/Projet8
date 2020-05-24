@@ -15,6 +15,7 @@ from .forms import (
 
 
 def create_user(request):
+    """Creates a user based on form inputs"""
     if request.method == "POST":
         form = CreateForm(request.POST)
         if form.is_valid():
@@ -40,6 +41,7 @@ def create_user(request):
 
 
 def signin_user(request):
+    """Logs a user in based on form inputs"""
     if request.method == "POST":
         form = SigninForm(request.POST)
         user = None
@@ -70,6 +72,7 @@ def signin_user(request):
 
 
 def update_profile(request):
+    """Updates user data based on user inputs."""
     if request.method == "POST":
         form = UpdateProfileForm(request.POST)
         if form.is_valid():
@@ -119,11 +122,13 @@ def update_profile(request):
 
 
 def logout_user(request):
+    """Logs out a user based on form inputs"""
     logout(request)
     return render(request, "signin.html")
 
 
 def like(request):
+    """Adds a favourite to the database for a user"""
     if request.method == "POST":
         form = LikeForm(request.POST)
         if form.is_valid():
@@ -164,12 +169,14 @@ def like(request):
 
 
 def favourites(request):
+    """Allows to display the favourites of a user in the template"""
     userid = request.user.id
     user_favs = DatabaseService.select_user_favs(userid)
     return render(request, "mes_aliments.html", {"favlist": user_favs})
 
 
 def unlike(request):
+    """Adds a favourite to the database for a user"""
     if request.method == "POST":
         form = UnlikeForm(request.POST)
         if form.is_valid():
@@ -182,8 +189,10 @@ def unlike(request):
 
 
 def register(request):
+    """Returns the register page"""
     return render(request, "register.html")
 
 
 def account(request):
+    """Returns the account page"""
     return render(request, "mon_compte.html")

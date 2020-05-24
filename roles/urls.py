@@ -1,3 +1,4 @@
+"""This file contains the urls patterns used in the roles app."""
 from . import views
 from django.conf.urls import re_path
 

@@ -1,3 +1,7 @@
+"""
+This is the file used to test the functions
+that are specific to a user account
+"""
 import pytest
 from django.contrib.auth import authenticate
 from django.test import TestCase
@@ -7,7 +11,10 @@ from foodfacts.modules.database_service import DatabaseService
 
 
 class SimpleTest(TestCase):
-
+    """
+    class used to
+    test the HTTP GET responses of views
+    """
     URI_r_BASE = "http://localhost:8000/roles/"
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
@@ -17,18 +24,22 @@ class SimpleTest(TestCase):
     register_request = f"{URI_r_BASE}register/"
 
     def test_views_signin(self):
+        """Get of signin page"""
         response = self.client.get(self.signin_request)
         assert response.status_code == 200
 
     def test_views_favourites(self):
+        """Get of favourites page"""
         response = self.client.get(self.favourites_request)
         assert response.status_code == 200
 
     def test_views_account(self):
+        """Get of account page"""
         response = self.client.get(self.account_request)
         assert response.status_code == 200
 
     def test_views_register(self):
+        """Get of register page"""
         response = self.client.get(self.register_request)
         assert response.status_code == 200
 
@@ -42,6 +53,7 @@ class TestRoles:
     provided_password = "Franck"
 
     def test_create_product(self):
+        """Tests the creation of a product"""
         product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
@@ -57,7 +69,7 @@ class TestRoles:
         update_first_name="Pierre",
         update_last_name="Dupuis",
     ):
-
+        """Tests the update of a profile"""
         DatabaseService.create_user(
             provided_username,
             provided_password,
@@ -113,10 +125,15 @@ class TestRoles:
             return KeyError("USER DOES NOT EXISTS")
 
     def test_find_user_category_favourites(self):
+        """Tests if a user has a product in a category"""
         favourites = DatabaseService.sort_favourites(4, "soup")
         assert favourites is not None
 
     def test_find_favorite_in_products(self):
+        """
+        Tests if a liked product is found in the
+        products table.
+        """
         product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
@@ -148,6 +165,7 @@ class TestRoles:
         assert article is not None
 
     def test_get_all_user_favs(self):
+        """Tests the SELECT on all user's favourites"""
         like_data = dict()
         like_data["productid"] = 22
         like_data["name"] = "Gazpacho Vert"
@@ -173,7 +191,7 @@ class TestRoles:
         assert len(user_favs) > 0
 
     def test_create_remove_fav(self):
-
+        """Tests creation then deletion af a favourite"""
         like_data = dict()
         like_data["productid"] = 44
         like_data["name"] = "Gazpacho Vert"

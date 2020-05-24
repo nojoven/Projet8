@@ -1,8 +1,10 @@
+"""This form contains the forms of the roles app."""
 from django import forms
 from django.core.exceptions import ValidationError
 
 
 class CreateForm(forms.Form):
+    """This is the sign up form """
     prenom = forms.CharField(max_length=100)
     nom = forms.CharField(max_length=100)
     mot_de_passe = forms.CharField(max_length=100)
@@ -27,11 +29,13 @@ class CreateForm(forms.Form):
 
 
 class SigninForm(forms.Form):
+    """This is the sign in form """
     signin_email = forms.CharField(max_length=100)
     signin_password = forms.CharField(max_length=100)
 
 
 class UpdateProfileForm(forms.Form):
+    """This is the update form """
     update_email = forms.CharField(max_length=100)
     update_first_name = forms.CharField(max_length=100)
     update_last_name = forms.CharField(max_length=100)
@@ -40,6 +44,7 @@ class UpdateProfileForm(forms.Form):
 
 
 class LikeForm(forms.Form):
+    """This is the form to add a favourite."""
     liked_id = forms.IntegerField()
     replaced_id = forms.CharField(max_length=100)
     replaced_name = forms.CharField(max_length=100)
@@ -48,5 +53,6 @@ class LikeForm(forms.Form):
 
 
 class UnlikeForm(forms.Form):
+    """This is the form to delete a favourite."""
     unliked_id = forms.IntegerField()
     userid_unlike = forms.CharField(max_length=100)
