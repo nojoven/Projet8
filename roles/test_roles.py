@@ -8,6 +8,7 @@ from django.test import TestCase
 from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
+from roles.forms import CreateForm, UpdateProfileForm, LikeForm, SigninForm, UnlikeForm
 
 
 class SimpleTest(TestCase):
@@ -15,7 +16,7 @@ class SimpleTest(TestCase):
     class used to
     test the HTTP GET responses of views
     """
-    URI_r_BASE = "http://localhost:8000/roles/"
+    URI_r_BASE = "https://beurrepur.herokuapp.com/roles/"
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
     signin_request = f"{URI_r_BASE}signin/"
@@ -27,6 +28,8 @@ class SimpleTest(TestCase):
         """Get of signin page"""
         response = self.client.get(self.signin_request)
         assert response.status_code == 200
+        self.client.post("/roles/signin", {'signin_email': 'ezzou@gmail.com', 'signin_password': 'ezzou'})
+        self.assertEqual(response.status_code, 200)
 
     def test_views_favourites(self):
         """Get of favourites page"""
@@ -218,3 +221,83 @@ class TestRoles:
 
         item.delete()
         assert len(Favorites.objects.filter(productid=44, userid=4)) == 0
+
+    def test_update_form(self):
+        """Tests the profile update form"""
+        update_email = "charlie@choco.org"
+        update_first_name = "Marcel"
+        update_last_name = "Dupuis"
+        confirm_email = "lucien@gmail.com"
+        confirm_password = "Daddy"
+        u_form = UpdateProfileForm(
+            data={
+                'update_first_name': update_first_name,
+                "update_last_name": update_last_name,
+                "confirm_password": confirm_password,
+                "confirm_email": confirm_email,
+                "update_email": update_email
+            })
+        assert u_form.is_valid()
+
+    def test_create_form(self):
+        """Tests the user create form"""
+        prenom = "gaston"
+        nom = "lagaffe"
+        mot_de_passe = "lagaffe06"
+        repeter_mot_de_passe = "lagaffe06"
+        mail = "gaston@gmail.com"
+        telephone = "0601020304"
+        c_form = CreateForm(
+            data={
+                'prenom': prenom,
+                "nom": nom,
+                "mot_de_passe": mot_de_passe,
+                "repeter_mot_de_passe": repeter_mot_de_passe,
+                "mail": mail,
+                "telephone": telephone
+            })
+        assert c_form.is_valid()
+
+    def test_like_form(self):
+        """tests the like form"""
+        liked_id = 5
+        replaced_id = 89
+        replaced_name = "Cheese"
+        replaced_nutrigrade = "D"
+        userid = 57
+        l_form = LikeForm(
+            data={
+                'liked_id': liked_id,
+                "replaced_id": replaced_id,
+                "replaced_name": replaced_name,
+                "replaced_nutrigrade": replaced_nutrigrade,
+                "userid": userid
+            })
+        assert l_form.is_valid()
+
+    def test_unlike_form(self):
+        """Tests the unlike form"""
+        unliked_id = 999
+        userid_unlike = 57
+        unl_form = UnlikeForm(
+            data={
+                'unliked_id': unliked_id,
+                "userid_unlike": userid_unlike
+            })
+        assert unl_form.is_valid()
+
+    def test_signin_form(self):
+        """Tests the signin form"""
+        signin_email = "sonic@sega.com"
+        signin_password = "herisson"
+        s_form = SigninForm(
+            data={
+                'signin_email': signin_email,
+                "signin_password": signin_password
+            })
+        assert s_form.is_valid()
+
+    def test_service_details(self):
+        """Tests show_details()"""
+        data = DatabaseService.show_details(1)
+        assert len(data) > 0

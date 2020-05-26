@@ -10,13 +10,12 @@ class SimpleTest(TestCase):
     Here we define attributes and functions to test
     the views responses and functions.
     """
-    URI_f_BASE = "http://localhost:8000/foodfacts/"
+    URI_f_BASE = "https://beurrepur.herokuapp.com/foodfacts/"
     home_request = URI_f_BASE
     aliment_request = f"{URI_f_BASE}aliment/1/"
     notice_request = f"{URI_f_BASE}notice/"
     resultats_gazpacho = f"{URI_f_BASE}resultats/Gazpacho/"
     resultats_empty = f"{URI_f_BASE}resultats/empty/"
-    favourites_request = f"{URI_f_BASE}favourites/"
     account_request = f"{URI_f_BASE}account/"
 
     def test_views_home(self):
@@ -33,6 +32,10 @@ class SimpleTest(TestCase):
         """Tests the HTTP response"""
         response = self.client.get(self.resultats_gazpacho)
         self.assertEqual(response.status_code, 200)
+
+        self.client.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
+        self.assertEqual(response.status_code, 200)
+
 
     def test_views_resultats_empty(self):
         """Tests the HTTP response"""
@@ -86,3 +89,4 @@ class SimpleTest(TestCase):
         article = DatabaseService.select_product("Gazpacho")
         selected = DatabaseService.show_details(article.idproduct)
         assert selected is not None
+
