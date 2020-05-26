@@ -299,5 +299,5 @@ class TestRoles:
 
     def test_service_details(self):
         """Tests show_details()"""
-        data = DatabaseService.show_details(1)
+        data = DatabaseService.show_details(4730)
         assert len(data) > 0
