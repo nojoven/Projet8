@@ -171,7 +171,6 @@ class TestRoles(TestCase):
                 'confirm_password': provided_password
             })
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.url, "/foodfacts/roles/account/")
 
 
     def test_find_user_category_favourites(self):

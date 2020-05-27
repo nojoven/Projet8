@@ -13,7 +13,7 @@ omit =
         */usr/local/lib*
         *Test*
         */.virtualenvs/*
-        views.py
+show_missing = True
 
 
 
