@@ -77,10 +77,10 @@ def research_term(request, search_term):
 
 def product_chosen(request, product_chosen):
     """Renders a context for the details page."""
-    context = {}
+    context = dict()
     try:
         product = DatabaseService.show_details(product_chosen)
-        context["product"] = product
+        context.update({"product": product})
     except ObjectDoesNotExist:
         print("IMPOSSIBLE DE RECUPERER CE PRODUIT")
     return render(request, "aliment.html", context)
