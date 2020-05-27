@@ -61,7 +61,7 @@ class SimpleTest(TestCase):
 
 
 @pytest.mark.django_db
-class TestRoles:
+class TestRoles(TestCase):
     """Pytest will be used to verify the behaviour of
      the following functions"""
     c = Client()
