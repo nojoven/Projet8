@@ -64,6 +64,7 @@ class SimpleTest(TestCase):
 class TestRoles:
     """Pytest will be used to verify the behaviour of
      the following functions"""
+    c = Client()
 
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
