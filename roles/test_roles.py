@@ -4,7 +4,7 @@ that are specific to a user account
 """
 import pytest
 from django.contrib.auth import authenticate
-from django.test import TestCase
+from django.test import TestCase, Client
 from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
@@ -23,6 +23,7 @@ class SimpleTest(TestCase):
     favourites_request = f"{URI_r_BASE}favourites/"
     account_request = f"{URI_r_BASE}account/"
     register_request = f"{URI_r_BASE}register/"
+    c = Client()
 
     def test_views_signin(self):
         """Get of signin page"""
@@ -299,5 +300,6 @@ class TestRoles:
 
     def test_service_details(self):
         """Tests show_details()"""
-        data = DatabaseService.show_details(4730)
-        assert len(data) > 0
+        data = DatabaseService.show_details(1)
+        print(data)
+        assert data is not None

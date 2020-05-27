@@ -1,8 +1,9 @@
 """This file contains the unitary tests of foodfacts"""
-from django.test import TestCase
+from django.test import TestCase, Client
 from PurBeurre.constants import PRODUCT_EXAMPLE
 from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
+from django.urls import reverse
 
 
 class SimpleTest(TestCase):
@@ -17,6 +18,7 @@ class SimpleTest(TestCase):
     resultats_gazpacho = f"{URI_f_BASE}resultats/Gazpacho/"
     resultats_empty = f"{URI_f_BASE}resultats/empty/"
     account_request = f"{URI_f_BASE}account/"
+    c = Client()
 
     def test_views_home(self):
         """Tests the HTTP response"""
@@ -33,9 +35,8 @@ class SimpleTest(TestCase):
         response = self.client.get(self.resultats_gazpacho)
         self.assertEqual(response.status_code, 200)
 
-        self.client.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
+        self.c.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
         self.assertEqual(response.status_code, 200)
-
 
     def test_views_resultats_empty(self):
         """Tests the HTTP response"""
@@ -62,31 +63,13 @@ class SimpleTest(TestCase):
 
     def test_show_details(self):
         """Tests the requesting of a specific product"""
-        product = {
-            "category": "soup",
-            "stores": "Auchan",
-            "brands": "Reflets",
-            "productname": "Gazpacho",
-            "nutrigrade": "a",
-            "quantity": "1L",
-            "front_img": "img.jpg",
-            "nutrition_img": "img.png",
-            "ingredients_img": "img.svg",
-            "fat_100g": 0.20,
-            "sugars_100g": 3.20,
-            "saturated_fat_100g": 0.20,
-            "energy_kcal_100g": 250.16,
-            "nutrition_Score_100g": -4,
-            "fiber_100g": 24.14,
-            "salt_100g": 1.03,
-            "proteins_100g": 5.63,
-            "carbs_100g": 3.20,
-            "sodium_100g": 1.03,
-            "url": "www.url.com",
-        }
+        product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
         article = DatabaseService.select_product("Gazpacho")
         selected = DatabaseService.show_details(article.idproduct)
         assert selected is not None
+
+
+
 
