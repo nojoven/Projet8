@@ -49,10 +49,13 @@ class SimpleTest(TestCase):
 
     def test_service_details(self):
         """Tests show_details()"""
+        product = PRODUCT_EXAMPLE
+        query = Products(**product)
+        query.save()
+
         data = DatabaseService.show_details(1)
         print(data)
         assert data is not None
-
 
 
 @pytest.mark.django_db

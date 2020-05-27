@@ -35,6 +35,10 @@ class SimpleTest(TestCase):
 
     def test_views_aliment(self):
         """Tests the HTTP response"""
+        product = PRODUCT_EXAMPLE
+        query = Products(**product)
+        query.save()
+
         response = self.client.get(self.aliment_request)
         self.assertEqual(response.status_code, 200)
 
