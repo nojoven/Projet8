@@ -170,7 +170,7 @@ class TestRoles(TestCase):
                 'confirm_email': provided_mail,
                 'confirm_password': provided_password
             })
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.url, "/foodfacts/roles/account/")
 
 
