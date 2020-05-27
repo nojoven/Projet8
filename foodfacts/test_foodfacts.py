@@ -3,7 +3,6 @@ from django.test import TestCase, Client
 from PurBeurre.constants import PRODUCT_EXAMPLE
 from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
-from django.urls import reverse
 
 
 class SimpleTest(TestCase):
@@ -25,17 +24,18 @@ class SimpleTest(TestCase):
         response = self.client.get(self.home_request)
         self.assertEqual(response.status_code, 200)
 
-    def test_views_aliment(self):
-        """Tests the HTTP response"""
-        response = self.client.get(self.aliment_request)
-        self.assertEqual(response.status_code, 200)
-
     def test_views_resultats_gazpacho(self):
         """Tests the HTTP response"""
         response = self.client.get(self.resultats_gazpacho)
         self.assertEqual(response.status_code, 200)
 
-        self.c.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
+        response = self.c.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/foodfacts/resultats/Gazpacho/")
+
+    def test_views_aliment(self):
+        """Tests the HTTP response"""
+        response = self.client.get(self.aliment_request)
         self.assertEqual(response.status_code, 200)
 
     def test_views_resultats_empty(self):
@@ -70,6 +70,7 @@ class SimpleTest(TestCase):
         selected = DatabaseService.show_details(article.idproduct)
         assert selected is not None
 
+    print(aliment_request)
 
 
 

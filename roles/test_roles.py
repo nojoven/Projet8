@@ -47,6 +47,13 @@ class SimpleTest(TestCase):
         response = self.client.get(self.register_request)
         assert response.status_code == 200
 
+    def test_service_details(self):
+        """Tests show_details()"""
+        data = DatabaseService.show_details(1)
+        print(data)
+        assert data is not None
+
+
 
 @pytest.mark.django_db
 class TestRoles:
@@ -297,9 +304,3 @@ class TestRoles:
                 "signin_password": signin_password
             })
         assert s_form.is_valid()
-
-    def test_service_details(self):
-        """Tests show_details()"""
-        data = DatabaseService.show_details(1)
-        print(data)
-        assert data is not None

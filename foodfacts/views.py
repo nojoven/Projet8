@@ -79,7 +79,7 @@ def product_chosen(request, product_chosen):
     """Renders a context for the details page."""
     context = {}
     try:
-        product = Products.objects.get(idproduct=product_chosen)
+        product = DatabaseService.show_details(product_chosen)
         context["product"] = product
     except ObjectDoesNotExist:
         print("IMPOSSIBLE DE RECUPERER CE PRODUIT")
