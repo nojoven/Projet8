@@ -43,7 +43,7 @@ class SimpleTest(TestCase):
         product_id = product.idproduct
 
         response = self.client.get(f"{self.URI_f_BASE}aliment/{product_id}")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 301)
 
     def test_views_resultats_empty(self):
         """Tests the HTTP response"""

@@ -53,8 +53,10 @@ class SimpleTest(TestCase):
         query = Products(**product)
         query.save()
 
-        data = DatabaseService.show_details(1)
-        print(data)
+        product = DatabaseService.select_product("Gazpacho")
+        product_id = product.idproduct
+
+        data = DatabaseService.show_details(product_id)
         assert data is not None
 
 
@@ -137,6 +139,39 @@ class TestRoles:
 
         except KeyError:
             return KeyError("USER DOES NOT EXISTS")
+
+    def test_views_create_update_user_data(
+        self,
+        provided_mail="user@gmail.com",
+        provided_password="test1234",
+        update_email="update@test.com",
+        update_first_name="Pierre",
+        update_last_name="Dupuis",
+    ):
+        """Tests the update of a profile"""
+        response = self.c.post(
+            "/roles/create", {
+                'prenom': 'Jean',
+                'nom': 'Dubois',
+                'mot_de_passe': provided_password,
+                'repeter_mot_de_passe': provided_password,
+                'mail': provided_mail,
+                'telephone': int("0606060606")
+            })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/foodfacts/roles/account/")
+
+        response = self.c.post(
+            "/roles/profileupdate", {
+                'update_first_name': update_first_name,
+                'update_last_name': update_last_name,
+                'update_email': update_email,
+                'confirm_email': provided_mail,
+                'confirm_password': provided_password
+            })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/foodfacts/roles/account/")
+
 
     def test_find_user_category_favourites(self):
         """Tests if a user has a product in a category"""
