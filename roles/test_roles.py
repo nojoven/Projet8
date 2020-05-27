@@ -160,7 +160,7 @@ class TestRoles(TestCase):
                 'telephone': int("0606060606")
             })
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, "/roles/account/")
+        self.assertEqual(response.url, "/roles/account")
 
         response = self.c.post(
             "/roles/profileupdate", {
