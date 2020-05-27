@@ -39,7 +39,10 @@ class SimpleTest(TestCase):
         query = Products(**product)
         query.save()
 
-        response = self.client.get(self.aliment_request)
+        product = DatabaseService.select_product("Gazpacho")
+        product_id = product.idproduct
+
+        response = self.client.get(f"{self.URI_f_BASE}aliment/{product_id}")
         self.assertEqual(response.status_code, 200)
 
     def test_views_resultats_empty(self):
