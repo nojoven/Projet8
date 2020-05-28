@@ -1,5 +1,4 @@
 """File of the views of this Django app are in this file."""
-from foodfacts.models import Products
 from foodfacts.modules.database_service import DatabaseService
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
@@ -75,7 +74,7 @@ def research_term(request, search_term):
     return render(request, "resultats.html", context)
 
 
-def product_chosen(request, product_chosen):
+def product_wanted(request, product_chosen):
     """Renders a context for the details page."""
     context = dict()
     try:

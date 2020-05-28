@@ -16,6 +16,7 @@ from .forms import (
 
 LOGGER = logging.getLogger(__name__)
 
+
 def create_user(request):
     """Creates a user based on form inputs"""
     if request.method == "POST":

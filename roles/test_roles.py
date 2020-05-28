@@ -4,14 +4,14 @@ that are specific to a user account
 """
 import pytest
 import logging
-import re as re
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect
 from django.test import TestCase, Client
 from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
 from foodfacts.modules.database_service import DatabaseService
-from roles.forms import CreateForm, UpdateProfileForm, LikeForm, SigninForm, UnlikeForm
+from roles.forms import (
+    CreateForm, UpdateProfileForm, LikeForm, SigninForm,
+    UnlikeForm)
 
 
 class SimpleTest(TestCase):

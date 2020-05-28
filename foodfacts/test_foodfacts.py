@@ -29,7 +29,8 @@ class SimpleTest(TestCase):
         response = self.client.get(self.resultats_gazpacho)
         self.assertEqual(response.status_code, 200)
 
-        response = self.c.post("/foodfacts/research", {'nav_search': 'Gazpacho'})
+        response = self.c.post("/foodfacts/research",
+                               {'nav_search': 'Gazpacho'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/foodfacts/resultats/Gazpacho/")
 
@@ -78,6 +79,3 @@ class SimpleTest(TestCase):
         assert selected is not None
 
     print(aliment_request)
-
-
-

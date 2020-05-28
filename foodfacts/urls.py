@@ -10,7 +10,7 @@ urlpatterns = [
     re_path(r"^resultats/?$",
             views.resultats, name="resultats"),
     path("aliment/<int:product_chosen>/",
-         views.product_chosen, name="product_chosen"),
+         views.product_wanted, name="product_chosen"),
     path("resultats/<str:search_term>/",
          views.research_term, name="search_term"),
     re_path(r"^research/?$",
