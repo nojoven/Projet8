@@ -3,6 +3,7 @@
 IMG_URL = "https://static.openfoodfacts.org/images/"\
           "products/301/136/002/3995/front_fr.39.400.jpg"
 PRODUCT_EXAMPLE = {
+    "idproduct": 44,
     "category": "soup",
     "stores": "Auchan",
     "brands": "Reflets",

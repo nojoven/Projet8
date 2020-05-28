@@ -13,6 +13,11 @@ omit =
         */usr/local/lib*
         *Test*
         */.virtualenvs/*
+        *apps*
+        *manage*
+        *wsgi*
+        *selenium*
+        *asgi*
 show_missing = True
 
 

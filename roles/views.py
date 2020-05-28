@@ -1,3 +1,4 @@
+import logging
 from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
@@ -13,6 +14,7 @@ from .forms import (
     LikeForm,
     UnlikeForm)
 
+LOGGER = logging.getLogger(__name__)
 
 def create_user(request):
     """Creates a user based on form inputs"""
@@ -36,7 +38,6 @@ def create_user(request):
                 return render(request, "register.html", {"form": form})
         else:
             return render(request, "register.html", {"form": form})
-
     return render(request, "register.html", {"form": CreateForm()})
 
 
@@ -131,7 +132,9 @@ def like(request):
     """Adds a favourite to the database for a user"""
     if request.method == "POST":
         form = LikeForm(request.POST)
+        LOGGER.info("LIKE FORM")
         if form.is_valid():
+            LOGGER.info("VALID FORM")
             liked_id = form.cleaned_data["liked_id"]
             replaced_id = form.cleaned_data["replaced_id"]
             replaced_name = form.cleaned_data["replaced_name"]

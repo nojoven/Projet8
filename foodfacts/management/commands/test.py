@@ -9,4 +9,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """This will understand 'test' as 'pytest -v -rf' """
-        os.system("pytest -v -rf")
+        os.system("pytest -o log_cli=TRUE -v -rf")

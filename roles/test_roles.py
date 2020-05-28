@@ -3,7 +3,10 @@ This is the file used to test the functions
 that are specific to a user account
 """
 import pytest
+import logging
+import re as re
 from django.contrib.auth import authenticate
+from django.http import HttpResponseRedirect
 from django.test import TestCase, Client
 from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
@@ -16,21 +19,30 @@ class SimpleTest(TestCase):
     class used to
     test the HTTP GET responses of views
     """
-    URI_r_BASE = "https://beurrepur.herokuapp.com/roles/"
+    URI_r_BASE = "http://localhost:8000/roles/"
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
     signin_request = f"{URI_r_BASE}signin/"
+    logout_request = f"{URI_r_BASE}logout/"
     favourites_request = f"{URI_r_BASE}favourites/"
     account_request = f"{URI_r_BASE}account/"
     register_request = f"{URI_r_BASE}register/"
     c = Client()
+    LOGGER = logging.getLogger(__name__)
 
     def test_views_signin(self):
         """Get of signin page"""
         response = self.client.get(self.signin_request)
         assert response.status_code == 200
-        self.client.post("/roles/signin", {'signin_email': 'ezzou@gmail.com', 'signin_password': 'ezzou'})
+        self.client.post("/roles/signin", {
+            'signin_email': 'ezzou@gmail.com',
+            'signin_password': 'ezzou'})
         self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response,
+            'form',
+            "signin_email",
+            None)
 
     def test_views_favourites(self):
         """Get of favourites page"""
@@ -45,6 +57,11 @@ class SimpleTest(TestCase):
     def test_views_register(self):
         """Get of register page"""
         response = self.client.get(self.register_request)
+        assert response.status_code == 200
+
+    def test_views_logout(self):
+        """Get of register page"""
+        response = self.client.get(self.logout_request)
         assert response.status_code == 200
 
     def test_service_details(self):
@@ -65,6 +82,7 @@ class TestRoles(TestCase):
     """Pytest will be used to verify the behaviour of
      the following functions"""
     c = Client()
+    LOGGER = logging.getLogger(__name__)
 
     provided_mail = "dubosc@gmail.com"
     provided_password = "Franck"
@@ -159,6 +177,7 @@ class TestRoles(TestCase):
                 'mail': provided_mail,
                 'telephone': int("0606060606")
             })
+        self.LOGGER.info(f"RESPONSE CREATE IS {response}")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/roles/account")
 
@@ -171,7 +190,6 @@ class TestRoles(TestCase):
                 'confirm_password': provided_password
             })
         self.assertEqual(response.status_code, 200)
-
 
     def test_find_user_category_favourites(self):
         """Tests if a user has a product in a category"""
@@ -321,6 +339,49 @@ class TestRoles(TestCase):
             })
         assert l_form.is_valid()
 
+    def test_views_like_form(self):
+        """Get of signin page"""
+        response = self.client.get(SimpleTest.signin_request)
+        assert response.status_code == 200
+        self.client.post("/roles/signin", {
+            'signin_email': 'ezzou@gmail.com',
+            'signin_password': 'ezzou'})
+
+        product = PRODUCT_EXAMPLE
+        query = Products(**product)
+        query.save()
+
+        """Creation of a favourite"""
+        like_data = dict()
+        like_data["productid"] = 44
+        like_data["name"] = "Gazpacho Vert"
+        like_data["nutrigrade"] = "a"
+        like_data["stores"] = "'auchan', 'magasins-u'"
+        like_data["brands"] = "Innocent"
+        like_data["category"] = "soup"
+        like_data["quantity"] = "84 g"
+        like_data["replacedid"] = 1
+        like_data["replacedarticle"] = "Gazpacho"
+        like_data["replacednutrigrade"] = "a"
+        like_data["userid"] = 2
+        like_data[
+            "front_img"
+        ] = IMG_URL
+        # if not Favorites.objects.filter(
+        #         productid=like_data["productid"]).exists():
+        query = Favorites(**like_data)
+        query.save()
+        self.LOGGER.info("SAVED")
+        """tests the like """
+        response = self.client.post("/roles/like/", {
+            'liked_id': like_data["productid"],
+            "replaced_id": like_data["replacedid"],
+            "replaced_name": like_data["replacedarticle"],
+            "replaced_nutrigrade": like_data["replacednutrigrade"],
+            "userid": like_data["userid"]
+        })
+        self.assertEqual(response.status_code, 302)
+
     def test_unlike_form(self):
         """Tests the unlike form"""
         unliked_id = 999
@@ -331,6 +392,46 @@ class TestRoles(TestCase):
                 "userid_unlike": userid_unlike
             })
         assert unl_form.is_valid()
+
+    def test_views_unlike_form(self):
+        """Get of signin page"""
+        response = self.client.get(SimpleTest.signin_request)
+        assert response.status_code == 200
+        self.client.post("/roles/signin", {
+            'signin_email': 'ezzou@gmail.com',
+            'signin_password': 'ezzou'})
+
+        product = PRODUCT_EXAMPLE
+        query = Products(**product)
+        query.save()
+
+        """Creation of a favourite"""
+        like_data = dict()
+        like_data["productid"] = 44
+        like_data["name"] = "Gazpacho Vert"
+        like_data["nutrigrade"] = "a"
+        like_data["stores"] = "'auchan', 'magasins-u'"
+        like_data["brands"] = "Innocent"
+        like_data["category"] = "soup"
+        like_data["quantity"] = "84 g"
+        like_data["replacedid"] = 1
+        like_data["replacedarticle"] = "Gazpacho"
+        like_data["replacednutrigrade"] = "a"
+        like_data["userid"] = 2
+        like_data[
+            "front_img"
+        ] = IMG_URL
+        # if not Favorites.objects.filter(
+        #         productid=like_data["productid"]).exists():
+        query = Favorites(**like_data)
+        query.save()
+        self.LOGGER.info("SAVED")
+        """tests the like """
+        response = self.client.post("/roles/unlike/", {
+            'unliked_id': like_data["productid"],
+            "userid_unlike": like_data["userid"]
+        })
+        self.assertEqual(response.status_code, 302)
 
     def test_signin_form(self):
         """Tests the signin form"""
