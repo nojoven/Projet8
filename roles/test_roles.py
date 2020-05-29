@@ -340,7 +340,7 @@ class TestRoles(TestCase):
         assert l_form.is_valid()
 
     def test_views_like_form(self):
-        """Get of signin page"""
+        """Tests the like """
         response = self.client.get(SimpleTest.signin_request)
         assert response.status_code == 200
         self.client.post("/roles/signin", {
@@ -394,7 +394,7 @@ class TestRoles(TestCase):
         assert unl_form.is_valid()
 
     def test_views_unlike_form(self):
-        """Get of signin page"""
+        """Test the unlike wiew"""
         response = self.client.get(SimpleTest.signin_request)
         assert response.status_code == 200
         self.client.post("/roles/signin", {
