@@ -2,20 +2,20 @@ README DU PROJET 8
 
 Présentation
 
-L'objectif de ce projet est de récupérer des données mises à disposition par l'API OpenFoodFacts afin de développer une solution web fullstack avec le framework backend Django.
+L'objectif de ce projet est de récupérer des données mises à disposition
+par l'API OpenFoodFacts afin de développer une solution web fullstack
+avec le framework backend Django.
 
-Le client est PurBeurre comme au projet 5.
-D'après le cahier des charges qu'il nous a fourni il souhaite:
-- l'utilisation de sa charte graphique
-- l'intégration d'un template téléchargeable
-- des couleurs chaudes 
-- cette icône de carotte pour le menu. 
-- une photo qu'il a choisie en fond de la page d’accueil.
+Le client est PurBeurre comme au projet 5. D'après le cahier des charges
+qu'il nous a fourni il souhaite: - l'utilisation de sa charte graphique
+- l'intégration d'un template téléchargeable - des couleurs chaudes -
+cette icône de carotte pour le menu. - une photo qu'il a choisie en fond
+de la page d’accueil.
 
-Le projet est suivi sur Trello et le produit final est accessible à l’adresse 
-https://beurrepur.herokuapp.com/ 
+Le projet est suivi sur Trello et le produit final est accessible à
+l’adresse https://beurrepur.herokuapp.com/
 
-Lien Github : https://github.com/nojoven/Projet8 
+Lien Github : https://github.com/nojoven/Projet8
 
 Exécution
 
@@ -33,5 +33,3 @@ Exécution
     • Exécution des tests d’intégration : python manage.py test
     • Tests de couverture : coverage run suivi de coverage report (voir documentation de la stratégie de tests)
     • Lecture des logs heroku : heroku logs --tail
-
-
