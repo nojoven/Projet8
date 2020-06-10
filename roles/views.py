@@ -28,7 +28,7 @@ def create_user(request):
             username = f"{user_first_name}{user_phone_ending}{user_last_name}"
             password = form.cleaned_data["mot_de_passe"]
             mail = form.cleaned_data["mail"]
-            user = create_user(
+            user = make_user(
                 username, password, mail, user_first_name, user_last_name
             )
             if user is not None:
@@ -204,7 +204,7 @@ def account(request):
 """You'll find the functions below """
 
 
-def create_user(
+def make_user(
         username,
         password,
         mail,
@@ -258,6 +258,7 @@ def select_user_favs(userid):
     user_favs = models.Favorites.objects.filter(
         userid=userid)
     return user_favs
+
 
 def remove_user_fav(userid_unlike, unliked_id):
     """Removes a article from the user's favourites list"""
