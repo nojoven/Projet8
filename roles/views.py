@@ -11,7 +11,8 @@ from .forms import (
     SigninForm,
     UpdateProfileForm,
     LikeForm,
-    UnlikeForm)
+    UnlikeForm
+)
 
 LOGGER = logging.getLogger(__name__)
 
