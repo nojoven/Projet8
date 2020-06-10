@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import foodfacts.models as models
+from random import randrange as ra
 from .forms import (
     CreateForm,
     SigninForm,
@@ -24,13 +25,15 @@ def create_user(request):
         if form.is_valid():
             user_first_name = form.cleaned_data["prenom"]
             user_last_name = form.cleaned_data["nom"]
-            user_phone = form.cleaned_data["telephone"]
-            user_phone_ending = user_phone[-6:-1]
-            username = f"{user_first_name}{user_phone_ending}{user_last_name}"
+            username = f"{user_first_name}{ra(9999)}{user_last_name}"
             password = form.cleaned_data["mot_de_passe"]
             mail = form.cleaned_data["mail"]
             user = make_user(
-                username, password, mail, user_first_name, user_last_name
+                username,
+                password,
+                mail,
+                user_first_name,
+                user_last_name
             )
             if user is not None:
                 login(request, user)
@@ -61,7 +64,8 @@ def signin_user(request):
         else:
             form.add_error(
                 field="signin_email",
-                error=ValidationError("Email incorrect", code="signin_mail"),
+                error=ValidationError("Email incorrect",
+                                      code="signin_mail"),
             )
             form.add_error(
                 field="signin_password",

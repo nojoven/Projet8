@@ -10,7 +10,6 @@ class CreateForm(forms.Form):
     mot_de_passe = forms.CharField(max_length=100)
     repeter_mot_de_passe = forms.CharField(max_length=100)
     mail = forms.CharField(max_length=100)
-    telephone = forms.CharField(max_length=100)
 
     def is_valid(self):
 
