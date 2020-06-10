@@ -1,12 +1,11 @@
 import logging
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
 import foodfacts.models as models
-from foodfacts.modules.database_service import DatabaseService
 from .forms import (
     CreateForm,
     SigninForm,
@@ -29,7 +28,7 @@ def create_user(request):
             username = f"{user_first_name}{user_phone_ending}{user_last_name}"
             password = form.cleaned_data["mot_de_passe"]
             mail = form.cleaned_data["mail"]
-            user = DatabaseService.create_user(
+            user = create_user(
                 username, password, mail, user_first_name, user_last_name
             )
             if user is not None:
@@ -50,7 +49,7 @@ def signin_user(request):
         if form.is_valid():
             provided_mail = form.cleaned_data["signin_email"]
             provided_password = form.cleaned_data["signin_password"]
-            user = DatabaseService.identify(
+            user = identify(
                 request,
                 provided_mail,
                 provided_password)
@@ -89,7 +88,7 @@ def update_profile(request):
         if update_first_name \
                 or update_last_name \
                 or update_email:
-            user = DatabaseService.identify(
+            user = identify(
                 request, confirm_email,
                 confirm_password)
             if user is not None:
@@ -143,7 +142,7 @@ def like(request):
             userid = form.cleaned_data["userid"]
 
             if liked_id:
-                product = DatabaseService.select_liked_in_products(liked_id)
+                product = select_liked_in_products(liked_id)
 
                 like_data = dict()
                 like_data["productid"] = liked_id
@@ -175,7 +174,7 @@ def like(request):
 def favourites(request):
     """Allows to display the favourites of a user in the template"""
     userid = request.user.id
-    user_favs = DatabaseService.select_user_favs(userid)
+    user_favs = select_user_favs(userid)
     return render(request, "mes_aliments.html", {"favlist": user_favs})
 
 
@@ -186,7 +185,7 @@ def unlike(request):
         if form.is_valid():
             unliked_id = form.cleaned_data["unliked_id"]
             userid_unlike = form.cleaned_data["userid_unlike"]
-            DatabaseService.remove_user_fav(userid_unlike, unliked_id)
+            remove_user_fav(userid_unlike, unliked_id)
 
         url = reverse("favourites")
         return HttpResponseRedirect(url)
@@ -200,3 +199,70 @@ def register(request):
 def account(request):
     """Returns the account page"""
     return render(request, "mon_compte.html")
+
+
+"""You'll find the functions below """
+
+
+def create_user(
+        username,
+        password,
+        mail,
+        user_first_name,
+        user_last_name):
+    """
+    This easily creates a user
+    thanks to the Django admin system.
+    """
+    user = User.objects.create_user(
+        username=username,
+        password=password,
+        email=mail,
+        first_name=user_first_name,
+        last_name=user_last_name,
+    )
+    user.save()
+    return user
+
+
+def identify(request,
+             provided_mail,
+             provided_password
+             ):
+    """
+    This performs a SELECT request
+    to authenticate a specific user
+    """
+    user = authenticate(request,
+                        username=provided_mail,
+                        password=provided_password
+                        )
+    return user
+
+
+def select_liked_in_products(liked_id):
+    """
+    This returns the entire row of the product that we
+    want to add to favourites
+    """
+    product = models.Products.objects.get(
+        idproduct=liked_id
+    )
+    return product
+
+
+def select_user_favs(userid):
+    """
+    Returns the favourites rows of a specific user
+    """
+    user_favs = models.Favorites.objects.filter(
+        userid=userid)
+    return user_favs
+
+def remove_user_fav(userid_unlike, unliked_id):
+    """Removes a article from the user's favourites list"""
+    unliked_product = models.Favorites.objects.get(
+        userid=userid_unlike, productid=unliked_id
+    )
+    unliked_product.delete()
+    return unliked_product
