@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ["roles.EmailBackend.EmailBackend"]
+AUTHENTICATION_BACKENDS = ["roles.EmailBackend.EmailBackend", "django.contrib.auth.backends.AllowAllUsersModelBackend"]
 
 WSGI_APPLICATION = "PurBeurre.wsgi.application"
 

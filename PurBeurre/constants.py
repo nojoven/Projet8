@@ -5,6 +5,10 @@ constants to the project's functions
 
 IMG_URL = "https://static.openfoodfacts.org/images/"\
           "products/301/136/002/3995/front_fr.39.400.jpg"
+
+CATEGORIES_URL = "https://world.openfoodfacts.org/"\
+                 "categories.json"
+
 PRODUCT_EXAMPLE = {
     "idproduct": 44,
     "category": "soup",

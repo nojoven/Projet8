@@ -42,10 +42,11 @@ def research(request):
     return HttpResponseRedirect(url)
 
 
-def research_term(request, search_term):
+def research_term(request): # ici en argument request.GET
     """Renders a context for the results page"""
     user_id = request.user.id
     context = {}
+    search_term = request.GET.get("nav_search")
     try:
         term_data = select_product(search_term)
         term_category = term_data.category

@@ -1,5 +1,7 @@
 import logging
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm # changer noms inputs
+# django form.as_p() dans mon formulaire
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
@@ -8,7 +10,7 @@ from django.urls import reverse
 import foodfacts.models as models
 from random import randrange as ra
 from .forms import (
-    CreateForm,
+    # CreateForm,
     SigninForm,
     UpdateProfileForm,
     LikeForm,
@@ -21,28 +23,16 @@ LOGGER = logging.getLogger(__name__)
 def create_user(request):
     """Creates a user based on form inputs"""
     if request.method == "POST":
-        form = CreateForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
-            user_first_name = form.cleaned_data["prenom"]
-            user_last_name = form.cleaned_data["nom"]
-            username = f"{user_first_name}{ra(9999)}{user_last_name}"
-            password = form.cleaned_data["mot_de_passe"]
-            mail = form.cleaned_data["mail"]
-            user = make_user(
-                username,
-                password,
-                mail,
-                user_first_name,
-                user_last_name
-            )
-            if user is not None:
-                login(request, user)
-                return HttpResponseRedirect("/roles/account")
-            else:
-                return render(request, "register.html", {"form": form})
+            form.save()
+            # form.username, password
+              #  login avec username et password
+            return HttpResponseRedirect("/roles/account")
         else:
             return render(request, "register.html", {"form": form})
-    return render(request, "register.html", {"form": CreateForm()})
+
+    return render(request, "register.html", {"form": UserCreationForm()})
 
 
 def signin_user(request):
@@ -58,20 +48,18 @@ def signin_user(request):
                 provided_mail,
                 provided_password)
 
-        if user is not None:
-            login(request, user)
-            return render(request, "mon_compte.html")
+            if user is not None:
+                login(request, user)
+                return render(request, "mon_compte.html")
+            else:
+                form.add_error(
+                        field="signin_email",
+                        error=ValidationError("Email ou mot de passe incorrect"),
+                    )
+                return render(request, "signin.html", {"form": form})
+
         else:
-            form.add_error(
-                field="signin_email",
-                error=ValidationError("Email incorrect",
-                                      code="signin_mail"),
-            )
-            form.add_error(
-                field="signin_password",
-                error=ValidationError("Mot de passe incorrect",
-                                      code="signin_password"),
-            )
+            # traiter les pb de longueur ou d'invalidité dans forms.py
             return render(request, "signin.html", {"form": form})
 
     return render(request, "signin.html", {"form": SigninForm()})
@@ -133,45 +121,36 @@ def logout_user(request):
     return render(request, "signin.html")
 
 
-def like(request):
+def like(request, product_id, replaced_id):
     """Adds a favourite to the database for a user"""
     if request.method == "POST":
-        form = LikeForm(request.POST)
         LOGGER.info("LIKE FORM")
-        if form.is_valid():
-            LOGGER.info("VALID FORM")
-            liked_id = form.cleaned_data["liked_id"]
-            replaced_id = form.cleaned_data["replaced_id"]
-            replaced_name = form.cleaned_data["replaced_name"]
-            replaced_nutrigrade = form.cleaned_data["replaced_nutrigrade"]
-            userid = form.cleaned_data["userid"]
+        user = request.user
 
-            if liked_id:
-                product = select_liked_in_products(liked_id)
+        if product_id:
+            product = select_liked_in_products(product_id)
 
-                like_data = dict()
-                like_data["productid"] = liked_id
-                like_data["name"] = product.productname
-                like_data["nutrigrade"] = product.nutrigrade
-                like_data["stores"] = product.stores
-                like_data["brands"] = product.brands
-                like_data["category"] = product.category
-                like_data["quantity"] = product.quantity
-                like_data["replacedid"] = replaced_id
-                like_data["replacedarticle"] = replaced_name
-                like_data["replacednutrigrade"] = replaced_nutrigrade
-                like_data["userid"] = userid
-                like_data["front_img"] = product.front_img
+            like_data = dict()
+            like_data["productid"] = product_id
+            like_data["name"] = product.productname
+            like_data["nutrigrade"] = product.nutrigrade
+            like_data["stores"] = product.stores
+            like_data["brands"] = product.brands
+            like_data["category"] = product.category
+            like_data["quantity"] = product.quantity
+            like_data["replacedid"] = replaced_id
+            like_data["userid"] = user.id
+            like_data["front_img"] = product.front_img
 
-                if not models.Favorites.objects.filter(
-                    productid=product.idproduct
-                ).exists():
-                    query = models.Favorites(**like_data)
-                    query.save()
-            url = reverse("search_term", args=[replaced_name])
-            return HttpResponseRedirect(url)
+            if not models.Favorites.objects.filter(
+                productid=product.idproduct
+            ).exists():
+                query = models.Favorites(**like_data)
+                query.save()
+            # url = reverse("search_term", args=[replaced_name])
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
         else:
-            return render(request, "resultats.html", {"form": form})
+            return render(request, "resultats.html")
     else:
         return render(request, "resultats.html")
 
@@ -180,18 +159,17 @@ def favourites(request):
     """Allows to display the favourites of a user in the template"""
     userid = request.user.id
     user_favs = select_user_favs(userid)
-    return render(request, "mes_aliments.html", {"favlist": user_favs})
+    return render(
+        request, "mes_aliments.html", {"favlist": user_favs}
+    )
 
 
-def unlike(request):
+def unlike(request, unliked_id):
     """Adds a favourite to the database for a user"""
     if request.method == "POST":
-        form = UnlikeForm(request.POST)
-        if form.is_valid():
-            unliked_id = form.cleaned_data["unliked_id"]
-            userid_unlike = form.cleaned_data["userid_unlike"]
-            remove_user_fav(userid_unlike, unliked_id)
-
+        remove_user_fav(
+            request.user.id, unliked_id
+        )
         url = reverse("favourites")
         return HttpResponseRedirect(url)
 

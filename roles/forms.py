@@ -1,10 +1,11 @@
 """This form contains the forms of the roles app."""
 from django import forms
+from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 
-
+"""
 class CreateForm(forms.Form):
-    """This is the sign up form """
+    """'This is the sign up form '"""
     prenom = forms.CharField(max_length=100)
     nom = forms.CharField(max_length=100)
     mot_de_passe = forms.CharField(max_length=100)
@@ -25,12 +26,26 @@ class CreateForm(forms.Form):
             return False
 
         return super().is_valid()
-
+"""
 
 class SigninForm(forms.Form):
     """This is the sign in form """
-    signin_email = forms.CharField(max_length=100)
-    signin_password = forms.CharField(max_length=100)
+    signin_email = forms.CharField(max_length=100, required=True)
+    signin_password = forms.CharField(max_length=100, required=True)
+
+    def clean(self):
+        # data from the form is fetched using super function
+        super(SigninForm, self).clean()
+
+        # extract the username and text field from the data
+        signin_email = self.cleaned_data.get('signin_email')
+        signin_password = self.cleaned_data.get('signin_password')
+        # if  len(....   if not contains...
+        if len(signin_password) < 4:
+            self._errors['signin_password'] = self.error_class([
+                'Password  Should Contain a minimum of 5 characters'])
+
+        return self.cleaned_data
 
 
 class UpdateProfileForm(forms.Form):
