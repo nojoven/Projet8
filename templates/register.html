@@ -39,19 +39,24 @@
                 <div class="row register-form">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" required name="prenom" placeholder="Prénom *" value="{{ form.first.value }}" />
+                            <input type="text" class="form-control" required name="username" id="username" placeholder="Nom d'utilisateur *" value="{{ form.username.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" required name="nom" placeholder="Nom *" value="{{ form.last.value }}" />
+                            <input type="text" class="form-control" required name="first_name" placeholder="Prénom *" value="{{ form.first_name.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" required name="mot_de_passe" placeholder="Mot de passe *"  />
+                            <input type="text" class="form-control" required name="last_name" placeholder="Nom *" value="{{ form.last_name.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" required name="repeter_mot_de_passe" placeholder="Mot de passe *"  />
+                            <input type="email" class="form-control" required name="email"  placeholder="Email *" value="{{ form.email.value }}" />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" name="mail" required placeholder="Mail *" value="{{ form.mail.value }}" />
+                            <label for="Password" ></label>
+                            <input type="password" class="form-control" required name="password1" id="Password" placeholder="Mot de passe *"  />
+                        </div>
+                        <div class="form-group">
+                            <label for="Password confirmation"></label>
+                            <input type="password" class="form-control" required name="password2" id="Password confirmation" placeholder="Mot de passe *"  />
                         </div>
                     </div>
                     <div class="col-md-12">

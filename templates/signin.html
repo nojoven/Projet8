@@ -32,6 +32,7 @@
                 <hr class="divider my-4" />
                         {% if form.errors.items|length > 0  %}
                             <h5>VEUILLEZ CORRIGER AU MOINS UNE ERREUR PARMI:</h5>
+                            <h5>{{form}}</h5>
                                 {% for field, error in form.errors.items %}
                             <div style="color: red"><strong>{{field}}: {{ error }}</strong></div>
                             {% endfor %}
@@ -40,12 +41,12 @@
                     <form action="/roles/signin" method="post">
                       {% csrf_token %}
                       <div class="form-group">
-                        <label for="signin_email">Email </label>
-                        <input type="email" class="form-control" name="signin_email" required id="signin_email" aria-describedby="emailHelp">
+                        <label for="email">Email </label>
+                        <input type="email" class="form-control" name="email" required id="email" aria-describedby="emailHelp">
                       </div>
                       <div class="form-group">
-                        <label for="signin_password">Mot de passe</label>
-                        <input type="password" class="form-control" id="signin_password" name="signin_password" required>
+                        <label for="password">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
                       </div>
                         <center><input type="submit" class="btn btn-primary"></center>
                         <center><big id="emailHelp" class="form-text "><a href="/roles/register" name="register_link"><strong>S'inscrire</strong></a></big></center>

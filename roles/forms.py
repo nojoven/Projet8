@@ -30,20 +30,21 @@ class CreateForm(forms.Form):
 
 class SigninForm(forms.Form):
     """This is the sign in form """
-    signin_email = forms.CharField(max_length=100, required=True)
-    signin_password = forms.CharField(max_length=100, required=True)
+    email = forms.CharField(max_length=100, required=True)
+    password = forms.CharField(max_length=100, required=True)
 
     def clean(self):
         # data from the form is fetched using super function
         super(SigninForm, self).clean()
 
         # extract the username and text field from the data
-        signin_email = self.cleaned_data.get('signin_email')
-        signin_password = self.cleaned_data.get('signin_password')
+        self.email = self.cleaned_data.get('email')
+        self.password = self.cleaned_data.get('password')
         # if  len(....   if not contains...
-        if len(signin_password) < 4:
-            self._errors['signin_password'] = self.error_class([
-                'Password  Should Contain a minimum of 5 characters'])
+
+        if len(self.password) < 2:
+            self._errors['password'] = self.error_class([
+                'Password  Should Contain a minimum of 2 characters'])
 
         return self.cleaned_data
 

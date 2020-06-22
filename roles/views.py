@@ -24,11 +24,14 @@ def create_user(request):
     """Creates a user based on form inputs"""
     if request.method == "POST":
         form = UserCreationForm(request.POST)
+        print(request)
         if form.is_valid():
+            print("YEEEEES")
             form.save()
             # form.username, password
-              #  login avec username et password
-            return HttpResponseRedirect("/roles/account")
+            # login avec username et password
+            # return HttpResponseRedirect("/roles/account")
+            return HttpResponseRedirect("/roles/signin")
         else:
             return render(request, "register.html", {"form": form})
 
@@ -41,19 +44,20 @@ def signin_user(request):
         form = SigninForm(request.POST)
         user = None
         if form.is_valid():
-            provided_mail = form.cleaned_data["signin_email"]
-            provided_password = form.cleaned_data["signin_password"]
-            user = identify(
+            provided_mail = form.cleaned_data["email"]
+            provided_password = form.cleaned_data["password"]
+            user = authenticate(
                 request,
-                provided_mail,
-                provided_password)
+                username=provided_mail,
+                password=provided_password
+                )
 
             if user is not None:
                 login(request, user)
                 return render(request, "mon_compte.html")
             else:
                 form.add_error(
-                        field="signin_email",
+                        field="email",
                         error=ValidationError("Email ou mot de passe incorrect"),
                     )
                 return render(request, "signin.html", {"form": form})
@@ -81,9 +85,12 @@ def update_profile(request):
         if update_first_name \
                 or update_last_name \
                 or update_email:
-            user = identify(
-                request, confirm_email,
-                confirm_password)
+            user = authenticate(
+                request,
+                username=confirm_email,
+                password=confirm_password
+                )
+
             if user is not None:
                 if update_email != "":
                     user.email = update_email
@@ -205,21 +212,6 @@ def make_user(
         last_name=user_last_name,
     )
     user.save()
-    return user
-
-
-def identify(request,
-             provided_mail,
-             provided_password
-             ):
-    """
-    This performs a SELECT request
-    to authenticate a specific user
-    """
-    user = authenticate(request,
-                        username=provided_mail,
-                        password=provided_password
-                        )
     return user
 
 
