@@ -1,32 +1,20 @@
 """This form contains the forms of the roles app."""
 from django import forms
-from django.forms import ModelForm
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
 
-"""
-class CreateForm(forms.Form):
+
+class CreateForm(UserCreationForm):
     """'This is the sign up form '"""
-    prenom = forms.CharField(max_length=100)
-    nom = forms.CharField(max_length=100)
-    mot_de_passe = forms.CharField(max_length=100)
-    repeter_mot_de_passe = forms.CharField(max_length=100)
-    mail = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100)
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    email = forms.CharField(max_length=100)
 
-    def is_valid(self):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email',)
 
-        if self.data.get("mot_de_passe") \
-                != self.data.get("repeter_mot_de_passe"):
-            self.add_error(
-                field="mot_de_passe",
-                error=ValidationError(
-                    "Les mots de passe doivent être identiques",
-                    code="unmatch",
-                ),
-            )
-            return False
-
-        return super().is_valid()
-"""
 
 class SigninForm(forms.Form):
     """This is the sign in form """
@@ -40,7 +28,6 @@ class SigninForm(forms.Form):
         # extract the username and text field from the data
         self.email = self.cleaned_data.get('email')
         self.password = self.cleaned_data.get('password')
-        # if  len(....   if not contains...
 
         if len(self.password) < 2:
             self._errors['password'] = self.error_class([
@@ -49,13 +36,17 @@ class SigninForm(forms.Form):
         return self.cleaned_data
 
 
-class UpdateProfileForm(forms.Form):
+class UpdateProfileForm(UserChangeForm):
     """This is the update form """
-    update_email = forms.CharField(max_length=100)
-    update_first_name = forms.CharField(max_length=100)
-    update_last_name = forms.CharField(max_length=100)
-    confirm_email = forms.CharField(max_length=100)
-    confirm_password = forms.CharField(max_length=100)
+    email = forms.CharField(max_length=100)
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    old_email = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=100)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserChangeForm.Meta.fields + ('first_name', 'last_name', 'email',)
 
 
 class LikeForm(forms.Form):

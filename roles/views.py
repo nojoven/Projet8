@@ -1,16 +1,14 @@
 import logging
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm # changer noms inputs
-# django form.as_p() dans mon formulaire
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import foodfacts.models as models
-from random import randrange as ra
 from .forms import (
-    # CreateForm,
+    CreateForm,
     SigninForm,
     UpdateProfileForm,
     LikeForm,
@@ -23,15 +21,19 @@ LOGGER = logging.getLogger(__name__)
 def create_user(request):
     """Creates a user based on form inputs"""
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        print(request)
+        form = CreateForm(request.POST)
         if form.is_valid():
-            print("YEEEEES")
             form.save()
-            # form.username, password
-            # login avec username et password
-            # return HttpResponseRedirect("/roles/account")
-            return HttpResponseRedirect("/roles/signin")
+            user = authenticate(
+                request,
+                username=form.cleaned_data.get("username"),
+                password=form.cleaned_data.get("password1")
+            )
+            if user is not None:
+                login(request, user)
+                return render(request, "mon_compte.html")
+            else:
+                return render(request, "register.html", {"form": form})
         else:
             return render(request, "register.html", {"form": form})
 
@@ -51,7 +53,6 @@ def signin_user(request):
                 username=provided_mail,
                 password=provided_password
                 )
-
             if user is not None:
                 login(request, user)
                 return render(request, "mon_compte.html")
