@@ -36,12 +36,12 @@ class SigninForm(forms.Form):
         return self.cleaned_data
 
 
-class UpdateProfileForm(UserChangeForm):
+class UpdateProfileForm(forms.ModelForm):
     """This is the update form """
     email = forms.CharField(max_length=100)
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
 
-    class Meta(UserChangeForm.Meta):
+    class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')

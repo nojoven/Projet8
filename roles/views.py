@@ -4,9 +4,13 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-import foodfacts.models as models
+from foodfacts.models import (
+    Favorites,
+    Products
+)
+
 from .forms import (
     CreateForm,
     SigninForm,
@@ -29,13 +33,13 @@ def create_user(request):
             )
             if user is not None:
                 login(request, user)
-                return render(request, "mon_compte.html")
+                return redirect("account")
             else:
                 return render(request, "register.html", {"form": form})
         else:
             return render(request, "register.html", {"form": form})
 
-    return render(request, "register.html", {"form": UserCreationForm()})
+    return render(request, "register.html", {"form": CreateForm()})
 
 
 def signin_user(request):
@@ -75,7 +79,7 @@ def update_profile(request):
 
         if form.is_valid():
             form.save()
-            return render(request, "mon_compte.html", {"user": request.user})
+            return render(request, "mon_compte.html", {"form": UpdateProfileForm(instance=request.user)})
         else:
             return render(request, "mon_compte.html", {"form": form})
     else:
@@ -108,10 +112,10 @@ def like(request, product_id, replaced_id):
             like_data["userid"] = user.id
             like_data["front_img"] = product.front_img
 
-            if not models.Favorites.objects.filter(
+            if not Favorites.objects.filter(
                 productid=product.idproduct
             ).exists():
-                query = models.Favorites(**like_data)
+                query = Favorites(**like_data)
                 query.save()
             return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
         else:
@@ -139,38 +143,9 @@ def unlike(request, unliked_id):
         return HttpResponseRedirect(url)
 
 
-def register(request):
-    """Returns the register page"""
-    return render(request, "register.html")
-
-
 def account(request):
     """Returns the account page"""
     return render(request, "mon_compte.html")
-
-
-"""You'll find the functions below """
-
-
-def make_user(
-        username,
-        password,
-        mail,
-        user_first_name,
-        user_last_name):
-    """
-    This easily creates a user
-    thanks to the Django admin system.
-    """
-    user = User.objects.create_user(
-        username=username,
-        password=password,
-        email=mail,
-        first_name=user_first_name,
-        last_name=user_last_name,
-    )
-    user.save()
-    return user
 
 
 def select_liked_in_products(liked_id):
@@ -178,7 +153,7 @@ def select_liked_in_products(liked_id):
     This returns the entire row of the product that we
     want to add to favourites
     """
-    product = models.Products.objects.get(
+    product = Products.objects.get(
         idproduct=liked_id
     )
     return product
@@ -188,14 +163,14 @@ def select_user_favs(userid):
     """
     Returns the favourites rows of a specific user
     """
-    user_favs = models.Favorites.objects.filter(
+    user_favs = Favorites.objects.filter(
         userid=userid)
     return user_favs
 
 
 def remove_user_fav(userid_unlike, unliked_id):
     """Removes a article from the user's favourites list"""
-    unliked_product = models.Favorites.objects.get(
+    unliked_product = Favorites.objects.get(
         userid=userid_unlike, productid=unliked_id
     )
     unliked_product.delete()

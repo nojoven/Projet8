@@ -13,6 +13,6 @@ urlpatterns = [
     path("like/<int:product_id>/<int:replaced_id>/", views.like, name="like"),
     path("unlike/<int:unliked_id>/", views.unlike, name="unlike"),
     re_path(r"^favourites/?$", views.favourites, name="favourites"),
-    re_path(r"^register/?$", views.register, name="register"),
-    re_path(r"^account/?$", views.account, name="account"),
+    re_path(r"^register/?$", views.create_user, name="register"),
+    re_path(r"^account/?$", views.update_profile, name="account"),
 ]
