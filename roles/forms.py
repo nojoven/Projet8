@@ -41,24 +41,7 @@ class UpdateProfileForm(UserChangeForm):
     email = forms.CharField(max_length=100)
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
-    old_email = forms.CharField(max_length=100)
-    password = forms.CharField(max_length=100)
 
-    class Meta(UserCreationForm.Meta):
+    class Meta(UserChangeForm.Meta):
         model = User
-        fields = UserChangeForm.Meta.fields + ('first_name', 'last_name', 'email',)
-
-
-class LikeForm(forms.Form):
-    """This is the form to add a favourite."""
-    liked_id = forms.IntegerField()
-    replaced_id = forms.CharField(max_length=100)
-    replaced_name = forms.CharField(max_length=100)
-    replaced_nutrigrade = forms.CharField(max_length=100)
-    userid = forms.CharField(max_length=100)
-
-
-class UnlikeForm(forms.Form):
-    """This is the form to delete a favourite."""
-    unliked_id = forms.IntegerField()
-    userid_unlike = forms.CharField(max_length=100)
+        fields = ('first_name', 'last_name', 'email')

@@ -10,9 +10,7 @@ import foodfacts.models as models
 from .forms import (
     CreateForm,
     SigninForm,
-    UpdateProfileForm,
-    LikeForm,
-    UnlikeForm
+    UpdateProfileForm
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -73,54 +71,15 @@ def signin_user(request):
 def update_profile(request):
     """Updates user data based on user inputs."""
     if request.method == "POST":
-        form = UpdateProfileForm(request.POST)
+        form = UpdateProfileForm(request.POST, instance=request.user)
+
         if form.is_valid():
-            update_first_name = form.cleaned_data["update_first_name"]
-            update_last_name = form.cleaned_data["update_last_name"]
-            update_email = form.cleaned_data["update_email"]
-            confirm_email = form.cleaned_data["confirm_email"]
-            confirm_password = form.cleaned_data["confirm_password"]
+            form.save()
+            return render(request, "mon_compte.html", {"user": request.user})
         else:
             return render(request, "mon_compte.html", {"form": form})
-
-        if update_first_name \
-                or update_last_name \
-                or update_email:
-            user = authenticate(
-                request,
-                username=confirm_email,
-                password=confirm_password
-                )
-
-            if user is not None:
-                if update_email != "":
-                    user.email = update_email
-                if update_first_name != "":
-                    user.first_name = update_first_name
-                if update_last_name != "":
-                    user.last_name = update_last_name
-                user.save()
-                return render(request, "mon_compte.html", {"user": user})
-            else:
-                form.add_error(
-                    field="confirm_email",
-                    error=ValidationError(
-                        "Email de confirmation incorrect",
-                        code="confirm_email"
-                    ),
-                )
-                form.add_error(
-                    field="confirm_password",
-                    error=ValidationError(
-                        "Mot de passe à bien confirmer.",
-                        code="confirm_email"
-                    ),
-                )
-                return render(request, "mon_compte.html", {"form": form})
-        else:
-            return render(request, "mon_compte.html", {"form": form})
-
-    return render(request, "mon_compte.html", {"form": UpdateProfileForm()})
+    else:
+        return render(request, "mon_compte.html", {"form": UpdateProfileForm(instance=request.user)})
 
 
 def logout_user(request):
@@ -132,7 +91,6 @@ def logout_user(request):
 def like(request, product_id, replaced_id):
     """Adds a favourite to the database for a user"""
     if request.method == "POST":
-        LOGGER.info("LIKE FORM")
         user = request.user
 
         if product_id:
@@ -155,7 +113,6 @@ def like(request, product_id, replaced_id):
             ).exists():
                 query = models.Favorites(**like_data)
                 query.save()
-            # url = reverse("search_term", args=[replaced_name])
             return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
         else:
             return render(request, "resultats.html")
