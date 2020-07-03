@@ -23,9 +23,9 @@
                         <h2 class="text-white font-weight-light title-font mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
                     </div>
                     <div class="col-lg-12 align-self-baseline">
-                        <form action="/foodfacts/research" method="post">
+                        <form action="/foodfacts/resultats/" method="get">
                              {% csrf_token %}
-                        <input type="text" size="30" name="nav_search" value="" placeholder="   Search..." style="margin-right: 4px;  text-align:'center';"><i class="fa fa-search" style="color:#C45525;"></i>
+                        <input type="text" size="30" name="nav_search" value="{{request.GET.nav_search}}" placeholder="   Search..." style="margin-right: 4px;  text-align:'center';"><i class="fa fa-search" style="color:#C45525;"></i>
                         </form>
                     </div>
                 </div>
