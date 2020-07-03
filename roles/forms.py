@@ -1,6 +1,6 @@
 """This form contains the forms of the roles app."""
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
@@ -20,6 +20,10 @@ class SigninForm(forms.Form):
     """This is the sign in form """
     email = forms.CharField(max_length=100, required=True)
     password = forms.CharField(max_length=100, required=True)
+
+    class Meta:
+        model = User
+        fields = ('email', 'password')
 
     def clean(self):
         # data from the form is fetched using super function

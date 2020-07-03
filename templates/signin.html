@@ -40,23 +40,16 @@
                     {% if not request.user.is_authenticated %}
                     <form action="/roles/signin" method="post">
                       {% csrf_token %}
-                      <div class="form-group">
-                        <label for="email">Email </label>
-                        <input type="email" class="form-control" name="email" required id="email" aria-describedby="emailHelp">
-                      </div>
-                      <div class="form-group">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                      </div>
-                        <center><input type="submit" class="btn btn-primary"></center>
-                        <center><big id="emailHelp" class="form-text "><a href="/roles/register" name="register_link"><strong>S'inscrire</strong></a></big></center>
+                      <center>{{form}}</center>
+                      <center><input type="submit" class="btn btn-primary"></center>
+                      <center><big id="emailHelp" class="form-text "><a href="/roles/register" name="register_link"><strong>S'inscrire</strong></a></big></center>
                     </form>
                     {% else %}
                     <form action="/roles/logout" method="post">
                         {% csrf_token %}
-                        <div class="form-group logout_form">
+
                             <center><input id="logout_btn" type="submit" class="btn btn-outline-dark"></center>
-                        </div>
+
                     </form>
                     {% endif %}
 

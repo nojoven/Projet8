@@ -1,7 +1,5 @@
 import logging
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -46,7 +44,6 @@ def signin_user(request):
     """Logs a user in based on form inputs"""
     if request.method == "POST":
         form = SigninForm(request.POST)
-        user = None
         if form.is_valid():
             provided_mail = form.cleaned_data["email"]
             provided_password = form.cleaned_data["password"]
@@ -57,16 +54,14 @@ def signin_user(request):
                 )
             if user is not None:
                 login(request, user)
-                return render(request, "mon_compte.html")
+                return redirect("account")
             else:
                 form.add_error(
                         field="email",
                         error=ValidationError("Email ou mot de passe incorrect"),
                     )
                 return render(request, "signin.html", {"form": form})
-
         else:
-            # traiter les pb de longueur ou d'invalidité dans forms.py
             return render(request, "signin.html", {"form": form})
 
     return render(request, "signin.html", {"form": SigninForm()})
@@ -89,7 +84,7 @@ def update_profile(request):
 def logout_user(request):
     """Logs out a user based on form inputs"""
     logout(request)
-    return render(request, "signin.html")
+    return redirect("signin")
 
 
 def like(request, product_id, replaced_id):
