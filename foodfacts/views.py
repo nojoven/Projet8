@@ -34,7 +34,7 @@ def research(request):
     """
     Gets the forms inputs in a research of results
     """
-    form = NavSearchForm(request.POST)
+    form = NavSearchForm(request.GET)
     search_term = "empty"
     if form.is_valid():
         search_term = form.cleaned_data["nav_search"]
@@ -42,7 +42,7 @@ def research(request):
     return HttpResponseRedirect(url)
 
 
-def research_term(request): # ici en argument request.GET
+def research_term(request):
     """Renders a context for the results page"""
     user_id = request.user.id
     context = {}

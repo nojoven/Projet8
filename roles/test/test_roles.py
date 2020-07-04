@@ -8,10 +8,9 @@ from django.contrib.auth import authenticate
 from django.test import TestCase, Client
 from PurBeurre.constants import IMG_URL, PRODUCT_EXAMPLE
 from foodfacts.models import Favorites, Products
-from foodfacts.modules.database_service import DatabaseService
 from roles.forms import (
-    CreateForm, UpdateProfileForm, LikeForm, SigninForm,
-    UnlikeForm)
+    CreateForm, UpdateProfileForm,SigninForm,)
+from roles import views as rviews
 
 
 class SimpleTest(TestCase):
@@ -42,7 +41,8 @@ class SimpleTest(TestCase):
             response,
             'form',
             "signin_email",
-            None)
+            None
+        )
 
     def test_views_favourites(self):
         """Get of favourites page"""
@@ -70,10 +70,10 @@ class SimpleTest(TestCase):
         query = Products(**product)
         query.save()
 
-        product = DatabaseService.select_product("Gazpacho")
+        product = rviews.select_product("Gazpacho")
         product_id = product.idproduct
 
-        data = DatabaseService.show_details(product_id)
+        data = rviews.show_details(product_id)
         assert data is not None
 
 
@@ -92,7 +92,7 @@ class TestRoles(TestCase):
         product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
-        article = DatabaseService.select_product("Gazpacho")
+        article = rviews.select_product("Gazpacho")
         assert article.productname == "Gazpacho"
 
     def test_create_update_user_data(
@@ -105,7 +105,7 @@ class TestRoles(TestCase):
         update_last_name="Dupuis",
     ):
         """Tests the update of a profile"""
-        DatabaseService.create_user(
+        rviews.create_user(
             provided_username,
             provided_password,
             provided_mail,
@@ -193,18 +193,17 @@ class TestRoles(TestCase):
 
     def test_find_user_category_favourites(self):
         """Tests if a user has a product in a category"""
-        favourites = DatabaseService.sort_favourites(4, "soup")
+        favourites = rviews.sort_favourites(4, "soup")
         assert favourites is not None
 
     def test_find_favorite_in_products(self):
-        """
-        Tests if a liked product is found in the
-        products table.
-        """
+        
+        """Tests if a liked product is found in the products table."""
+
         product = PRODUCT_EXAMPLE
         query = Products(**product)
         query.save()
-        product = DatabaseService.select_product("Gazpacho")
+        product = rviews.select_product("Gazpacho")
         product_id = product.idproduct
 
         like_data = dict()
@@ -228,7 +227,7 @@ class TestRoles(TestCase):
             query = Favorites(**like_data)
             query.save()
 
-        article = DatabaseService.select_liked_in_products(product_id)
+        article = rviews.select_liked_in_products(product_id)
         assert article is not None
 
     def test_get_all_user_favs(self):
@@ -253,53 +252,21 @@ class TestRoles(TestCase):
                 productid=like_data["productid"]).exists():
             query = Favorites(**like_data)
             query.save()
-        user_favs = DatabaseService.select_user_favs(4)
+        user_favs = rviews.select_user_favs(4)
         assert user_favs is not None
         assert len(user_favs) > 0
 
-    def test_create_remove_fav(self):
-        """Tests creation then deletion af a favourite"""
-        like_data = dict()
-        like_data["productid"] = 44
-        like_data["name"] = "Gazpacho Vert"
-        like_data["nutrigrade"] = "a"
-        like_data["stores"] = "'auchan', 'magasins-u'"
-        like_data["brands"] = "Innocent"
-        like_data["category"] = "soup"
-        like_data["quantity"] = "84 g"
-        like_data["replacedid"] = 1
-        like_data["replacedarticle"] = "Gazpacho"
-        like_data["replacednutrigrade"] = "a"
-        like_data["userid"] = 4
-        like_data[
-            "front_img"
-        ] = IMG_URL
-
-        if not Favorites.objects.filter(productid=44).exists():
-            query = Favorites(**like_data)
-            query.save()
-            user_favs = DatabaseService.select_user_favs(4)
-            assert user_favs is not None
-
-        item = Favorites.objects.filter(productid=44, userid=4)
-
-        item.delete()
-        assert len(Favorites.objects.filter(productid=44, userid=4)) == 0
-
     def test_update_form(self):
         """Tests the profile update form"""
-        update_email = "charlie@choco.org"
-        update_first_name = "Marcel"
-        update_last_name = "Dupuis"
-        confirm_email = "lucien@gmail.com"
-        confirm_password = "Daddy"
+        email = "charlie@choco.org"
+        first_name = "Marcel"
+        last_name = "Dupuis"
+        password = "ABCPassword1989"
         u_form = UpdateProfileForm(
             data={
-                'update_first_name': update_first_name,
-                "update_last_name": update_last_name,
-                "confirm_password": confirm_password,
-                "confirm_email": confirm_email,
-                "update_email": update_email
+                'first_name': first_name,
+                "last_name": last_name,
+                "email": email
             })
         assert u_form.is_valid()
 
@@ -321,117 +288,6 @@ class TestRoles(TestCase):
                 "telephone": telephone
             })
         assert c_form.is_valid()
-
-    def test_like_form(self):
-        """tests the like form"""
-        liked_id = 5
-        replaced_id = 89
-        replaced_name = "Cheese"
-        replaced_nutrigrade = "D"
-        userid = 57
-        l_form = LikeForm(
-            data={
-                'liked_id': liked_id,
-                "replaced_id": replaced_id,
-                "replaced_name": replaced_name,
-                "replaced_nutrigrade": replaced_nutrigrade,
-                "userid": userid
-            })
-        assert l_form.is_valid()
-
-    def test_views_like_form(self):
-        """Tests the like """
-        response = self.client.get(SimpleTest.signin_request)
-        assert response.status_code == 200
-        self.client.post("/roles/signin", {
-            'signin_email': 'ezzou@gmail.com',
-            'signin_password': 'ezzou'})
-
-        product = PRODUCT_EXAMPLE
-        query = Products(**product)
-        query.save()
-
-        """Creation of a favourite"""
-        like_data = dict()
-        like_data["productid"] = 44
-        like_data["name"] = "Gazpacho Vert"
-        like_data["nutrigrade"] = "a"
-        like_data["stores"] = "'auchan', 'magasins-u'"
-        like_data["brands"] = "Innocent"
-        like_data["category"] = "soup"
-        like_data["quantity"] = "84 g"
-        like_data["replacedid"] = 1
-        like_data["replacedarticle"] = "Gazpacho"
-        like_data["replacednutrigrade"] = "a"
-        like_data["userid"] = 2
-        like_data[
-            "front_img"
-        ] = IMG_URL
-        # if not Favorites.objects.filter(
-        #         productid=like_data["productid"]).exists():
-        query = Favorites(**like_data)
-        query.save()
-        self.LOGGER.info("SAVED")
-        """tests the like """
-        response = self.client.post("/roles/like/", {
-            'liked_id': like_data["productid"],
-            "replaced_id": like_data["replacedid"],
-            "replaced_name": like_data["replacedarticle"],
-            "replaced_nutrigrade": like_data["replacednutrigrade"],
-            "userid": like_data["userid"]
-        })
-        self.assertEqual(response.status_code, 302)
-
-    def test_unlike_form(self):
-        """Tests the unlike form"""
-        unliked_id = 999
-        userid_unlike = 57
-        unl_form = UnlikeForm(
-            data={
-                'unliked_id': unliked_id,
-                "userid_unlike": userid_unlike
-            })
-        assert unl_form.is_valid()
-
-    def test_views_unlike_form(self):
-        """Test the unlike wiew"""
-        response = self.client.get(SimpleTest.signin_request)
-        assert response.status_code == 200
-        self.client.post("/roles/signin", {
-            'signin_email': 'ezzou@gmail.com',
-            'signin_password': 'ezzou'})
-
-        product = PRODUCT_EXAMPLE
-        query = Products(**product)
-        query.save()
-
-        """Creation of a favourite"""
-        like_data = dict()
-        like_data["productid"] = 44
-        like_data["name"] = "Gazpacho Vert"
-        like_data["nutrigrade"] = "a"
-        like_data["stores"] = "'auchan', 'magasins-u'"
-        like_data["brands"] = "Innocent"
-        like_data["category"] = "soup"
-        like_data["quantity"] = "84 g"
-        like_data["replacedid"] = 1
-        like_data["replacedarticle"] = "Gazpacho"
-        like_data["replacednutrigrade"] = "a"
-        like_data["userid"] = 2
-        like_data[
-            "front_img"
-        ] = IMG_URL
-        # if not Favorites.objects.filter(
-        #         productid=like_data["productid"]).exists():
-        query = Favorites(**like_data)
-        query.save()
-        self.LOGGER.info("SAVED")
-        """tests the like """
-        response = self.client.post("/roles/unlike/", {
-            'unliked_id': like_data["productid"],
-            "userid_unlike": like_data["userid"]
-        })
-        self.assertEqual(response.status_code, 302)
 
     def test_signin_form(self):
         """Tests the signin form"""
