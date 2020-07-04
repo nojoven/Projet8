@@ -45,13 +45,14 @@ def signin_user(request):
     if request.method == "POST":
         form = SigninForm(request.POST)
         if form.is_valid():
-            provided_mail = form.cleaned_data["email"]
-            provided_password = form.cleaned_data["password"]
+            mail = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
             user = authenticate(
                 request,
-                username=provided_mail,
-                password=provided_password
+                username=mail,
+                password=password
                 )
+            print(user)
             if user is not None:
                 login(request, user)
                 return redirect("account")

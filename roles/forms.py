@@ -21,10 +21,6 @@ class SigninForm(forms.Form):
     email = forms.CharField(max_length=100, required=True)
     password = forms.CharField(max_length=100, required=True)
 
-    class Meta:
-        model = User
-        fields = ('email', 'password')
-
     def clean(self):
         # data from the form is fetched using super function
         super(SigninForm, self).clean()
