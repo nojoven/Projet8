@@ -46,17 +46,14 @@ class TestRoles(TestCase):
         response = \
             self.client.post("/roles/create",
                              {
-                                 username: username,
-                                 email: email,
-                                 password1: password1,
-                                 password2: password2,
-                                 first_name: first_name,
-                                 last_name: last_name
+                                 "username": username,
+                                 "email": email,
+                                 "password1": password1,
+                                 "password2": password2,
+                                 "first_name": first_name,
+                                 "last_name": last_name
                              })
-        assert response.status_code == 200
 
-        """ logout page"""
-        response = self.client.get(self.logout_request)
         assert response.status_code == 302
 
         """Reach the favourites page"""
@@ -64,8 +61,8 @@ class TestRoles(TestCase):
         assert response.status_code == 200
 
         """Reach the account page"""
-        # response = self.client.get(self.account_request)
-        # assert response.status_code == 200
+        response = self.client.get(self.account_request)
+        assert response.status_code == 200
         """
         new_email = "charlie@choco.org"
         new_first_name = "Marcel"
@@ -150,3 +147,7 @@ class TestRoles(TestCase):
             assert user_favs is not None
             assert len(user_favs) > 0
     """
+
+""" logout page"""
+    # response = self.client.get(self.logout_request)
+    # assert response.status_code == 302

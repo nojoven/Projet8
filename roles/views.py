@@ -20,21 +20,28 @@ LOGGER = logging.getLogger(__name__)
 
 def create_user(request):
     """Creates a user based on form inputs"""
+    print("hello")
     if request.method == "POST":
+        print("c'est post")
         form = CreateForm(request.POST)
         if form.is_valid():
+            print("form_is_valid")
             form.save()
             user = authenticate(
                 request,
-                username=form.cleaned_data.get("username"),
+                username=form.cleaned_data.get("email"),
                 password=form.cleaned_data.get("password1")
             )
+            print(f"user created {user}")
             if user is not None:
                 login(request, user)
+                print(f"IS_USER_LOGGED? {user.is_authenticated}")
                 return redirect("account")
             else:
                 return render(request, "register.html", {"form": form})
         else:
+            print("not valid")
+            print(form.errors)
             return render(request, "register.html", {"form": form})
 
     return render(request, "register.html", {"form": CreateForm()})
