@@ -15,11 +15,13 @@ class TestRoles(TestCase):
     """Pytest will be used to verify the behaviour of
      the following functions"""
     URI_r_BASE = "http://localhost:8000/roles/"
+    URI_f_BASE = "https://beurrepur.herokuapp.com/foodfacts/"
     logout_request = f"{URI_r_BASE}logout/"
     favourites_request = f"{URI_r_BASE}favourites/"
     account_request = f"{URI_r_BASE}account/"
     register_request = f"{URI_r_BASE}register/"
     signin_request = f"{URI_r_BASE}signin/"
+    resultats_gazpacho = f"{URI_f_BASE}resultats/?nav_search=Gazpacho"
 
     c = Client()
     LOGGER = logging.getLogger(__name__)
@@ -63,7 +65,7 @@ class TestRoles(TestCase):
         """Reach the account page"""
         response = self.client.get(self.account_request)
         assert response.status_code == 200
-        """
+
         new_email = "charlie@choco.org"
         new_first_name = "Marcel"
         new_last_name = "Dupuis"
@@ -75,8 +77,37 @@ class TestRoles(TestCase):
                 "email": new_email
             }
         )
+        assert response is not None
         assert response.status_code == 200
-    """
+
+        logout_response = self.client.get(self.logout_request)
+        assert logout_response.status_code == 302
+
+        login_response = self.client.post(
+            "/roles/signin",
+            {"email": "rose@gmail.com",
+             "password": "Niam1989"}
+            )
+        assert login_response.status_code == 200
+
+        exit_page_response = self.client.get(self.signin_request)
+        assert exit_page_response.status_code == 200
+
+        logout_response = self.client.get(self.logout_request)
+        assert logout_response.status_code == 302
+
+    def test_save_favourite(self):
+        login_page_response = self.client.get(self.signin_request)
+        assert login_page_response.status_code == 200
+
+        login_response = self.client.post(
+            "/roles/signin",
+            {"email": "rose@gmail.com",
+             "password": "Niam1989"}
+        )
+        assert login_response.status_code == 200
+
+
 
 
 """
@@ -147,7 +178,3 @@ class TestRoles(TestCase):
             assert user_favs is not None
             assert len(user_favs) > 0
     """
-
-""" logout page"""
-    # response = self.client.get(self.logout_request)
-    # assert response.status_code == 302
