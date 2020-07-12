@@ -1,5 +1,6 @@
 """This file contains the unitary tests of foodfacts"""
-from django.test import TestCase, Client
+from django.contrib.auth.models import User
+from django.test import TestCase, RequestFactory
 from PurBeurre.constants import PRODUCT_EXAMPLE
 from foodfacts.models import Products
 from foodfacts import views as fviews
@@ -17,7 +18,15 @@ class SimpleTest(TestCase):
     resultats_gazpacho = f"{URI_f_BASE}resultats/?nav_search=Gazpacho"
     resultats_empty = f"{URI_f_BASE}resultats/?nav_search=empty/"
     account_request = f"{URI_f_BASE}account/"
-    c = Client()
+
+    def setUp(self):
+        # Every test needs access to the request factory.
+        self.factory = RequestFactory()
+        self.test_user = User.objects.create_user(
+            username='jacobin89',
+            email='jacob@gmail.com',
+            password='Niam1989')
+
 
     def test_views_home(self):
         """Tests the HTTP response"""
@@ -35,11 +44,10 @@ class SimpleTest(TestCase):
         query = Products(**product)
         query.save()
 
-        product = fviews.select_product("Gazpacho")
-        product_id = product.idproduct
-
-        response = self.client.get(f"{self.URI_f_BASE}aliment/{product_id}")
-        self.assertEqual(response.status_code, 301)
+        request = self.factory.get(self.resultats_gazpacho)
+        request.user = self.test_user
+        response = fviews.search_term(request)
+        assert response.status_code == 200
 
     def test_views_resultats_empty(self):
         """Tests the HTTP response"""
@@ -73,4 +81,15 @@ class SimpleTest(TestCase):
         selected = fviews.show_details(article.idproduct)
         assert selected is not None
 
-    print(aliment_request)
+    def test_product_wanted(self):
+        product = PRODUCT_EXAMPLE
+        query = Products(**product)
+        query.save()
+
+        request = self.factory.get(self.resultats_gazpacho)
+        request.user = self.test_user
+
+        response = fviews.product_wanted(request, product["idproduct"])
+        assert response is not None
+        assert response.status_code == 200
+

@@ -4,7 +4,7 @@ that are specific to a user account
 """
 import pytest
 import logging
-from django.test import TestCase, Client
+from django.test import TestCase
 from PurBeurre.constants import PRODUCT_EXAMPLE
 from foodfacts.models import Products
 
@@ -22,7 +22,6 @@ class TestRoles(TestCase):
     like_gazpacho_path = f"{URI_r_BASE}like/44/191/"
     unlike_gazpacho_path = f"{URI_r_BASE}unlike/44/"
 
-    c = Client()
     LOGGER = logging.getLogger(__name__)
 
     def test_views_register(self):

@@ -30,30 +30,23 @@ def notice(request):
     return render(request, "mentions_legales.html")
 
 
-def research(request):
+def search_term(request):
     """
-    Gets the forms inputs in a research of results
+        Gets the forms inputs in a research of results
     """
     form = NavSearchForm(request.GET)
-    search_term = "empty"
-    if form.is_valid():
-        search_term = form.cleaned_data["nav_search"]
-    url = reverse("search_term", args=[search_term])
-    return HttpResponseRedirect(url)
-
-
-def research_term(request):
-    """Renders a context for the results page"""
-    user_id = request.user.id
     context = {}
-    search_term = request.GET.get("nav_search")
-    try:
-        term_data = select_product(search_term)
-        term_category = term_data.category
-        term_score = term_data.nutrition_Score_100g
 
-        context["product"] = term_data
-        try:
+    if form.is_valid():
+        search_word = form.cleaned_data["nav_search"]
+        user_id = request.user.id
+        term_data = select_product(search_word)
+        if term_data is not None:
+            term_category = term_data.category
+            term_score = term_data.nutrition_Score_100g
+
+            context["product"] = term_data
+
             better_products = select_better_products(
                 term_category, term_score
             )
@@ -68,12 +61,6 @@ def research_term(request):
                 context["favs"] = favs_id_list
             else:
                 context["better"] = None
-        except IndexError:
-            print(
-                "SUBTSTITUTION RESEARCH FAILED")
-    except IndexError:
-        print("NOT FOUND")
-
     return render(request, "resultats.html", context)
 
 
@@ -97,10 +84,10 @@ def select_product(search_term):
     specific article based on its name.
     """
     term_data = Products.objects.filter(
-        productname=search_term
+        productname__icontains=search_term
     ).order_by(
         "-nutrition_Score_100g"
-    )[0]
+    ).first()
     return term_data
 
 
@@ -137,8 +124,3 @@ def show_details(product_chosen):
     details = Products.objects.get(
         idproduct=product_chosen)
     return details
-
-
-
-
-
