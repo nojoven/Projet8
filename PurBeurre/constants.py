@@ -32,3 +32,26 @@ PRODUCT_EXAMPLE = {
     "sodium_100g": 1.03,
     "url": "www.url.com"
 }
+
+FAVOURITE_EXAMPLE = {
+    "productid": 44,
+    "name": "Gazpacho",
+    "nutrigrade": "a",
+    "stores": "Auchan",
+    "brands": "Reflets",
+    "category": "soup",
+    "quantity": "1L",
+    "replacedid": 191,
+    "userid": 1,
+    "front_img": "www.url.com"
+}
+
+USER_EXAMPLE = {
+    "id": 1,
+    "username": "Arnold6262",
+    "first_name": "Giuseppe",
+    "last_name": "Verdi",
+    "email": "gverdi@gmail.com",
+    "password1": "pasTest2020",
+    "password2": "pasTest2020"
+}

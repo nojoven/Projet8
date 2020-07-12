@@ -5,9 +5,7 @@ This file is used to interact with the database
 in order to display and manipulate the data.
 It uses the orm objects Product, Categories and Favorites
 """
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-from foodfacts.models import Categories, Favorites, Products
+from foodfacts.models import Categories, Products
 
 
 class DatabaseService:
