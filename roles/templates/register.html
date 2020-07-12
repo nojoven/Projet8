@@ -4,7 +4,7 @@
         {% include "navbar.html" %}
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
-
+        {% load crispy_forms_tags %}
         <link href="{% static 'foodfacts/styles.css' %}" rel="stylesheet" />
     </head>
     {% include "styletag.html" %}
@@ -39,7 +39,7 @@
                 <form action="/roles/create" method="post">
                 {% csrf_token %}
                     <center>
-                     {{form.as_p}}
+                     {{form|crispy}}
                     </center>
                     <center>
                     <div class="col-md-12">
