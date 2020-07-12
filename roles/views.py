@@ -89,12 +89,10 @@ def logout_user(request):
 
 def like(request, product_id, replaced_id):
     """Adds a favourite to the database for a user"""
-    print(request)
     if request.method == "POST":
         user = request.user
         if product_id:
             product = select_liked_in_products(product_id)
-
             like_data = dict()
             like_data["productid"] = product_id
             like_data["name"] = product.productname
@@ -109,9 +107,9 @@ def like(request, product_id, replaced_id):
             else:
                 like_data["userid"] = 0
             like_data["front_img"] = product.front_img
-
             if not Favorites.objects.filter(
-                productid=product.idproduct
+                productid=product.idproduct,
+                userid=user.id
             ).exists():
                 query = Favorites(**like_data)
                 query.save()
