@@ -19,7 +19,7 @@ class CreateForm(UserCreationForm):
 class SigninForm(forms.Form):
     """This is the sign in form """
     email = forms.CharField(max_length=100, required=True)
-    password = forms.CharField(max_length=100, required=True)
+    password = forms.CharField(widget=forms.PasswordInput, max_length=100, required=True)
 
     def clean(self):
         # data from the form is fetched using super function
