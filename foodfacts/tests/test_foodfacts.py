@@ -27,7 +27,6 @@ class SimpleTest(TestCase):
             email='jacob@gmail.com',
             password='Niam1989')
 
-
     def test_views_home(self):
         """Tests the HTTP response"""
         response = self.client.get(self.home_request)
@@ -92,4 +91,3 @@ class SimpleTest(TestCase):
         response = fviews.product_wanted(request, product["idproduct"])
         assert response is not None
         assert response.status_code == 200
-

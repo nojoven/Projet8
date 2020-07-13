@@ -58,7 +58,8 @@ def signin_user(request):
             else:
                 form.add_error(
                         field="email",
-                        error=ValidationError("Email ou mot de passe incorrect"),
+                        error=ValidationError(
+                            "Email ou mot de passe incorrect"),
                     )
                 return render(request, "signin.html", {"form": form})
         else:
@@ -70,15 +71,23 @@ def signin_user(request):
 def update_profile(request):
     """Updates user data based on user inputs."""
     if request.method == "POST":
-        form = UpdateProfileForm(request.POST, instance=request.user)
+        form = UpdateProfileForm(
+            request.POST,
+            instance=request.user)
 
         if form.is_valid():
             form.save()
-            return render(request, "mon_compte.html", {"form": UpdateProfileForm(instance=request.user)})
+            return render(
+                request,
+                "mon_compte.html",
+                {"form": UpdateProfileForm(instance=request.user)})
         else:
             return render(request, "mon_compte.html", {"form": form})
     else:
-        return render(request, "mon_compte.html", {"form": UpdateProfileForm(instance=request.user)})
+        return render(
+            request,
+            "mon_compte.html",
+            {"form": UpdateProfileForm(instance=request.user)})
 
 
 def logout_user(request):

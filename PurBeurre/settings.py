@@ -61,8 +61,9 @@ ROOT_URLCONF = "PurBeurre.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR + "/foodfacts", "templates"), os.path.join(BASE_DIR + "/roles", "templates"), os.path.join(
-            BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR + "/foodfacts", "templates"),
+                 os.path.join(BASE_DIR + "/roles", "templates"),
+                 os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -75,7 +76,9 @@ TEMPLATES = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ["roles.EmailBackend.EmailBackend", "django.contrib.auth.backends.AllowAllUsersModelBackend"]
+AUTHENTICATION_BACKENDS = [
+    "roles.EmailBackend.EmailBackend",
+    "django.contrib.auth.backends.AllowAllUsersModelBackend"]
 
 WSGI_APPLICATION = "PurBeurre.wsgi.application"
 
