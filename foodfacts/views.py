@@ -11,7 +11,6 @@ from .models import Products, Favorites
 def home(request):
     """Gets the home page"""
     user = request.user
-    print(user)
     return render(request, "accueil.html", {"user": user})
 
 

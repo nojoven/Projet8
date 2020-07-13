@@ -131,7 +131,6 @@ def favourites(request):
 
 def unlike(request, unliked_id):
     """Adds a favourite to the database for a user"""
-    print(request)
     if request.method == "POST":
         remove_user_fav(
             request.user.id, unliked_id
