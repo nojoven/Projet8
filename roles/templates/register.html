@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        {% include "navbar.html" %}
-        <!-- Core theme CSS (includes Bootstrap)-->
+{% extends 'base.html' %}
+    {% block content %}
         {% load static %}
         {% load crispy_forms_tags %}
-        <link href="{% static 'foodfacts/styles.css' %}" rel="stylesheet" />
-    </head>
-    {% include "styletag.html" %}
-    <body id="page-top">
-        <!-- Navigation-->
-        {% include "navbar.html" %}
         <!-- Masthead-->
         <header class="masthead-account" id="account">
             <div class="container h-100">
@@ -52,10 +43,4 @@
           </div>
         </div>
         </section>
-
-        <!-- Footer-->
-        {% include "footer.html" %}
-        <!-- Core theme JS-->
-        <script src="{% static 'foodfacts/js/scripts.js' %}"></script>
-    </body>
-</html>
+{% endblock %}

@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        {% include "head.html" %}
-        {% include "navbar.html" %}
-        <!-- Core theme CSS (includes Bootstrap)-->
+{% extends 'base.html' %}
+    {% block content %}
         {% load static %}
-        <link href="{% static 'foodfacts/styles.css' %}" rel="stylesheet" />
-    </head>
-    {% include "styletag.html" %}
-    <body id="page-top">
-        <!-- Navigation-->
-        {% include "navbar.html" %}
         <!-- Masthead-->
         {% include "mastheadfavs.html" %}
-
         <!-- Services section-->
         <section class="page-section results-bkg" id="results">
             <div class="container">
@@ -46,10 +35,4 @@
                 </div>
             </div>
         </section>
-
-        <!-- Footer-->
-        {% include "footer.html" %}
-        <!-- Core theme JS-->
-        <script src="{% static 'foodfacts/js/scripts.js' %}"></script>
-    </body>
-</html>
+{% endblock %}
