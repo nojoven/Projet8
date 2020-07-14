@@ -35,10 +35,10 @@ class MySeleniumTests(StaticLiveServerTestCase):
             "CONNEXION", self.driver.find_element_by_tag_name(
                 "h1").text)
         # We sign in
-        signin_email = self.driver.find_element_by_name("signin_email")
-        signin_email.send_keys("pujadas@gmail.com")
-        signin_password = self.driver.find_element_by_name("signin_password")
-        signin_password.send_keys("pujadas")
+        signin_email = self.driver.find_element_by_name("email")
+        signin_email.send_keys("mamie@gmail.com")
+        signin_password = self.driver.find_element_by_name("password")
+        signin_password.send_keys("Niam1989")
         self.driver.find_element_by_xpath('//input[@type="submit"]').click()
 
         self.assertIn(
