@@ -61,7 +61,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
             "Nutriscore", self.driver.find_element_by_id("nutriscore_h3").text
         )
         # We go to its Open Food Facts page
-        self.driver.find_element_by_id("offacts_link").click()
+        self.driver.execute_script("document.getElementById('offacts_link').click()")
 
         # We go back to the results
         self.driver.execute_script("window.history.go(-2)")
@@ -83,6 +83,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         self.assertIn(
             "CONNEXION", self.driver.find_element_by_tag_name("h1").text
         )
-        self.driver.find_elements_by_class_name("logout_form")[0].submit()
+
+        self.driver.execute_script("document.getElementById('logout_btn').click()")
         # We close the browser.
         self.driver.close()
