@@ -23,8 +23,6 @@ but don't rename db_table values or field names. """
 import os
 from django.db import models
 
-# from django.core.wsgi import get_wsgi_application
-# application = get_wsgi_application()
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
