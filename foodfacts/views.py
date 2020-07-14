@@ -72,9 +72,6 @@ def product_wanted(request, product_chosen):
     return render(request, "aliment.html", context)
 
 
-"""Here are the functions"""
-
-
 def select_product(search_term):
     """
     Executes the SELECT request for a
