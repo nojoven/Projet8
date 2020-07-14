@@ -14,7 +14,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
     options = webdriver.ChromeOptions()
     options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(24000)
+    driver.implicitly_wait(30000)
 
     def test_browser(self):
         """
@@ -44,14 +44,16 @@ class MySeleniumTests(StaticLiveServerTestCase):
         self.assertIn(
             "Editez", self.driver.find_element_by_id("sub_title").text
         )
+
         # We look for a product
-        search_navbar_input = self.driver.find_element_by_name("nav_search")
-        search_navbar_input.send_keys("Coleslaw")
-        search_navbar_input.send_keys("\ue007")
+        search_navbar_input = self.driver.find_element_by_id("nav_input")
+        self.driver.execute_script("document.getElementById('nav_input').value = 'Coleslaw'")
+        search_navbar_input.submit()
 
         self.assertIn(
             "Coleslaw", self.driver.find_element_by_id("product_found").text
         )
+
         # We go to the product's page
         self.driver.find_element_by_id(f"details{1}").click()
 
@@ -59,7 +61,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
             "Nutriscore", self.driver.find_element_by_id("nutriscore_h3").text
         )
         # We go to its Open Food Facts page
-        self.driver.find_element_by_name("offacts_link").click()
+        self.driver.find_element_by_id("offacts_link").click()
 
         # We go back to the results
         self.driver.execute_script("window.history.go(-2)")
