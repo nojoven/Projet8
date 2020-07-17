@@ -33,28 +33,33 @@
                             {% endwith %}
                             <h3 class="h4 mb-2"><a id="details{{ forloop.counter }}" style="color: white;" href="/foodfacts/aliment/{{ b.idproduct }}" name='product_chosen'>{{b.productname}}</a></h3>
                             <h4 class="mb-0" style="text-transform: uppercase;">{{b.brands}}</h4>
+                            <script>
+
+                                       function postTo(url) {
+                                            var request = (XMLHttpRequest?new XMLHttpRequest():new ActiveXObject());
+                                            request.open('POST', url, true);
+                                            request.setRequestHeader("X-CSRFToken", '{{ csrf_token }}')
+                                            request.send("{}");
+
+                                            location.reload();
+                                        }
+                            </script>
+
                             {% if request.user.is_authenticated%}
-                            <form action="/roles/like/{{b.idproduct}}/{{product.idproduct}}/" method="post">
+
                                 {% csrf_token %}
                                 {% if favs is None %}
-                                    <span class="btn btn-info btn-lg add_to_fav">
-                                        <i class="fa fa-floppy-o" aria-hidden="true">
-                                        </i><input type="submit" class="btn btn-info btn-lg add_to_fav" value="Add to favourites" />
-                                    </span>
+                                <a onclick="postTo('/roles/like/{{b.idproduct}}/{{product.idproduct}}/')" href="#" methods="get"><button type="button" class="btn btn-info btn-lg add_to_fav">Add to favourites</button></a>
+
                                 {% else %}
                                     {% if b.idproduct in favs %}
-                                            <span class="btn btn-light btn-lg">
-                                                <i class="fa fa-floppy-o" aria-hidden="true" style="display: None;">
-                                                </i><input disabled type="submit" class="btn btn-light btn-lg" value="Already favourite" />
-                                            </span>
+                                        <h5>Already favourite</h5>
                                     {% else %}
-                                            <span class="btn btn-info btn-lg add_to_fav">
-                                                <i class="fa fa-floppy-o" aria-hidden="true">
-                                                </i><input type="submit" class="btn btn-info btn-lg " value="Add to favourites"/>
-                                            </span>
+                                <a onclick="postTo('/roles/like/{{b.idproduct}}/{{product.idproduct}}/')" href="#" methods="get"><button type="button" class="btn btn-info btn-lg add_to_fav">Add to favourites</button></a>
+
                                     {% endif %}
                                 {% endif %}
-                            </form>
+
                             {% endif %}
                         </div>
                     </div>
