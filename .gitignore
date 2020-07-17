@@ -198,3 +198,6 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/django,pycharm+iml
+PurBeurre/.idea/vcs.xml
+PurBeurre/.idea/workspace.xml
+PurBeurre/.idea/inspectionProfiles/profiles_settings.xml
