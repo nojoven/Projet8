@@ -28,72 +28,66 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 class Categories(models.Model):
     """ORM attributes and functions of Category"""
-    idcategories = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    objects = models.Manager()
+    idcategories = models.AutoField(primary_key=True, null=False)
+    name = models.CharField(max_length=255, null=False)
 
     def __str__(self):
         return self.name
 
     class Meta:
         managed = True
-        db_table = "categories"
 
 
 class Favorites(models.Model):
     """ORM attributes and functions of Favorites"""
-    favoriteid = models.AutoField(primary_key=True)
-    productid = models.IntegerField()
-    name = models.CharField(max_length=255)
-    nutrigrade = models.CharField(max_length=255)
-    stores = models.CharField(max_length=255)
-    brands = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    quantity = models.CharField(max_length=255)
-    replacedid = models.IntegerField()
-    replacedarticle = models.CharField(max_length=255)
-    replacednutrigrade = models.CharField(max_length=255)
-    userid = models.CharField(max_length=255)
-    front_img = models.CharField(max_length=500)
-    objects = models.Manager()
+    favoriteid = models.AutoField(primary_key=True, null=False)
+    productid = models.IntegerField(null=False)
+    name = models.CharField(max_length=255, null=False)
+    nutrigrade = models.CharField(max_length=255, null=False)
+    stores = models.CharField(max_length=255, null=False)
+    brands = models.CharField(max_length=255, null=False)
+    category = models.CharField(max_length=255, null=False)
+    quantity = models.CharField(max_length=255, null=False)
+    replacedid = models.IntegerField(null=False)
+    replacedarticle = models.CharField(max_length=255, null=False)
+    replacednutrigrade = models.CharField(max_length=255, null=False)
+    userid = models.CharField(max_length=255, null=False)
+    front_img = models.CharField(max_length=500, null=False)
+    objects = models.Manager(null=False)
 
     def __str__(self):
         return self.name
 
     class Meta:
         managed = True
-        db_table = "favorites"
 
 
 class Products(models.Model):
     """ORM attributes and functions of Products"""
-    idproduct = models.AutoField(primary_key=True)
-    productname = models.CharField(max_length=500)
-    stores = models.CharField(max_length=500)
-    brands = models.CharField(max_length=500)
-    nutrigrade = models.CharField(max_length=500)
-    category = models.CharField(max_length=500)
-    quantity = models.CharField(max_length=500)
-    fat_100g = models.FloatField()
-    sugars_100g = models.FloatField()
-    saturated_fat_100g = models.FloatField()
-    energy_kcal_100g = models.FloatField()
-    nutrition_Score_100g = models.IntegerField()
-    fiber_100g = models.FloatField()
-    salt_100g = models.FloatField()
-    proteins_100g = models.FloatField()
-    carbs_100g = models.FloatField()
-    sodium_100g = models.FloatField()
-    front_img = models.CharField(max_length=500)
-    nutrition_img = models.CharField(max_length=500)
-    ingredients_img = models.CharField(max_length=500)
-    url = models.CharField(max_length=500)
-
-    objects = models.Manager()
+    idproduct = models.AutoField(primary_key=True, null=False)
+    productname = models.CharField(max_length=500, null=False)
+    stores = models.CharField(max_length=500, null=False)
+    brands = models.CharField(max_length=500, null=False)
+    nutrigrade = models.CharField(max_length=500, null=False)
+    category = models.CharField(max_length=500, null=False)
+    quantity = models.CharField(max_length=500, null=False)
+    fat_100g = models.FloatField(null=False)
+    sugars_100g = models.FloatField(null=False)
+    saturated_fat_100g = models.FloatField(null=False)
+    energy_kcal_100g = models.FloatField(null=False)
+    nutrition_Score_100g = models.IntegerField(null=False)
+    fiber_100g = models.FloatField(null=False)
+    salt_100g = models.FloatField(null=False)
+    proteins_100g = models.FloatField(null=False)
+    carbs_100g = models.FloatField(null=False)
+    sodium_100g = models.FloatField(null=False)
+    front_img = models.CharField(max_length=500, null=False)
+    nutrition_img = models.CharField(max_length=500, null=False)
+    ingredients_img = models.CharField(max_length=500, null=False)
+    url = models.CharField(max_length=500, null=False)
 
     def __str__(self):
         return self.productname
 
     class Meta:
         managed = True
-        db_table = "products"

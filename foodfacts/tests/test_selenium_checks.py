@@ -36,7 +36,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
                 "h1").text)
         # We sign in
         signin_email = self.driver.find_element_by_name("email")
-        signin_email.send_keys("mamie@gmail.com")
+        signin_email.send_keys("mamie2000@gmail.com")
         signin_password = self.driver.find_element_by_name("password")
         signin_password.send_keys("Niam1989")
         self.driver.find_element_by_xpath('//input[@type="submit"]').click()

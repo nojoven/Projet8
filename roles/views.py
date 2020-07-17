@@ -70,6 +70,7 @@ def signin_user(request):
 
 def update_profile(request):
     """Updates user data based on user inputs."""
+    # instance is used to indicate the current user
     if request.method == "POST":
         form = UpdateProfileForm(
             request.POST,
