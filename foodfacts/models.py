@@ -36,11 +36,12 @@ class Categories(models.Model):
 
     class Meta:
         managed = True
+        db_table = "categories"
 
 
 class Favorites(models.Model):
     """ORM attributes and functions of Favorites"""
-    favoriteid = models.AutoField(primary_key=True, null=False)
+    favoriteid = models.AutoField(primary_key=True)
     productid = models.IntegerField(null=False)
     name = models.CharField(max_length=255, null=False)
     nutrigrade = models.CharField(max_length=255, null=False)
@@ -53,13 +54,13 @@ class Favorites(models.Model):
     replacednutrigrade = models.CharField(max_length=255, null=False)
     userid = models.CharField(max_length=255, null=False)
     front_img = models.CharField(max_length=500, null=False)
-    objects = models.Manager(null=False)
 
     def __str__(self):
         return self.name
 
     class Meta:
         managed = True
+        db_table = "favorites"
 
 
 class Products(models.Model):
@@ -67,7 +68,7 @@ class Products(models.Model):
     idproduct = models.AutoField(primary_key=True, null=False)
     productname = models.CharField(max_length=500, null=False)
     stores = models.CharField(max_length=500, null=False)
-    brands = models.CharField(max_length=500, null=False)
+    brands = models.CharField(max_length=500)
     nutrigrade = models.CharField(max_length=500, null=False)
     category = models.CharField(max_length=500, null=False)
     quantity = models.CharField(max_length=500, null=False)
@@ -91,3 +92,4 @@ class Products(models.Model):
 
     class Meta:
         managed = True
+        db_table = "products"
