@@ -37,10 +37,7 @@ FAVOURITE_EXAMPLE = {
     "productid": 44,
     "name": "Gazpacho",
     "nutrigrade": "a",
-    "stores": "Auchan",
-    "brands": "Reflets",
     "category": "soup",
-    "quantity": "1L",
     "replacedid": 191,
     "userid": 1,
     "front_img": "www.url.com"

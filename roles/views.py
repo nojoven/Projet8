@@ -107,10 +107,7 @@ def like(request, product_id, replaced_id):
             like_data["productid"] = product_id
             like_data["name"] = product.productname
             like_data["nutrigrade"] = product.nutrigrade
-            like_data["stores"] = product.stores
-            like_data["brands"] = product.brands
             like_data["category"] = product.category
-            like_data["quantity"] = product.quantity
             like_data["replacedid"] = replaced_id
             if user.id is not None:
                 like_data["userid"] = user.id

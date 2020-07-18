@@ -45,13 +45,8 @@ class Favorites(models.Model):
     productid = models.IntegerField(null=False)
     name = models.CharField(max_length=255, null=False)
     nutrigrade = models.CharField(max_length=255, null=False)
-    stores = models.CharField(max_length=255, null=False)
-    brands = models.CharField(max_length=255, null=False)
     category = models.CharField(max_length=255, null=False)
-    quantity = models.CharField(max_length=255, null=False)
     replacedid = models.IntegerField(null=False)
-    replacedarticle = models.CharField(max_length=255, null=False)
-    replacednutrigrade = models.CharField(max_length=255, null=False)
     userid = models.CharField(max_length=255, null=False)
     front_img = models.CharField(max_length=500, null=False)
 

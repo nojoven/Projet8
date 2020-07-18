@@ -66,7 +66,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
         # We go back to the results
         self.driver.execute_script("window.history.go(-2)")
         # We add the products to our favourites
-        self.driver.find_elements_by_class_name("add_to_fav")[0].submit()
+        self.driver.find_elements_by_class_name("add_to_fav")[0].click()
         # We go to the favourites page
         self.driver.get("http://localhost:8000/roles/favourites")
         self.assertIn(
